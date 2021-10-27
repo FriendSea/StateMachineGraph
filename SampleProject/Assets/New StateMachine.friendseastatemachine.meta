@@ -1,0 +1,66 @@
+fileFormatVersion: 2
+guid: 9c407d4c665144455baaf21dd66e8750
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: d148ac8075b7c46859287bce5fc3571d, type: 3}
+  data:
+    nodes:
+    - id: 1351ba35-15df-45d4-8a88-fd6750c6b78e
+      position: {x: 311, y: -7}
+      data:
+        id: 0
+    - id: 747eb44a-4a08-4b52-9f4b-3d2058c5cc38
+      position: {x: 6, y: 121.5}
+      data:
+        id: 1
+    - id: 9c719c5b-74d7-4f2d-8f96-77e08c8c1c22
+      position: {x: 160.5, y: 114.5}
+      data:
+        id: 2
+    - id: b6528435-b9ba-4100-ae23-7c792766e99e
+      position: {x: 418.5, y: 115.5}
+      data:
+        id: 3
+    edges:
+    - outputNode: 747eb44a-4a08-4b52-9f4b-3d2058c5cc38
+      outputPort: fallback
+      inputNode: 9c719c5b-74d7-4f2d-8f96-77e08c8c1c22
+      inputPort: enter
+    - outputNode: 9c719c5b-74d7-4f2d-8f96-77e08c8c1c22
+      outputPort: nextNode
+      inputNode: b6528435-b9ba-4100-ae23-7c792766e99e
+      inputPort: enter
+    - outputNode: 1351ba35-15df-45d4-8a88-fd6750c6b78e
+      outputPort: entry
+      inputNode: b6528435-b9ba-4100-ae23-7c792766e99e
+      inputPort: enter
+    groups: []
+    viewPosition: {x: 134.5, y: 92.5, z: 0}
+    viewScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 1
+    00000000:
+      type: {class: StateMachineEntryNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        entry: {instanceID: 0}
+    00000001:
+      type: {class: StateMachineFallbackNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        fallback: {instanceID: 0}
+    00000002:
+      type: {class: MoveState, ns: , asm: Assembly-CSharp}
+      data:
+        nextNode: {instanceID: 0}
+        length: 60
+        velocity: {x: 3, y: 0, z: 0}
+    00000003:
+      type: {class: MoveState, ns: , asm: Assembly-CSharp}
+      data:
+        nextNode: {instanceID: 0}
+        length: 60
+        velocity: {x: -3, y: 0, z: 0}

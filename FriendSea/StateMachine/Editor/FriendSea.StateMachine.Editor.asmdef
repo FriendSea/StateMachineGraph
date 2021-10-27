@@ -1,0 +1,19 @@
+{
+    "name": "FriendSea.StateMachine.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dee98eb248c1445f9bb34162ded46b04",
+        "GUID:38ddb30c8251f4f5bb61e572a435fe43"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
