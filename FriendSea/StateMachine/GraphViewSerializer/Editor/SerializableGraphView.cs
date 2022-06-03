@@ -220,16 +220,29 @@ namespace FriendSea
 						foreach (var element in change.elementsToRemove)
 						{
 							if (element is GraphNode)
+							{
 								nodesProp.DeleteArrayElementAtIndex((element as GraphNode).currentIndex);
+								for (int i = 0; i < groupsProp.arraySize; i++)
+								{
+									var groupNodesProp = groupsProp.GetArrayElementAtIndex(i).FindPropertyRelative("nodes");
+									for(int j = 0; j < groupNodesProp.arraySize; j++)
+									{
+										var prop = groupNodesProp.GetArrayElementAtIndex(j);
+										if (prop.stringValue != (element as GraphNode).id) continue;
+										groupNodesProp.DeleteArrayElementAtIndex(i);
+										break;
+									}
+								}
+							}
 							if(element is Edge)
 							{
 								for(int i = 0; i < edgesProp.arraySize; i++)
 								{
 									var prop = edgesProp.GetArrayElementAtIndex(i);
 									if (((element as Edge).output.node as GraphNode).id != prop.FindPropertyRelative("outputNode").stringValue) continue;
-									if ((element as Edge).output.portName != prop.FindPropertyRelative("outputPort").stringValue) continue;
+									if ((element as Edge).output.userData as string != prop.FindPropertyRelative("outputPort").stringValue) continue;
 									if (((element as Edge).input.node as GraphNode).id != prop.FindPropertyRelative("inputNode").stringValue) continue;
-									if ((element as Edge).input.portName != prop.FindPropertyRelative("inputPort").stringValue) continue;
+									if ((element as Edge).input.userData as string != prop.FindPropertyRelative("inputPort").stringValue) continue;
 									edgesProp.DeleteArrayElementAtIndex(i);
 									break;
 								}
