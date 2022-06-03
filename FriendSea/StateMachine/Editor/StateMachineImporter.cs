@@ -85,21 +85,8 @@ namespace FriendSea
 		[MenuItem("Assets/Create/FriendSea/StateMachine")]
 		static void CreateFile()
 		{
-			TryGetActiveFolderPath(out string path);
-
-			File.CreateText(Path.Combine(path, "New StateMachine.friendseastatemachine")).Close();
+			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", "");
 			AssetDatabase.Refresh();
-		}
-
-		private static bool TryGetActiveFolderPath(out string path)
-		{
-			var _tryGetActiveFolderPath = typeof(ProjectWindowUtil).GetMethod("TryGetActiveFolderPath", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-
-			object[] args = new object[] { null };
-			bool found = (bool)_tryGetActiveFolderPath.Invoke(null, args);
-			path = (string)args[0];
-
-			return found;
 		}
 	}
 
