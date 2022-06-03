@@ -84,8 +84,13 @@ namespace FriendSea
 						if (!prop.NextVisible(false)) break;
 						if (prop.depth <= depth) break;
 					}
-					node.property.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+					node.property.serializedObject.ApplyModifiedProperties();
 				}));
+
+				// force expanded
+				node.titleButtonContainer.Clear();
+				node.expanded = true;
+				node.RefreshExpandedState();
 			});
 
             rootVisualElement.Add(graphView);
