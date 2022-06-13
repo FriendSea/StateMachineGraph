@@ -20,7 +20,7 @@ namespace FriendSea
 			[SerializeField]
 			public string id;
 			[SerializeField]
-			Vector2 position;
+			public Vector2 position;
 			[SerializeReference]
 			public T data;
 		}

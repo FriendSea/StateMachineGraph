@@ -38,33 +38,39 @@ namespace FriendSea
 
 			var assets = new Dictionary<string, Editor>();
 			string entryId = null, fallbackId = null;
-			foreach(var node in data.nodes)
+			foreach (var node in data.nodes)
 			{
-				if(node.data is StateMachineEntryNode)
+				if (node.data is StateMachineEntryNode)
 				{
 					entryId = node.id;
 					continue;
 				}
-				if(node.data is StateMachineFallbackNode)
+				if (node.data is StateMachineFallbackNode)
 				{
 					fallbackId = node.id;
 					continue;
 				}
 
+				if (node.data is IStateMachineNode.Transition)
+				{
+					continue;
+				}
+
 				var state = ScriptableObject.CreateInstance<StateMachineNodeAsset>();
-				state.name = node.data.GetType().Name;
+				state.name = (node.data as IStateMachineNode.State).name;
 				ctx.AddObjectToAsset(node.id, state);
 				var editor = Editor.CreateEditor(state);
-				editor.serializedObject.FindProperty("data").managedReferenceValue = node.data;
-				editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+				state.data = new StateMachineState() { behaviours = (node.data as IStateMachineNode.State).behaviours };
 				assets.Add(node.id, editor);
 			}
 
 			// construct edges
 
-			foreach(var edge in data.edges)
+			mainEditor.serializedObject.Update();
+
+			foreach (var edge in data.edges)
 			{
-				if(edge.outputNode == entryId)
+				if (edge.outputNode == entryId)
 				{
 					mainEditor.serializedObject.FindProperty("entryState").objectReferenceValue = assets[edge.inputNode].target;
 					continue;
@@ -74,13 +80,37 @@ namespace FriendSea
 					mainEditor.serializedObject.FindProperty("fallbackState").objectReferenceValue = assets[edge.inputNode].target;
 					continue;
 				}
-				assets[edge.outputNode].serializedObject.Update();
-				assets[edge.outputNode].serializedObject.FindProperty("data").FindPropertyRelative(edge.outputPort).objectReferenceValue = assets[edge.inputNode].target;
-				assets[edge.outputNode].serializedObject.ApplyModifiedPropertiesWithoutUndo();
 			}
 
 			mainEditor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+
+			foreach (var pair in assets)
+			{
+				var targets = GetConnectedNodes(pair.Key)
+					.OrderBy(n => n.position.y)
+					.Select(n =>
+					{
+						var id = GetConnectedNodes(n.id).FirstOrDefault()?.id ?? string.Empty;
+						return new StateMachineState.Transition()
+						{
+							conditions = (n.data as IStateMachineNode.Transition).transitions,
+							target = assets.ContainsKey(id) ?
+								assets[id].target as StateMachineNodeAsset :
+								null
+						};
+					});
+				(pair.Value.target as StateMachineNodeAsset).data.transitions = targets.ToArray();
+			}
 		}
+
+		IEnumerable<GraphViewData<object>.Edge> GetConnectedEdges(string nodeId) =>
+			data.edges.Where(e => e.outputNode == nodeId);
+
+		GraphViewData<object>.Node GetConnectedNode(GraphViewData<object>.Edge edge) =>
+			data.nodes.Where(n => n.id == edge.inputNode).FirstOrDefault();
+
+		IEnumerable<GraphViewData<object>.Node> GetConnectedNodes(string nodeId) =>
+			GetConnectedEdges(nodeId).Select(e => GetConnectedNode(e));
 
 		[MenuItem("Assets/Create/FriendSea/StateMachine")]
 		static void CreateFile()

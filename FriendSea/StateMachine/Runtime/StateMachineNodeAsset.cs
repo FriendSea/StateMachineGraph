@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace FriendSea {
-	public class StateMachineNodeAsset : ScriptableObject, IStateMachineState<GameObject>
+	public class StateMachineNodeAsset : ScriptableObject, IStateMachineState<CachedComponents>
 	{
-		[SerializeReference]
-		StateMachineStateBase data;
+		[SerializeField]
+		internal StateMachineState data;
 
-		public IStateMachineState<GameObject> NextState(GameObject obj, int frameCount) => data.NextState(obj, frameCount);
-		public void OnExit(GameObject obj, int frameCount) => data.OnExit(obj, frameCount);
-		public void OnUpdate(GameObject obj, int frameCount) => data.OnUpdate(obj, frameCount);
+		public IStateMachineState<CachedComponents> NextState(CachedComponents obj, int frameCount) => data.NextState(obj, frameCount);
+		public void OnExit(CachedComponents obj, int frameCount) => data.OnExit(obj, frameCount);
+		public void OnUpdate(CachedComponents obj, int frameCount) => data.OnUpdate(obj, frameCount);
 	}
 }

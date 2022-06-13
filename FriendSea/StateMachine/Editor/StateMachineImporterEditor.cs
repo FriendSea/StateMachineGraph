@@ -10,12 +10,19 @@ namespace FriendSea
 	{
 		public override void OnInspectorGUI()
 		{
-			if(GUILayout.Button("Open Graph Editor"))
-			{
+			if (GUILayout.Button("Open Graph Editor"))
 				StateMachineGraphWindow.Open(target as StateMachineImporter);
-			}
 			using (new EditorGUI.DisabledGroupScope(true))
 				base.OnInspectorGUI();
+		}
+
+		[UnityEditor.Callbacks.OnOpenAsset]
+		public static bool OnOpenAsset(int instanceID, int line)
+		{
+			var target = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID))) as StateMachineImporter;
+			if (target == null) return false;
+			StateMachineGraphWindow.Open(target);
+			return true;
 		}
 	}
 }
