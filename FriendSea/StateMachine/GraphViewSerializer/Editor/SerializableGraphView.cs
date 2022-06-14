@@ -40,7 +40,7 @@ namespace FriendSea
 				for (int i = 1; i < path.Length - 1; i++)
 					this.parentProperty = this.parentProperty.FindPropertyRelative(path[i]);
 				id = property.FindPropertyRelative("id").stringValue;
-				title = property.FindPropertyRelative("data").managedReferenceFullTypename.Split('.').Last();
+				title = property.FindPropertyRelative("data").managedReferenceFullTypename.Split('.').Last().Split(" ").Last().Split("/").Last();
 			}
 
 			public void UpdatePosition()
@@ -308,7 +308,7 @@ namespace FriendSea
 						{
 							var elements = new HashSet<GraphElement>();
 							group.CollectElements(elements, element => element is GraphNode);
-							group.RemoveElements(elements);
+							group.RemoveElements(elements.Where(element => element is GraphNode));
 							group.property.serializedObject.Update();
 							group.property.FindPropertyRelative("nodes").ClearArray();
 							group.property.serializedObject.ApplyModifiedProperties();

@@ -4,16 +4,17 @@ using UnityEngine;
 
 namespace FriendSea
 {
+	[RequireComponent(typeof(CachedComponents))]
     public class GameobjectStateMachine : MonoBehaviour
     {
         [SerializeField]
         StateMachineAsset asset;
 
-        StateMachine<GameObject> stateMachine = null;
+        StateMachine<CachedComponents> stateMachine = null;
 
 		private void Awake()
 		{
-			stateMachine = new StateMachine<GameObject>(asset.EntryState, asset.FallbackState, gameObject);
+			stateMachine = new StateMachine<CachedComponents>(asset.EntryState, asset.FallbackState, GetComponent<CachedComponents>());
 		}
 
 		void FixedUpdate()
@@ -21,7 +22,7 @@ namespace FriendSea
 			stateMachine.Update();
 		}
 
-		public void ForceState(StateMachineStateBase state)
+		public void ForceState(StateMachineState state)
 		{
 			stateMachine.ForceState(state);
 		}

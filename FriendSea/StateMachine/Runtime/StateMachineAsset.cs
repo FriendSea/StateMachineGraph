@@ -11,7 +11,7 @@ namespace FriendSea
 		[SerializeReference]
 		StateMachineNodeAsset fallbackState;
 
-		public IStateMachineState<GameObject> EntryState => (entryState == null) ? fallbackState : entryState;
-		public IStateMachineState<GameObject> FallbackState => fallbackState;
+		public IStateMachineState<CachedComponents> EntryState => (entryState == null) ? fallbackState : entryState;
+		public IStateMachineState<CachedComponents> FallbackState => fallbackState;
 	}
 }
