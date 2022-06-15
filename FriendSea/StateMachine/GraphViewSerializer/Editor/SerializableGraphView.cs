@@ -261,6 +261,17 @@ namespace FriendSea
 						dataProperty.serializedObject.Update();
 						foreach(var edge in change.edgesToCreate)
 						{
+							if(edgesProp.ArrayAsEnumerable().Any(prop => {
+								return
+									(prop.FindPropertyRelative("outputNode").stringValue == (edge.output.node as GraphNode).id) &&
+									(prop.FindPropertyRelative("outputPort").stringValue == (edge.output as Port).userData as string) &&
+									(prop.FindPropertyRelative("inputNode").stringValue == (edge.input.node as GraphNode).id) &&
+									(prop.FindPropertyRelative("inputPort").stringValue == (edge.input as Port).userData as string);
+							}))
+							{
+								EditorApplication.delayCall += () => edge.parent.Remove(edge);
+								return new GraphViewChange();
+							}
 							edgesProp.arraySize++;
 							var prop = edgesProp.GetArrayElementAtIndex(edgesProp.arraySize - 1);
 							prop.FindPropertyRelative("outputNode").stringValue = (edge.output.node as GraphNode).id;

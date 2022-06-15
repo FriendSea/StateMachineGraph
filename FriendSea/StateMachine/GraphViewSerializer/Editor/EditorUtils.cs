@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
 
 namespace FriendSea
 {
@@ -39,5 +40,28 @@ namespace FriendSea
 		{
             return $"{type.Assembly.ToString().Split(',').FirstOrDefault()} {type.FullName}".Replace('+', '/');
         }
+
+		public struct WrapEnumerable<T> : IEnumerable<T>
+		{
+            IEnumerator<T> enumerator;
+
+            public WrapEnumerable(IEnumerator<T> enumerator)
+			{
+                this.enumerator = enumerator;
+			}
+
+            public IEnumerator<T> GetEnumerator() => enumerator;
+			IEnumerator IEnumerable.GetEnumerator() => enumerator;
+		}
+        public static WrapEnumerable<T> WrapAsEnumerable<T>(this IEnumerator<T> enumerator) => new WrapEnumerable<T>(enumerator);
+
+        public static IEnumerator<SerializedProperty> EnumerateArray(this SerializedProperty property)
+		{
+            for (int i = 0; i < property.arraySize; i++)
+                yield return property.GetArrayElementAtIndex(i);
+		}
+
+        public static IEnumerable<SerializedProperty> ArrayAsEnumerable(this SerializedProperty property) =>
+            property.EnumerateArray().WrapAsEnumerable();
     }
 }
