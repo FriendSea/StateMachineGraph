@@ -10,57 +10,100 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: d148ac8075b7c46859287bce5fc3571d, type: 3}
   data:
     nodes:
-    - id: 1351ba35-15df-45d4-8a88-fd6750c6b78e
-      position: {x: 311, y: -7}
+    - id: 2c9af0c7-83ac-4bda-a6ab-c83203594069
+      position: {x: 0, y: 0}
       data:
-        id: 0
-    - id: 747eb44a-4a08-4b52-9f4b-3d2058c5cc38
-      position: {x: 6, y: 121.5}
+        rid: 1000
+    - id: 3bc0ed5b-92d8-471e-82ee-334549eee413
+      position: {x: 0, y: 109}
       data:
-        id: 1
-    - id: 9c719c5b-74d7-4f2d-8f96-77e08c8c1c22
-      position: {x: 160.5, y: 114.5}
+        rid: 1001
+    - id: 126ed4ee-2eac-4a81-9b3c-3a9a2031acf0
+      position: {x: 173, y: 77}
       data:
-        id: 2
-    - id: b6528435-b9ba-4100-ae23-7c792766e99e
-      position: {x: 418.5, y: 115.5}
+        rid: 4265200574609227776
+    - id: 03de49b5-b0e0-42b0-b101-7b575cbd56ec
+      position: {x: 422, y: 77}
       data:
-        id: 3
+        rid: 4265200574609227778
+    - id: cf6f2647-3e82-4876-8a99-edef442fdbbe
+      position: {x: 692, y: 77}
+      data:
+        rid: 4265200574609227780
+    - id: 7a761d6d-f759-4fa4-a39b-51a7fa50d3a3
+      position: {x: 945, y: 77}
+      data:
+        rid: 4265200574609227782
     edges:
-    - outputNode: 747eb44a-4a08-4b52-9f4b-3d2058c5cc38
-      outputPort: fallback
-      inputNode: 9c719c5b-74d7-4f2d-8f96-77e08c8c1c22
+    - outputNode: 2c9af0c7-83ac-4bda-a6ab-c83203594069
+      outputPort: transitions
+      inputNode: 126ed4ee-2eac-4a81-9b3c-3a9a2031acf0
       inputPort: enter
-    - outputNode: 9c719c5b-74d7-4f2d-8f96-77e08c8c1c22
-      outputPort: nextNode
-      inputNode: b6528435-b9ba-4100-ae23-7c792766e99e
+    - outputNode: 3bc0ed5b-92d8-471e-82ee-334549eee413
+      outputPort: transitions
+      inputNode: 126ed4ee-2eac-4a81-9b3c-3a9a2031acf0
       inputPort: enter
-    - outputNode: 1351ba35-15df-45d4-8a88-fd6750c6b78e
-      outputPort: entry
-      inputNode: b6528435-b9ba-4100-ae23-7c792766e99e
+    - outputNode: 126ed4ee-2eac-4a81-9b3c-3a9a2031acf0
+      outputPort: transitions
+      inputNode: 03de49b5-b0e0-42b0-b101-7b575cbd56ec
+      inputPort: enter
+    - outputNode: 03de49b5-b0e0-42b0-b101-7b575cbd56ec
+      outputPort: transitions
+      inputNode: cf6f2647-3e82-4876-8a99-edef442fdbbe
+      inputPort: enter
+    - outputNode: cf6f2647-3e82-4876-8a99-edef442fdbbe
+      outputPort: transitions
+      inputNode: 7a761d6d-f759-4fa4-a39b-51a7fa50d3a3
       inputPort: enter
     groups: []
-    viewPosition: {x: 134.5, y: 92.5, z: 0}
-    viewScale: {x: 1, y: 1, z: 1}
+    viewPosition: {x: 91, y: 283, z: 0}
+    viewScale: {x: 0.57175326, y: 0.57175326, z: 1}
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: 1000
       type: {class: StateMachineEntryNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
         entry: {instanceID: 0}
-    00000001:
+    - rid: 1001
       type: {class: StateMachineFallbackNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
         fallback: {instanceID: 0}
-    00000002:
-      type: {class: MoveState, ns: , asm: Assembly-CSharp}
+    - rid: 4265200574609227776
+      type: {class: IStateMachineNode/State, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        nextNode: {instanceID: 0}
-        length: 60
+        name: 
+        behaviours:
+        - rid: 4265200574609227777
+    - rid: 4265200574609227777
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
         velocity: {x: 3, y: 0, z: 0}
-    00000003:
-      type: {class: MoveState, ns: , asm: Assembly-CSharp}
+    - rid: 4265200574609227778
+      type: {class: IStateMachineNode/Transition, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        nextNode: {instanceID: 0}
-        length: 60
+        transitions:
+        - rid: 4265200574609227784
+    - rid: 4265200574609227780
+      type: {class: IStateMachineNode/State, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        name: 
+        behaviours:
+        - rid: 4265200574609227781
+    - rid: 4265200574609227781
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
         velocity: {x: -3, y: 0, z: 0}
+    - rid: 4265200574609227782
+      type: {class: IStateMachineNode/Transition, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        transitions:
+        - rid: 4265200574609227785
+    - rid: 4265200574609227784
+      type: {class: FrameTransition, ns: FriendSea, asm: FriendSea.StateMachine}
+      data:
+        length: 60
+    - rid: 4265200574609227785
+      type: {class: FrameTransition, ns: FriendSea, asm: FriendSea.StateMachine}
+      data:
+        length: 60
