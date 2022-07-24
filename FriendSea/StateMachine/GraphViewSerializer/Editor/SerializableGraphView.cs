@@ -361,6 +361,7 @@ namespace FriendSea
 			var node = new GraphNode(prop);
 			initializeNode?.Invoke(node);
 			node.SetPosition(new Rect(position, Vector2.one));
+
 			AddElement(node);
 		}
 

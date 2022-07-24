@@ -8,7 +8,7 @@ namespace FriendSea
 		[System.Serializable]
 		public class State : IStateMachineNode
 		{
-			[SerializeField]
+			[SerializeField, HideInInspector]
 			internal string name;
 			[SerializeReference]
 			internal StateMachineState.IBehaviour[] behaviours;
