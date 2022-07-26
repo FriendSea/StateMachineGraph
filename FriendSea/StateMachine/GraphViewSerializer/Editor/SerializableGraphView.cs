@@ -138,7 +138,7 @@ namespace FriendSea
 			}
 		}
 
-		public SerializableGraphView(EditorWindow editorWindow, SerializedProperty dataProperty, System.Type searchDataType, System.Action<GraphNode> onInitializeNode)
+		public SerializableGraphView(EditorWindow editorWindow, GraphViewData data, SerializedProperty dataProperty, System.Type searchDataType, System.Action<GraphNode> onInitializeNode)
 		{
 			// initialize view
 
@@ -288,6 +288,30 @@ namespace FriendSea
 				dataProperty.FindPropertyRelative("viewPosition").vector3Value = viewTransform.position;
 				dataProperty.FindPropertyRelative("viewScale").vector3Value = viewTransform.scale;
 				dataProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+			};
+
+			serializeGraphElements = elements => {
+				var obj = new GraphViewData();
+				var nodes = new List<GraphViewData.Node>();
+				foreach(var element in elements)
+				{
+					if(element is GraphNode)
+					{
+						nodes.Add(data.nodes[(element as GraphNode).currentIndex]);
+					}
+				}
+				obj.nodes = nodes.ToArray();
+				var result = JsonUtility.ToJson(obj);
+				Debug.Log(result);
+				return result;
+			};
+			canPasteSerializedData = str => !string.IsNullOrEmpty(str);
+			unserializeAndPaste = (op, str) => {
+				var obj = JsonUtility.FromJson<GraphViewData>(str);
+				foreach(var node in obj.nodes)
+				{
+					AddNode(node.data, node.position + Vector2.one * 100f);
+				}
 			};
 		}
 

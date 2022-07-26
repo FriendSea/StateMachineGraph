@@ -12,7 +12,7 @@ namespace FriendSea
 	public class StateMachineImporter : ScriptedImporter
 	{
 		[SerializeField]
-		GraphViewData<object> data = new GraphViewData<object>();
+		internal GraphViewData data = new GraphViewData();
 
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
@@ -20,9 +20,9 @@ namespace FriendSea
 
 			if (data.nodes.Count() <= 0)
 			{
-				data.nodes = new GraphViewData<object>.Node[] {
-					new GraphViewData<object>.Node() { id = System.Guid.NewGuid().ToString(), data = new StateMachineEntryNode() },
-					new GraphViewData<object>.Node() { id = System.Guid.NewGuid().ToString(), data = new StateMachineFallbackNode() },
+				data.nodes = new GraphViewData.Node[] {
+					new GraphViewData.Node() { id = System.Guid.NewGuid().ToString(), data = new StateMachineEntryNode() },
+					new GraphViewData.Node() { id = System.Guid.NewGuid().ToString(), data = new StateMachineFallbackNode() },
 				};
 			}
 
@@ -103,13 +103,13 @@ namespace FriendSea
 			}
 		}
 
-		IEnumerable<GraphViewData<object>.Edge> GetConnectedEdges(string nodeId) =>
+		IEnumerable<GraphViewData.Edge> GetConnectedEdges(string nodeId) =>
 			data.edges.Where(e => e.outputNode == nodeId);
 
-		GraphViewData<object>.Node GetConnectedNode(GraphViewData<object>.Edge edge) =>
+		GraphViewData.Node GetConnectedNode(GraphViewData.Edge edge) =>
 			data.nodes.Where(n => n.id == edge.inputNode).FirstOrDefault();
 
-		IEnumerable<GraphViewData<object>.Node> GetConnectedNodes(string nodeId) =>
+		IEnumerable<GraphViewData.Node> GetConnectedNodes(string nodeId) =>
 			GetConnectedEdges(nodeId).Select(e => GetConnectedNode(e));
 
 		[MenuItem("Assets/Create/FriendSea/StateMachine")]

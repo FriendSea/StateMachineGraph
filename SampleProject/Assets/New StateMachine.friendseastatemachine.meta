@@ -48,8 +48,8 @@ ScriptedImporter:
       inputNode: 31331fa0-e8a3-4d1c-b157-2937b17452e5
       inputPort: enter
     groups: []
-    viewPosition: {x: 154, y: 207.5, z: 0}
-    viewScale: {x: 1, y: 1, z: 1}
+    viewPosition: {x: 180.5, y: 131.5, z: 0}
+    viewScale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 2
     RefIds:
@@ -65,7 +65,8 @@ ScriptedImporter:
       type: {class: IStateMachineNode/State, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
         name: Default
-        behaviours: []
+        behaviours:
+        - rid: 4061796638055727112
     - rid: 4061796579588440089
       type: {class: IStateMachineNode/Transition, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
@@ -74,3 +75,7 @@ ScriptedImporter:
       type: {class: IStateMachineNode/Transition, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
         transitions: []
+    - rid: 4061796638055727112
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
+        velocity: {x: 0, y: 0, z: 0}

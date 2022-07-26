@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FriendSea
 {
 	[System.Serializable]
-	public class GraphViewData<T>
+	public class GraphViewData
 	{
 		[SerializeField]
 		public Node[] nodes = new Node[0];
@@ -22,7 +22,7 @@ namespace FriendSea
 			[SerializeField]
 			public Vector2 position;
 			[SerializeReference]
-			public T data;
+			public object data;
 		}
 
 		[System.Serializable]
