@@ -51,16 +51,16 @@ namespace FriendSea
 					continue;
 				}
 
-				if (node.data is IStateMachineNode.Transition)
+				if (node.data is StateMachineTransitionNode)
 				{
 					continue;
 				}
 
 				var state = ScriptableObject.CreateInstance<StateMachineNodeAsset>();
-				state.name = (node.data as IStateMachineNode.State).name;
+				state.name = (node.data as StateMachineStateNode).name;
 				ctx.AddObjectToAsset(node.id.id, state);
 				var editor = Editor.CreateEditor(state);
-				state.data = new StateMachineState() { behaviours = (node.data as IStateMachineNode.State).behaviours };
+				state.data = new StateMachineState() { behaviours = (node.data as StateMachineStateNode).behaviours };
 				assets.Add(node.id.id, editor);
 			}
 
@@ -93,7 +93,7 @@ namespace FriendSea
 						var id = GetConnectedNodes(n.id.id).FirstOrDefault()?.id.id ?? string.Empty;
 						return new StateMachineState.Transition()
 						{
-							conditions = (n.data as IStateMachineNode.Transition).transitions,
+							conditions = (n.data as StateMachineTransitionNode).transitions,
 							target = assets.ContainsKey(id) ?
 								assets[id].target as StateMachineNodeAsset :
 								null

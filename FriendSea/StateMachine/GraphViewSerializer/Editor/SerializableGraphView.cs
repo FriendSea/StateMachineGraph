@@ -34,10 +34,23 @@ namespace FriendSea
 		}
 
 		SerializedProperty dataProperty;
-		System.Action<GraphNode> initializeNode;
 
 		public class GraphNode : Node, ISerializableElement
 		{
+			public interface IInitializer
+			{
+				System.Type TargetType { get; }
+				void Initialize(GraphNode node);
+			}
+
+			static Dictionary<System.Type, IInitializer> _inititializers = null;
+			static Dictionary<System.Type, IInitializer> Initializers =>
+				_inititializers ?? (_inititializers =
+					EditorUtils.GetSubClasses(typeof(IInitializer))
+					.Select(t => (IInitializer)System.Activator.CreateInstance(t))
+					.ToDictionary(i => i.TargetType, i => i)
+				);
+
 			public SerializedProperty parentProperty { get; private set; }
 			public string id { get; private set; }
 
@@ -50,6 +63,9 @@ namespace FriendSea
 					this.parentProperty = this.parentProperty.FindPropertyRelative(path[i]);
 				id = property.FindPropertyRelative("id").FindPropertyRelative("id").stringValue;
 				title = property.FindPropertyRelative("data").managedReferenceFullTypename.Split('.').Last().Split(" ").Last().Split("/").Last();
+
+				if (Initializers.ContainsKey(property.FindPropertyRelative("data").managedReferenceValue.GetType()))
+					Initializers[property.FindPropertyRelative("data").managedReferenceValue.GetType()].Initialize(this);
 			}
 
 			public void UpdatePosition()
@@ -71,6 +87,57 @@ namespace FriendSea
 					if (port.userData as string == id)
 						return port;
 				return null;
+			}
+
+			public void SetupRenamableTitle()
+			{
+				capabilities |= Capabilities.Renamable;
+
+				var titleLabel = this.Q("title-label") as Label;
+				var t = this.GetProperty().FindPropertyRelative("data").FindPropertyRelative("name").stringValue;
+				title = string.IsNullOrEmpty(t) ? "State" : t;
+
+				var titleTextField = new TextField { isDelayed = true };
+				titleTextField.style.display = DisplayStyle.None;
+				titleLabel.parent.Insert(0, titleTextField);
+
+				titleLabel.RegisterCallback<MouseDownEvent>(e => {
+					if (e.clickCount == 2 && e.button == (int)MouseButton.LeftMouse)
+						StartEdit();
+				});
+
+				titleTextField.RegisterValueChangedCallback(e => EndEdit(e.newValue));
+
+				titleTextField.RegisterCallback<MouseDownEvent>(e => {
+					if (e.clickCount == 2 && e.button == (int)MouseButton.LeftMouse)
+						EndEdit(titleTextField.value);
+				});
+
+				titleTextField.RegisterCallback<FocusOutEvent>(e => EndEdit(titleTextField.value));
+
+				void StartEdit()
+				{
+					titleTextField.style.display = DisplayStyle.Flex;
+					titleLabel.style.display = DisplayStyle.None;
+					titleTextField.focusable = true;
+
+					titleTextField.SetValueWithoutNotify(title);
+					titleTextField.Focus();
+					titleTextField.SelectAll();
+				}
+
+				void EndEdit(string newTitle)
+				{
+					titleTextField.style.display = DisplayStyle.None;
+					titleLabel.style.display = DisplayStyle.Flex;
+					titleTextField.focusable = false;
+
+					if (string.IsNullOrEmpty(newTitle)) return;
+
+					this.GetProperty().FindPropertyRelative("data").FindPropertyRelative("name").stringValue = newTitle;
+					this.GetProperty().serializedObject.ApplyModifiedProperties();
+					this.title = newTitle;
+				}
 			}
 		}
 
@@ -133,12 +200,11 @@ namespace FriendSea
 			}
 		}
 
-		public SerializableGraphView(EditorWindow editorWindow, GraphViewData data, SerializedProperty dataProperty, System.Type searchDataType, System.Action<GraphNode> onInitializeNode)
+		public SerializableGraphView(EditorWindow editorWindow, GraphViewData data, SerializedProperty dataProperty, System.Type searchDataType)
 		{
 			// initialize view
 
 			this.dataProperty = dataProperty;
-			this.initializeNode = onInitializeNode;
 
 			this.StretchToParentSize();
 			SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
@@ -162,7 +228,6 @@ namespace FriendSea
 				var prop = elementsProp.GetArrayElementAtIndex(i);
 				if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Node))) continue;
 				var node = new GraphNode(prop);
-				initializeNode?.Invoke(node);
 				node.SetPosition(new Rect(prop.FindPropertyRelative("position").vector2Value, Vector2.one));
 				AddElement(node);
 			}
@@ -392,7 +457,6 @@ namespace FriendSea
 			dataProperty.serializedObject.ApplyModifiedProperties();
 
 			var node = new GraphNode(prop);
-			initializeNode?.Invoke(node);
 			node.SetPosition(new Rect(position, Vector2.one));
 
 			AddElement(node);

@@ -14,8 +14,9 @@ namespace FriendSea
         public static List<Type> GetSubClasses(Type type)
 		{
             if (!subClassLists.ContainsKey(type))
-                subClassLists[type] = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assem => assem.GetTypes()).
-                    Where(t => type.IsAssignableFrom(t) && (t != type)).ToList();
+                subClassLists[type] = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assem => assem.GetTypes())
+                    .Where(t => type.IsAssignableFrom(t) && (t != type))
+                    .Where(t => !t.IsInterface && !t.IsAbstract).ToList();
             return subClassLists[type];
 		}
 
