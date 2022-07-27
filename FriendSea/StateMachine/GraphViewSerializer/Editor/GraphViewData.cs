@@ -21,6 +21,11 @@ namespace FriendSea
 		{
 			[SerializeField]
 			public Id id;
+
+			public virtual IEnumerable<Id> CollectUsedGuids()
+			{
+				yield return id;
+			}
 		}
 
 		[System.Serializable]
@@ -43,6 +48,13 @@ namespace FriendSea
 			public Id inputNode;
 			[SerializeField]
 			public string inputPort;
+
+			public override IEnumerable<Id> CollectUsedGuids()
+			{
+				yield return id;
+				yield return outputNode;
+				yield return inputNode;
+			}
 		}
 
 		[System.Serializable]
@@ -52,6 +64,13 @@ namespace FriendSea
 			public string name;
 			[SerializeField]
 			public Id[] nodes;
+
+			public override IEnumerable<Id> CollectUsedGuids()
+			{
+				yield return id;
+				foreach (var i in nodes)
+					yield return i;
+			}
 		}
 
 		[SerializeReference]

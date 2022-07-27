@@ -12,14 +12,18 @@ ScriptedImporter:
     elements:
     - rid: 1000
     - rid: 1001
-    - rid: 3345224069709561866
-    - rid: 3345224069709561872
-    - rid: 3345224069709561876
-    - rid: 3345224069709561877
-    - rid: 3345224069709561878
-    - rid: 3345224069709561882
-    viewPosition: {x: 150, y: 323, z: 0}
-    viewScale: {x: 0.7561437, y: 0.7561437, z: 1}
+    - rid: 3345224069709561901
+    - rid: 3345224069709561902
+    - rid: 3345224069709561905
+    - rid: 3345224069709561906
+    - rid: 3345224069709561908
+    - rid: 3345224069709561909
+    - rid: 3345224069709561910
+    - rid: 3345224069709561912
+    - rid: 3345224069709561913
+    - rid: 3345224069709561916
+    viewPosition: {x: 22, y: 239, z: 0}
+    viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
@@ -43,79 +47,117 @@ ScriptedImporter:
       type: {class: StateMachineEntryNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
     - rid: 1003
       type: {class: StateMachineFallbackNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
-    - rid: 3345224069709561866
+    - rid: 3345224069709561901
       type: {class: GraphViewData/Group, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: f5edbfba-6677-4ccc-96e4-e2ce9010baa6
-        name: efcqwefd
+          id: 5378592d-f1ab-4e08-9b28-ec0e258e25fd
+        name: New Group
         nodes:
-        - id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
-    - rid: 3345224069709561872
+        - id: e1abd057-7063-4540-aafe-cb8d2f48258e
+    - rid: 3345224069709561902
       type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
-        position: {x: 212, y: 86}
+          id: c1aefdbc-9c86-4e08-b3ce-f96954744e7e
+        position: {x: 514, y: 129}
         data:
-          rid: 3345224069709561873
-    - rid: 3345224069709561873
+          rid: 3345224069709561903
+    - rid: 3345224069709561903
+      type: {class: StateMachineTransitionNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        transitions:
+        - rid: 3345224069709561904
+    - rid: 3345224069709561904
+      type: {class: FrameTransition, ns: FriendSea, asm: FriendSea.StateMachine}
+      data:
+        length: 58
+    - rid: 3345224069709561905
+      type: {class: GraphViewData/Group, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+      data:
+        id:
+          id: 6c03e641-e08a-4341-a2e7-428422d00bf9
+        name: New Group
+        nodes:
+        - id: c1aefdbc-9c86-4e08-b3ce-f96954744e7e
+    - rid: 3345224069709561906
+      type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+      data:
+        id:
+          id: e1abd057-7063-4540-aafe-cb8d2f48258e
+        position: {x: 185, y: 125}
+        data:
+          rid: 3345224069709561907
+    - rid: 3345224069709561907
       type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        name: State
-        behaviours:
-        - rid: 3345224069709561885
-    - rid: 3345224069709561876
+        name: 
+        behaviours: []
+    - rid: 3345224069709561908
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: afad7595-5786-420c-9e2d-6b65d4041861
+          id: cf854f03-1e48-49fe-b922-812a8bf33b11
         outputNode:
           id: 06faf013-b8a6-4b00-8c52-7d7700674163
         outputPort: transitions
         inputNode:
-          id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
+          id: e1abd057-7063-4540-aafe-cb8d2f48258e
         inputPort: enter
-    - rid: 3345224069709561877
+    - rid: 3345224069709561909
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 06dbd2bf-30b6-4bbc-941d-447a27fd1c82
+          id: bb2a42dc-838d-4f45-88fe-4481b9293d26
         outputNode:
-          id: 46e2ae9f-8618-4eac-910c-65787b4bd62d
+          id: e1abd057-7063-4540-aafe-cb8d2f48258e
         outputPort: transitions
         inputNode:
-          id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
+          id: c1aefdbc-9c86-4e08-b3ce-f96954744e7e
         inputPort: enter
-    - rid: 3345224069709561878
+    - rid: 3345224069709561910
       type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: ef42ecab-54aa-4d3e-bd47-886f1e5c0a9f
-        position: {x: 512, y: 86}
+          id: 92274d0f-248c-4b11-a1e0-14a68c446772
+        position: {x: 189, y: 332}
         data:
-          rid: 3345224069709561879
-    - rid: 3345224069709561879
+          rid: 3345224069709561911
+    - rid: 3345224069709561911
+      type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        name: 
+        behaviours: []
+    - rid: 3345224069709561912
+      type: {class: GraphViewData/Group, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+      data:
+        id:
+          id: 7d036cc7-9c7e-4785-b840-202accc24f2a
+        name: New Group
+        nodes:
+        - id: 92274d0f-248c-4b11-a1e0-14a68c446772
+    - rid: 3345224069709561913
+      type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+      data:
+        id:
+          id: 7f2639e5-af80-4b5b-8e8f-5944ca9b2717
+        position: {x: 514, y: 335}
+        data:
+          rid: 3345224069709561914
+    - rid: 3345224069709561914
       type: {class: StateMachineTransitionNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
         transitions:
-        - rid: 3345224069709561884
-    - rid: 3345224069709561882
-      type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
-      data:
-        id:
-          id: af56067c-0a48-419a-8a74-671bddb48c6d
-        outputNode:
-          id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
-        outputPort: transitions
-        inputNode:
-          id: ef42ecab-54aa-4d3e-bd47-886f1e5c0a9f
-        inputPort: enter
-    - rid: 3345224069709561884
+        - rid: 3345224069709561915
+    - rid: 3345224069709561915
       type: {class: FrameTransition, ns: FriendSea, asm: FriendSea.StateMachine}
       data:
         length: 58
-    - rid: 3345224069709561885
-      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+    - rid: 3345224069709561916
+      type: {class: GraphViewData/Group, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
-        velocity: {x: 0, y: 0, z: 0}
+        id:
+          id: bea68264-b32c-45b2-8674-69d9282149f1
+        name: New Group
+        nodes:
+        - id: 7f2639e5-af80-4b5b-8e8f-5944ca9b2717
