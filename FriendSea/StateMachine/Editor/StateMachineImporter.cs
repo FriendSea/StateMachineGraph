@@ -18,11 +18,11 @@ namespace FriendSea
 		{
 			// initialize when created
 
-			if (data.nodes.Count() <= 0)
+			if (data.elements.Count() <= 0)
 			{
-				data.nodes = new GraphViewData.Node[] {
-					new GraphViewData.Node() { id = System.Guid.NewGuid().ToString(), data = new StateMachineEntryNode() },
-					new GraphViewData.Node() { id = System.Guid.NewGuid().ToString(), data = new StateMachineFallbackNode() },
+				data.elements = new List<GraphViewData.ElementData> {
+					new GraphViewData.Node() { id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new StateMachineEntryNode() },
+					new GraphViewData.Node() { id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new StateMachineFallbackNode() },
 				};
 			}
 
@@ -38,16 +38,16 @@ namespace FriendSea
 
 			var assets = new Dictionary<string, Editor>();
 			string entryId = null, fallbackId = null;
-			foreach (var node in data.nodes)
+			foreach (var node in data.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node))
 			{
 				if (node.data is StateMachineEntryNode)
 				{
-					entryId = node.id;
+					entryId = node.id.id;
 					continue;
 				}
 				if (node.data is StateMachineFallbackNode)
 				{
-					fallbackId = node.id;
+					fallbackId = node.id.id;
 					continue;
 				}
 
@@ -58,26 +58,26 @@ namespace FriendSea
 
 				var state = ScriptableObject.CreateInstance<StateMachineNodeAsset>();
 				state.name = (node.data as IStateMachineNode.State).name;
-				ctx.AddObjectToAsset(node.id, state);
+				ctx.AddObjectToAsset(node.id.id, state);
 				var editor = Editor.CreateEditor(state);
 				state.data = new StateMachineState() { behaviours = (node.data as IStateMachineNode.State).behaviours };
-				assets.Add(node.id, editor);
+				assets.Add(node.id.id, editor);
 			}
 
 			// construct edges
 
 			mainEditor.serializedObject.Update();
 
-			foreach (var edge in data.edges)
+			foreach (var edge in data.elements.Where(e => e is GraphViewData.Edge).Select(e => e as GraphViewData.Edge))
 			{
-				if (edge.outputNode == entryId)
+				if (edge.outputNode.id == entryId)
 				{
-					mainEditor.serializedObject.FindProperty("entryState").objectReferenceValue = assets[edge.inputNode].target;
+					mainEditor.serializedObject.FindProperty("entryState").objectReferenceValue = assets[edge.inputNode.id].target;
 					continue;
 				}
-				if (edge.outputNode == fallbackId)
+				if (edge.outputNode.id == fallbackId)
 				{
-					mainEditor.serializedObject.FindProperty("fallbackState").objectReferenceValue = assets[edge.inputNode].target;
+					mainEditor.serializedObject.FindProperty("fallbackState").objectReferenceValue = assets[edge.inputNode.id].target;
 					continue;
 				}
 			}
@@ -90,7 +90,7 @@ namespace FriendSea
 					.OrderBy(n => n.position.y)
 					.Select(n =>
 					{
-						var id = GetConnectedNodes(n.id).FirstOrDefault()?.id ?? string.Empty;
+						var id = GetConnectedNodes(n.id.id).FirstOrDefault()?.id.id ?? string.Empty;
 						return new StateMachineState.Transition()
 						{
 							conditions = (n.data as IStateMachineNode.Transition).transitions,
@@ -104,10 +104,10 @@ namespace FriendSea
 		}
 
 		IEnumerable<GraphViewData.Edge> GetConnectedEdges(string nodeId) =>
-			data.edges.Where(e => e.outputNode == nodeId);
+			data.elements.Where(e => e is GraphViewData.Edge).Select(e => e as GraphViewData.Edge).Where(e => e.outputNode.id == nodeId);
 
 		GraphViewData.Node GetConnectedNode(GraphViewData.Edge edge) =>
-			data.nodes.Where(n => n.id == edge.inputNode).FirstOrDefault();
+			data.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node).Where(n => n.id == edge.inputNode).FirstOrDefault();
 
 		IEnumerable<GraphViewData.Node> GetConnectedNodes(string nodeId) =>
 			GetConnectedEdges(nodeId).Select(e => GetConnectedNode(e));

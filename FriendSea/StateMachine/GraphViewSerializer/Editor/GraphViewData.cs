@@ -7,47 +7,59 @@ namespace FriendSea
 	[System.Serializable]
 	public class GraphViewData
 	{
-		[SerializeField]
-		public Node[] nodes = new Node[0];
-		[SerializeField]
-		public Edge[] edges = new Edge[0];
-		[SerializeField]
-		public Group[] groups = new Group[0];
+		[System.Serializable]
+		public class Id
+		{
+			public string id;
+
+			public Id(string id) => this.id = id;
+		}
 
 		[System.Serializable]
-		public class Node
+		public abstract class ElementData
 		{
 			[SerializeField]
-			public string id;
+			public Id id;
+		}
+
+		[System.Serializable]
+		public abstract class PositionableElement : ElementData
+		{
 			[SerializeField]
 			public Vector2 position;
+		}
+
+		[System.Serializable]
+		public class Node : PositionableElement
+		{
 			[SerializeReference]
 			public object data;
 		}
 
 		[System.Serializable]
-		public class Edge
+		public class Edge : ElementData
 		{
 			[SerializeField]
-			public string outputNode;
+			public Id outputNode;
 			[SerializeField]
 			public string outputPort;
 			[SerializeField]
-			public string inputNode;
+			public Id inputNode;
 			[SerializeField]
 			public string inputPort;
 		}
 
 		[System.Serializable]
-		public class Group
+		public class Group : ElementData
 		{
 			[SerializeField]
-			string id;
+			public string name;
 			[SerializeField]
-			string name;
-			[SerializeField]
-			string[] nodes;
+			public Id[] nodes;
 		}
+
+		[SerializeReference]
+		public List<ElementData> elements = new List<ElementData>();
 
 		[SerializeField]
 		Vector3 viewPosition;

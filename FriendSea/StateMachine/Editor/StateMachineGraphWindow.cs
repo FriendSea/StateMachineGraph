@@ -42,7 +42,7 @@ namespace FriendSea
 		void SetupNode(SerializableGraphView.GraphNode node) {
 			// select types
 
-			var prop = node.property.FindPropertyRelative("data");
+			var prop = node.GetProperty().FindPropertyRelative("data");
 			var nodeTypes = new Dictionary<System.Type, Color> {
 					{ typeof(IStateMachineNode.State), new Color(1, 0.5f, 0) },
 					{ typeof(IStateMachineNode.Transition), Color.green },
@@ -101,8 +101,8 @@ namespace FriendSea
 
 			node.extensionContainer.Add(new IMGUIContainer(() =>
 			{
-				node.property.serializedObject.Update();
-				var prop = node.property.FindPropertyRelative("data");
+				node.GetProperty().serializedObject.Update();
+				var prop = node.GetProperty().FindPropertyRelative("data");
 				int depth = prop.depth;
 				prop.NextVisible(true);
 				while (true)
@@ -112,7 +112,7 @@ namespace FriendSea
 					if (!prop.NextVisible(false)) break;
 					if (prop.depth <= depth) break;
 				}
-				node.property.serializedObject.ApplyModifiedProperties();
+				node.GetProperty().serializedObject.ApplyModifiedProperties();
 			}));
 
 			// force expanded
@@ -133,7 +133,7 @@ namespace FriendSea
 		void SetupRenamableTitle(SerializableGraphView.GraphNode node)
 		{
 			var titleLabel = node.Q("title-label") as Label;
-			var t = node.property.FindPropertyRelative("data").FindPropertyRelative("name").stringValue;
+			var t = node.GetProperty().FindPropertyRelative("data").FindPropertyRelative("name").stringValue;
 			node.title = string.IsNullOrEmpty(t) ? "State" : t;
 
 			var titleTextField = new TextField { isDelayed = true };
@@ -173,8 +173,8 @@ namespace FriendSea
 
 				if (string.IsNullOrEmpty(newTitle)) return;
 
-				node.property.FindPropertyRelative("data").FindPropertyRelative("name").stringValue = newTitle;
-				node.property.serializedObject.ApplyModifiedProperties();
+				node.GetProperty().FindPropertyRelative("data").FindPropertyRelative("name").stringValue = newTitle;
+				node.GetProperty().serializedObject.ApplyModifiedProperties();
 				node.title = newTitle;
 			}
 		}
