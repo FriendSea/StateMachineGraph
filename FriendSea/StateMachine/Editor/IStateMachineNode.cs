@@ -35,10 +35,10 @@ namespace FriendSea
 	}
 
 
-	public abstract class StateMachineNodeInitializerBase : SerializableGraphView.GraphNode.IInitializer
+	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
 	{
 		public abstract Type TargetType { get; }
-		public void Initialize(SerializableGraphView.GraphNode node, System.Type selfType, System.Type targetType)
+		public void Initialize(GraphNode node, System.Type selfType, System.Type targetType)
 		{
 			var nodeTypes = new Dictionary<System.Type, Color> {
 					{ typeof(StateMachineStateNode), new Color(1, 0.5f, 0) },
@@ -90,13 +90,13 @@ namespace FriendSea
 			node.mainContainer.style.backgroundColor = nodeTypes[selfType] / 2f;
 		}
 
-		public abstract void Initialize(SerializableGraphView.GraphNode node);
+		public abstract void Initialize(GraphNode node);
 	}
 
 	public class StateMachineStateNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(StateMachineStateNode);
-		public override void Initialize(SerializableGraphView.GraphNode node)
+		public override void Initialize(GraphNode node)
 		{
 			node.SetupRenamableTitle();
 			Initialize(node, typeof(StateMachineStateNode), typeof(StateMachineTransitionNode));
@@ -106,15 +106,15 @@ namespace FriendSea
 	public class StateMachineTransitionNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(StateMachineTransitionNode);
-		public override void Initialize(SerializableGraphView.GraphNode node) =>
+		public override void Initialize(GraphNode node) =>
 			Initialize(node, typeof(StateMachineTransitionNode), typeof(StateMachineStateNode));
 	}
 
-	public class StateMachineEntryNodeInitializer : SerializableGraphView.GraphNode.IInitializer
+	public class StateMachineEntryNodeInitializer : GraphNode.IInitializer
 	{
 		public Type TargetType => typeof(StateMachineEntryNode);
 
-		public void Initialize(SerializableGraphView.GraphNode node)
+		public void Initialize(GraphNode node)
 		{
 			node.capabilities ^= Capabilities.Deletable;
 			node.mainContainer.style.backgroundColor = Color.blue;
@@ -128,11 +128,11 @@ namespace FriendSea
 		}
 	}
 
-	public class StateMachineFallbackNodeInitializer : SerializableGraphView.GraphNode.IInitializer
+	public class StateMachineFallbackNodeInitializer : GraphNode.IInitializer
 	{
 		public Type TargetType => typeof(StateMachineFallbackNode);
 
-		public void Initialize(SerializableGraphView.GraphNode node)
+		public void Initialize(GraphNode node)
 		{
 			node.capabilities ^= Capabilities.Deletable;
 			node.mainContainer.style.backgroundColor = Color.red;
