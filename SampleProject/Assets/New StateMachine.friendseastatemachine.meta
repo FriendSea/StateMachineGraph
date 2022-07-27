@@ -14,9 +14,11 @@ ScriptedImporter:
     - rid: 1001
     - rid: 3345224069709561866
     - rid: 3345224069709561872
-    - rid: 3345224069709561874
-    - rid: 3345224069709561875
-    viewPosition: {x: 114, y: 136, z: 0}
+    - rid: 3345224069709561876
+    - rid: 3345224069709561877
+    - rid: 3345224069709561878
+    - rid: 3345224069709561882
+    viewPosition: {x: -75, y: 207, z: 0}
     viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
@@ -34,7 +36,7 @@ ScriptedImporter:
       data:
         id:
           id: 46e2ae9f-8618-4eac-910c-65787b4bd62d
-        position: {x: 0, y: 130}
+        position: {x: -17, y: 129}
         data:
           rid: 1003
     - rid: 1002
@@ -54,7 +56,7 @@ ScriptedImporter:
       data:
         id:
           id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
-        position: {x: 236, y: 124}
+        position: {x: 208, y: 86}
         data:
           rid: 3345224069709561873
     - rid: 3345224069709561873
@@ -62,25 +64,48 @@ ScriptedImporter:
       data:
         name: State
         behaviours: []
-    - rid: 3345224069709561874
+    - rid: 3345224069709561876
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 11f272f9-89d1-4cd8-ad46-2b1c5e48192c
+          id: afad7595-5786-420c-9e2d-6b65d4041861
         outputNode:
           id: 06faf013-b8a6-4b00-8c52-7d7700674163
         outputPort: transitions
         inputNode:
           id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
         inputPort: enter
-    - rid: 3345224069709561875
+    - rid: 3345224069709561877
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 117b4264-193a-4567-973d-90ed0d1d6db3
+          id: 06dbd2bf-30b6-4bbc-941d-447a27fd1c82
         outputNode:
           id: 46e2ae9f-8618-4eac-910c-65787b4bd62d
         outputPort: transitions
         inputNode:
           id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
+        inputPort: enter
+    - rid: 3345224069709561878
+      type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+      data:
+        id:
+          id: ef42ecab-54aa-4d3e-bd47-886f1e5c0a9f
+        position: {x: 530, y: 129}
+        data:
+          rid: 3345224069709561879
+    - rid: 3345224069709561879
+      type: {class: StateMachineTransitionNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        transitions: []
+    - rid: 3345224069709561882
+      type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+      data:
+        id:
+          id: af56067c-0a48-419a-8a74-671bddb48c6d
+        outputNode:
+          id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
+        outputPort: transitions
+        inputNode:
+          id: ef42ecab-54aa-4d3e-bd47-886f1e5c0a9f
         inputPort: enter

@@ -39,7 +39,6 @@ namespace FriendSea
 		public interface ISerializableElement
 		{
 			// 配列の中身が増減するとインデックスは変わるので配列自体のプロパティパスとguidで持つ
-
 			string id { get; }
 			SerializedProperty parentProperty { get; }
 
@@ -296,9 +295,13 @@ namespace FriendSea
 						dataProperty.serializedObject.Update();
 						foreach (var element in change.elementsToRemove)
 						{
+							if (element is ISerializableElement)
+							{
+								elementsProp.DeleteArrayElementAtIndex((element as ISerializableElement).GetCurrentIndex());
+							}
 							if (element is GraphNode)
 							{
-								elementsProp.DeleteArrayElementAtIndex((element as GraphNode).GetCurrentIndex());
+								// sould remove id from referent group.
 								for (int i = 0; i < elementsProp.arraySize; i++)
 								{
 									var groupProp = elementsProp.GetArrayElementAtIndex(i);
@@ -327,10 +330,6 @@ namespace FriendSea
 									break;
 								}
 							}
-							if(element is GraphGroup)
-							{
-								elementsProp.DeleteArrayElementAtIndex((element as GraphGroup).GetCurrentIndex());
-							}
 						}
 						dataProperty.serializedObject.ApplyModifiedProperties();
 					}
@@ -341,19 +340,20 @@ namespace FriendSea
 						dataProperty.serializedObject.Update();
 						foreach(var edge in change.edgesToCreate)
 						{
-							/* TODO : avoid dupricate edge.
-							if(edgesProp.ArrayAsEnumerable().Any(prop => {
+							// avoid dupricate edge.
+							if(elementsProp.ArrayAsEnumerable().Any(prop => {
 								return
-									(prop.FindPropertyRelative("outputNode").stringValue == (edge.output.node as GraphNode).id) &&
-									(prop.FindPropertyRelative("outputPort").stringValue == (edge.output as Port).userData as string) &&
-									(prop.FindPropertyRelative("inputNode").stringValue == (edge.input.node as GraphNode).id) &&
-									(prop.FindPropertyRelative("inputPort").stringValue == (edge.input as Port).userData as string);
+									(prop.FindPropertyRelative("outputNode")?.FindPropertyRelative("id")?.stringValue == (edge.output.node as GraphNode).id) &&
+									(prop.FindPropertyRelative("outputPort")?.stringValue == (edge.output as Port).userData as string) &&
+									(prop.FindPropertyRelative("inputNode")?.FindPropertyRelative("id")?.stringValue == (edge.input.node as GraphNode).id) &&
+									(prop.FindPropertyRelative("inputPort")?.stringValue == (edge.input as Port).userData as string);
 							}))
 							{
+								Debug.Log("Create dupricate edge : Canceled.");
 								EditorApplication.delayCall += () => edge.parent.Remove(edge);
 								return new GraphViewChange();
 							}
-							*/
+
 							elementsProp.arraySize++;
 							var prop = elementsProp.GetArrayElementAtIndex(elementsProp.arraySize - 1);
 							prop.managedReferenceValue = new GraphViewData.Edge() {
