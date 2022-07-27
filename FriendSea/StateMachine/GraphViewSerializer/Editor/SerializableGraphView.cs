@@ -25,17 +25,36 @@ namespace FriendSea
 
 	public class SerializableGraphView : GraphView
 	{
+		public class TargetDataAttribute : System.Attribute
+		{
+			internal System.Type TargetType { get; private set; }
+			internal int LoadOrder { get; private set; }
+
+			public TargetDataAttribute(System.Type type, int loadOrder = 0) { 
+				TargetType = type;
+				LoadOrder = loadOrder;
+			}
+		}
+
 		public interface ISerializableElement
 		{
 			// 配列の中身が増減するとインデックスは変わるので配列自体のプロパティパスとguidで持つ
 
 			string id { get; }
 			SerializedProperty parentProperty { get; }
+
+			void Initialize(SerializedProperty property, SerializableGraphView graphView);
+		}
+
+		public interface IPositionableElement
+		{
+			void UpdatePosition();
 		}
 
 		SerializedProperty dataProperty;
 
-		public class GraphNode : Node, ISerializableElement
+		[TargetData(typeof(GraphViewData.Node), -1)]
+		public class GraphNode : Node, ISerializableElement, IPositionableElement
 		{
 			public interface IInitializer
 			{
@@ -54,7 +73,7 @@ namespace FriendSea
 			public SerializedProperty parentProperty { get; private set; }
 			public string id { get; private set; }
 
-			public GraphNode(SerializedProperty property)
+			public void Initialize(SerializedProperty property, SerializableGraphView graphView)
 			{
 				// initialize
 				var path = property.propertyPath.Split('.');
@@ -63,6 +82,8 @@ namespace FriendSea
 					this.parentProperty = this.parentProperty.FindPropertyRelative(path[i]);
 				id = property.FindPropertyRelative("id").FindPropertyRelative("id").stringValue;
 				title = property.FindPropertyRelative("data").managedReferenceFullTypename.Split('.').Last().Split(" ").Last().Split("/").Last();
+
+				SetPosition(new Rect(property.FindPropertyRelative("position").vector2Value, Vector2.one));
 
 				if (Initializers.ContainsKey(property.FindPropertyRelative("data").managedReferenceValue.GetType()))
 					Initializers[property.FindPropertyRelative("data").managedReferenceValue.GetType()].Initialize(this);
@@ -141,7 +162,8 @@ namespace FriendSea
 			}
 		}
 
-		public class GraphGroup : Group, ISerializableElement
+		[TargetData(typeof(GraphViewData.Group))]
+		public class GraphGroup : Group, ISerializableElement, IPositionableElement
 		{
 			public SerializedProperty parentProperty { get; private set; }
 			public string id { get;private set; }
@@ -149,7 +171,7 @@ namespace FriendSea
 			// コールバック内でアセットを更新するかのフラグになる
 			bool initialized;
 
-			public GraphGroup(SerializedProperty property, SerializableGraphView graphView)
+			public void Initialize(SerializedProperty property, SerializableGraphView graphView)
 			{
 				var path = property.propertyPath.Split('.');
 				parentProperty = property.serializedObject.FindProperty(path[0]);
@@ -170,7 +192,7 @@ namespace FriendSea
 				initialized = true;
 			}
 
-			public void UpdatePositions()
+			public void UpdatePosition()
 			{
 				var elements = new HashSet<GraphElement>();
 				CollectElements(elements, element => element is GraphNode);
@@ -220,21 +242,30 @@ namespace FriendSea
 			nodeCreationRequest += context =>
 				SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), menuWindowProvider);
 
-			// load nodes
+			// load elements
+
+			var elementTypes = EditorUtils.GetSubClasses(typeof(ISerializableElement))
+				.Where(t => t.IsDefined(typeof(TargetDataAttribute), true))
+				.Select(t => new { att = (t.GetCustomAttributes(typeof(TargetDataAttribute), true).FirstOrDefault() as TargetDataAttribute), elementType = t })
+				.OrderBy(pair => pair.att.LoadOrder)
+				.ToDictionary(pair => pair.att.TargetType, pair => pair.elementType);
 
 			var elementsProp = dataProperty.FindPropertyRelative("elements");
-			for (int i = 0; i < elementsProp.arraySize; i++)
+			foreach(var pair in elementTypes)
 			{
-				var prop = elementsProp.GetArrayElementAtIndex(i);
-				if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Node))) continue;
-				var node = new GraphNode(prop);
-				node.SetPosition(new Rect(prop.FindPropertyRelative("position").vector2Value, Vector2.one));
-				AddElement(node);
+				for (int i = 0; i < elementsProp.arraySize; i++)
+				{
+					var prop = elementsProp.GetArrayElementAtIndex(i);
+					if (prop.managedReferenceValue.GetType() != pair.Key) continue;
+					var node = (ISerializableElement)System.Activator.CreateInstance(pair.Value);
+					AddElement(node as GraphElement);
+					node.Initialize(prop, this);
+				}
 			}
 
 			// load edges
 
-			for(int i = 0; i < elementsProp.arraySize; i++)
+			for (int i = 0; i < elementsProp.arraySize; i++)
 			{
 				var prop = elementsProp.GetArrayElementAtIndex(i);
 				if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Edge))) continue;
@@ -246,16 +277,6 @@ namespace FriendSea
 				AddElement(edge);
 			}
 
-			// load groups
-
-			for (int i = 0; i < elementsProp.arraySize; i++)
-			{
-				var prop = elementsProp.GetArrayElementAtIndex(i);
-				if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Group))) continue;
-				var group = new GraphGroup(prop, this);
-				AddElement(group);
-			}
-
 			// register edit event
 
 			graphViewChanged += change => {
@@ -264,13 +285,8 @@ namespace FriendSea
 					if(change.movedElements.Count() > 0)
 					{
 						dataProperty.serializedObject.Update();
-						foreach(var element in change.movedElements)
-						{
-							if(element is GraphNode)
-								(element as GraphNode).UpdatePosition();
-							if (element is GraphGroup)
-								(element as GraphGroup).UpdatePositions();
-						}
+						foreach (var element in change.movedElements.Where(e => e is IPositionableElement))
+							(element as IPositionableElement).UpdatePosition();
 						dataProperty.serializedObject.ApplyModifiedProperties();
 					}
 				// remove
@@ -292,7 +308,7 @@ namespace FriendSea
 									{
 										var prop = groupNodesProp.GetArrayElementAtIndex(j).FindPropertyRelative("id");
 										if (prop.stringValue != (element as GraphNode).id) continue;
-										groupNodesProp.DeleteArrayElementAtIndex(i);
+										groupNodesProp.DeleteArrayElementAtIndex(j);
 										break;
 									}
 								}
@@ -341,6 +357,7 @@ namespace FriendSea
 							elementsProp.arraySize++;
 							var prop = elementsProp.GetArrayElementAtIndex(elementsProp.arraySize - 1);
 							prop.managedReferenceValue = new GraphViewData.Edge() {
+								id = new GraphViewData.Id(System.Guid.NewGuid().ToString()),
 								outputNode = new GraphViewData.Id((edge.output.node as GraphNode).id),
 								outputPort = (edge.output as Port).userData as string,
 								inputNode = new GraphViewData.Id((edge.input.node as GraphNode).id),
@@ -404,9 +421,10 @@ namespace FriendSea
 						};
 						dataProperty.serializedObject.ApplyModifiedProperties();
 
-						var group = new GraphGroup(prop, this);
-						AddElement(group);
+						var group = new GraphGroup();
+						group.Initialize(prop, this);
 						group.AddElements(selection.Where(selectable => selectable is GraphNode).Select(selectable => selectable as GraphNode));
+						AddElement(group);
 					});
 				if (selection.Where(item => item is GraphGroup).Count() > 0)
 					evt.menu.AppendAction("Ungroup", action =>
@@ -456,10 +474,9 @@ namespace FriendSea
 
 			dataProperty.serializedObject.ApplyModifiedProperties();
 
-			var node = new GraphNode(prop);
-			node.SetPosition(new Rect(position, Vector2.one));
-
+			var node = new GraphNode();
 			AddElement(node);
+			node.Initialize(prop, this);
 		}
 
 		public GraphNode GetNode(string id)
