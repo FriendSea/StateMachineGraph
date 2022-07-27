@@ -20,6 +20,7 @@ namespace FriendSea
             return subClassLists[type];
 		}
 
+        /*
         static Dictionary<string, Type> classList = new Dictionary<string, Type>();
         public static Type GetClass(string name)
 		{
@@ -41,6 +42,7 @@ namespace FriendSea
 		{
             return $"{type.Assembly.ToString().Split(',').FirstOrDefault()} {type.FullName}".Replace('+', '/');
         }
+        */
 
 		public struct WrapEnumerable<T> : IEnumerable<T>
 		{

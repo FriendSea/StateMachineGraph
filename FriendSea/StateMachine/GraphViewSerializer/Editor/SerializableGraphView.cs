@@ -52,7 +52,7 @@ namespace FriendSea
 
 		SerializedProperty dataProperty;
 
-		public SerializableGraphView(EditorWindow editorWindow, GraphViewData data, SerializedProperty dataProperty, System.Type searchDataType)
+		public SerializableGraphView(EditorWindow editorWindow, SerializedProperty dataProperty, System.Type searchDataType)
 		{
 			// initialize view
 

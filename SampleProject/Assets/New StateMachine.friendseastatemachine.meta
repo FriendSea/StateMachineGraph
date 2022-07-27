@@ -18,8 +18,8 @@ ScriptedImporter:
     - rid: 3345224069709561877
     - rid: 3345224069709561878
     - rid: 3345224069709561882
-    viewPosition: {x: -75, y: 207, z: 0}
-    viewScale: {x: 1, y: 1, z: 1}
+    viewPosition: {x: 150, y: 323, z: 0}
+    viewScale: {x: 0.7561437, y: 0.7561437, z: 1}
   references:
     version: 2
     RefIds:
@@ -28,7 +28,7 @@ ScriptedImporter:
       data:
         id:
           id: 06faf013-b8a6-4b00-8c52-7d7700674163
-        position: {x: 0, y: 0}
+        position: {x: 0, y: 9}
         data:
           rid: 1002
     - rid: 1001
@@ -36,7 +36,7 @@ ScriptedImporter:
       data:
         id:
           id: 46e2ae9f-8618-4eac-910c-65787b4bd62d
-        position: {x: -17, y: 129}
+        position: {x: -17, y: 112}
         data:
           rid: 1003
     - rid: 1002
@@ -56,14 +56,15 @@ ScriptedImporter:
       data:
         id:
           id: 3aeb1ee5-646a-4707-a642-d2c4908131f9
-        position: {x: 208, y: 86}
+        position: {x: 212, y: 86}
         data:
           rid: 3345224069709561873
     - rid: 3345224069709561873
       type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
         name: State
-        behaviours: []
+        behaviours:
+        - rid: 3345224069709561885
     - rid: 3345224069709561876
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
@@ -91,13 +92,14 @@ ScriptedImporter:
       data:
         id:
           id: ef42ecab-54aa-4d3e-bd47-886f1e5c0a9f
-        position: {x: 530, y: 129}
+        position: {x: 512, y: 86}
         data:
           rid: 3345224069709561879
     - rid: 3345224069709561879
       type: {class: StateMachineTransitionNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        transitions: []
+        transitions:
+        - rid: 3345224069709561884
     - rid: 3345224069709561882
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
@@ -109,3 +111,11 @@ ScriptedImporter:
         inputNode:
           id: ef42ecab-54aa-4d3e-bd47-886f1e5c0a9f
         inputPort: enter
+    - rid: 3345224069709561884
+      type: {class: FrameTransition, ns: FriendSea, asm: FriendSea.StateMachine}
+      data:
+        length: 58
+    - rid: 3345224069709561885
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
+        velocity: {x: 0, y: 0, z: 0}

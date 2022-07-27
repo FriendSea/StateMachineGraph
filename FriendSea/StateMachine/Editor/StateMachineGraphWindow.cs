@@ -33,7 +33,7 @@ namespace FriendSea
 			if (target == null) return;
 
 			rootVisualElement.Clear();
-			var graphView = new SerializableGraphView(this, target.data, new SerializedObject(target).FindProperty("data"), typeof(IStateMachineNode));
+			var graphView = new SerializableGraphView(this, new SerializedObject(target).FindProperty("data"), typeof(IStateMachineNode));
 
 			rootVisualElement.Add(graphView);
 			rootVisualElement.Add(new Button(target.SaveAndReimport) { text = "Apply" });
