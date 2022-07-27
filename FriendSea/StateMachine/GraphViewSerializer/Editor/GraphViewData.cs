@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace FriendSea
 {
@@ -60,6 +61,8 @@ namespace FriendSea
 
 		[SerializeReference]
 		public List<ElementData> elements = new List<ElementData>();
+
+		public IEnumerable<T> GetElements<T>() where T : class => elements.Where(e => e is T).Select(e => e as T);
 
 		[SerializeField]
 		Vector3 viewPosition;

@@ -21,4 +21,11 @@ namespace FriendSea
 			internal StateMachineState.ITransition[] transitions;
 		}
 	}
+
+	public class StateMachineEntryNode : IStateMachineNode
+	{
+	}
+	public class StateMachineFallbackNode : IStateMachineNode
+	{
+	}
 }

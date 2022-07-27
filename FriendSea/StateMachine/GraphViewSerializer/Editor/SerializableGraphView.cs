@@ -27,6 +27,8 @@ namespace FriendSea
 	{
 		public interface ISerializableElement
 		{
+			// 配列の中身が増減するとインデックスは変わるので配列自体のプロパティパスとguidで持つ
+
 			string id { get; }
 			SerializedProperty parentProperty { get; }
 		}

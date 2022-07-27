@@ -10,47 +10,45 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: d148ac8075b7c46859287bce5fc3571d, type: 3}
   data:
     elements:
-    - rid: 4061796638055727123
-    - rid: 4061796638055727125
-    - rid: 4061796638055727127
-    viewPosition: {x: 180.5, y: 131.5, z: 0}
-    viewScale: {x: 0.8695652, y: 0.8695652, z: 1}
+    - rid: 4061796638055727132
+    - rid: 4061796638055727134
+    - rid: 4061796638055727136
+    viewPosition: {x: 138.5, y: 123, z: 0}
+    viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
-    - rid: 4061796638055727123
+    - rid: 4061796638055727132
       type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 198ba2e7-4032-4e8c-9de1-8dc1e14c9f0a
-        position: {x: 17.5, y: 64}
+          id: 6d5425ff-dead-40d6-aeb6-53765532f45b
+        position: {x: 212, y: 52.5}
         data:
-          rid: 4061796638055727124
-    - rid: 4061796638055727124
+          rid: 4061796638055727133
+    - rid: 4061796638055727133
       type: {class: IStateMachineNode/State, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
         name: 
         behaviours: []
-    - rid: 4061796638055727125
+    - rid: 4061796638055727134
       type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 599a7266-df1f-4ef0-ad5d-1023ee9c0fc4
-        position: {x: 437.5, y: 32}
+          id: 35e71a8e-24a2-40c3-a8c6-8aa115ee1986
+        position: {x: -9.5, y: -24.5}
         data:
-          rid: 4061796638055727126
-    - rid: 4061796638055727126
-      type: {class: IStateMachineNode/Transition, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
-      data:
-        transitions: []
-    - rid: 4061796638055727127
+          rid: 4061796638055727135
+    - rid: 4061796638055727135
+      type: {class: StateMachineEntryNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+    - rid: 4061796638055727136
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
           id: 
         outputNode:
-          id: 198ba2e7-4032-4e8c-9de1-8dc1e14c9f0a
+          id: 35e71a8e-24a2-40c3-a8c6-8aa115ee1986
         outputPort: transitions
         inputNode:
-          id: 599a7266-df1f-4ef0-ad5d-1023ee9c0fc4
+          id: 6d5425ff-dead-40d6-aeb6-53765532f45b
         inputPort: enter

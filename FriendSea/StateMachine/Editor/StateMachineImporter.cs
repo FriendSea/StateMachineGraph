@@ -107,7 +107,7 @@ namespace FriendSea
 			data.elements.Where(e => e is GraphViewData.Edge).Select(e => e as GraphViewData.Edge).Where(e => e.outputNode.id == nodeId);
 
 		GraphViewData.Node GetConnectedNode(GraphViewData.Edge edge) =>
-			data.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node).Where(n => n.id == edge.inputNode).FirstOrDefault();
+			data.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node).Where(n => n.id.id == edge.inputNode.id).FirstOrDefault();
 
 		IEnumerable<GraphViewData.Node> GetConnectedNodes(string nodeId) =>
 			GetConnectedEdges(nodeId).Select(e => GetConnectedNode(e));
@@ -118,16 +118,5 @@ namespace FriendSea
 			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", "");
 			AssetDatabase.Refresh();
 		}
-	}
-
-	public class StateMachineEntryNode
-	{
-		[SerializeField]
-		StateMachineNodeAsset entry;
-	}
-	public class StateMachineFallbackNode
-	{
-		[SerializeField]
-		StateMachineNodeAsset fallback;
 	}
 }
