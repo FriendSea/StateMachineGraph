@@ -28,11 +28,15 @@ namespace FriendSea
 			}
 		}
 
-		[System.Serializable]
-		public class Node : ElementData
+		public abstract class PositionableElementData : ElementData
 		{
 			[SerializeField]
 			public Vector2 position;
+		}
+
+		[System.Serializable]
+		public class Node : PositionableElementData
+		{
 			[SerializeReference]
 			public object data;
 		}

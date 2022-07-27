@@ -74,39 +74,8 @@ namespace FriendSea
 				SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), menuWindowProvider);
 
 			// load elements
-
-			var elementTypes = EditorUtils.GetSubClasses(typeof(ISerializableElement))
-				.Where(t => t.IsDefined(typeof(TargetDataAttribute), true))
-				.Select(t => new { att = (t.GetCustomAttributes(typeof(TargetDataAttribute), true).FirstOrDefault() as TargetDataAttribute), elementType = t })
-				.OrderBy(pair => pair.att.LoadOrder)
-				.ToDictionary(pair => pair.att.TargetType, pair => pair.elementType);
-
 			var elementsProp = dataProperty.FindPropertyRelative("elements");
-			foreach (var pair in elementTypes)
-			{
-				for (int i = 0; i < elementsProp.arraySize; i++)
-				{
-					var prop = elementsProp.GetArrayElementAtIndex(i);
-					if (prop.managedReferenceValue.GetType() != pair.Key) continue;
-					var node = (ISerializableElement)System.Activator.CreateInstance(pair.Value);
-					AddElement(node as GraphElement);
-					node.Initialize(prop, this);
-				}
-			}
-
-			// load edges
-
-			for (int i = 0; i < elementsProp.arraySize; i++)
-			{
-				var prop = elementsProp.GetArrayElementAtIndex(i);
-				if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Edge))) continue;
-				var edge = new Edge();
-				edge.output = GetNode(prop.FindPropertyRelative("outputNode").FindPropertyRelative("id").stringValue).GetOutputPort(prop.FindPropertyRelative("outputPort").stringValue);
-				edge.input = GetNode(prop.FindPropertyRelative("inputNode").FindPropertyRelative("id").stringValue).GetInputPort(prop.FindPropertyRelative("inputPort").stringValue);
-				edge.output.Connect(edge);
-				edge.input.Connect(edge);
-				AddElement(edge);
-			}
+			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
 
 			// register edit event
 
@@ -229,6 +198,10 @@ namespace FriendSea
 			unserializeAndPaste = (op, str) =>
 			{
 				var obj = JsonUtility.FromJson<GraphViewData>(str);
+
+				foreach (var element in obj.elements.Where(e => e is GraphViewData.PositionableElementData).Select(e => e as GraphViewData.PositionableElementData))
+					element.position += Vector2.one * 100f;
+
 				// give new guid, keep references
 				// GraphViewData.Id must be reference type.
 				var idDict = new Dictionary<string, string>();
@@ -238,15 +211,50 @@ namespace FriendSea
 						idDict.Add(idObj.id, System.Guid.NewGuid().ToString());
 					idObj.id = idDict[idObj.id];
 				}
+
+				var newProps = new List<SerializedProperty>();
 				dataProperty.serializedObject.Update();
 				foreach (var element in obj.elements)
 				{
 					elementsProp.arraySize++;
 					var prop = elementsProp.GetArrayElementAtIndex(elementsProp.arraySize - 1);
 					prop.managedReferenceValue = element;
+					newProps.Add(prop);
 				}
 				dataProperty.serializedObject.ApplyModifiedProperties();
+				LoadElements(newProps);
 			};
+		}
+
+		void LoadElements(List<SerializedProperty> elementProps)
+		{
+			var elementTypes = EditorUtils.GetSubClasses(typeof(ISerializableElement))
+				.Where(t => t.IsDefined(typeof(TargetDataAttribute), true))
+				.Select(t => new { att = (t.GetCustomAttributes(typeof(TargetDataAttribute), true).FirstOrDefault() as TargetDataAttribute), elementType = t })
+				.OrderBy(pair => pair.att.LoadOrder)
+				.ToDictionary(pair => pair.att.TargetType, pair => pair.elementType);
+
+			foreach (var pair in elementTypes)
+			{
+				foreach(var prop in elementProps) { 
+					if (prop.managedReferenceValue.GetType() != pair.Key) continue;
+					var node = (ISerializableElement)System.Activator.CreateInstance(pair.Value);
+					AddElement(node as GraphElement);
+					node.Initialize(prop, this);
+				}
+			}
+
+			// load edges
+			foreach(var prop in elementProps)
+			{
+				if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Edge))) continue;
+				var edge = new Edge();
+				edge.output = GetNode(prop.FindPropertyRelative("outputNode").FindPropertyRelative("id").stringValue).GetOutputPort(prop.FindPropertyRelative("outputPort").stringValue);
+				edge.input = GetNode(prop.FindPropertyRelative("inputNode").FindPropertyRelative("id").stringValue).GetInputPort(prop.FindPropertyRelative("inputPort").stringValue);
+				edge.output.Connect(edge);
+				edge.input.Connect(edge);
+				AddElement(edge);
+			}
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
