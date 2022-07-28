@@ -22,10 +22,7 @@ namespace FriendSea
 			[SerializeField]
 			public Id id;
 
-			public virtual IEnumerable<Id> CollectUsedGuids()
-			{
-				yield return id;
-			}
+			public virtual IEnumerable<Id> CollectDependentGuids() { yield break; }
 		}
 
 		public abstract class PositionableElementData : ElementData
@@ -53,9 +50,8 @@ namespace FriendSea
 			[SerializeField]
 			public string inputPort;
 
-			public override IEnumerable<Id> CollectUsedGuids()
+			public override IEnumerable<Id> CollectDependentGuids()
 			{
-				yield return id;
 				yield return outputNode;
 				yield return inputNode;
 			}
@@ -69,9 +65,8 @@ namespace FriendSea
 			[SerializeField]
 			public Id[] nodes;
 
-			public override IEnumerable<Id> CollectUsedGuids()
+			public override IEnumerable<Id> CollectDependentGuids()
 			{
-				yield return id;
 				foreach (var i in nodes)
 					yield return i;
 			}

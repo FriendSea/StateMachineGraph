@@ -176,8 +176,14 @@ namespace FriendSea
 			serializeGraphElements = elements =>
 			{
 				pasteCount = 0;
+
+				var serializables = elements.Where(e => e is ISerializableElement).Select(e => e as ISerializableElement).ToList();
+				var ids = serializables.Select(e => e.id).ToList();
 				var obj = new GraphViewData() {
-					elements = elements.Where(e => e is ISerializableElement).Select(e => (e as ISerializableElement).GetProperty().managedReferenceValue as GraphViewData.ElementData).ToList()
+					elements = serializables
+					.Select(e => e.GetProperty().managedReferenceValue as GraphViewData.ElementData)
+					.Where(data => data.CollectDependentGuids().All(id => ids.Contains(id.id)))
+					.ToList()
 				};
 				var result = JsonUtility.ToJson(obj);
 				return result;
@@ -194,7 +200,7 @@ namespace FriendSea
 				// give new guid, keep references
 				// GraphViewData.Id must be reference type.
 				var idDict = new Dictionary<string, string>();
-				foreach (var idObj in obj.elements.SelectMany(e => e.CollectUsedGuids()))
+				foreach (var idObj in obj.elements.SelectMany(e => e.CollectDependentGuids()).Concat(obj.elements.Select(e => e.id)))
 				{
 					if (!idDict.ContainsKey(idObj.id))
 						idDict.Add(idObj.id, System.Guid.NewGuid().ToString());
