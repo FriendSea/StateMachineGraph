@@ -95,12 +95,9 @@ namespace FriendSea
 					if (change.elementsToRemove.Count() > 0)
 					{
 						dataProperty.serializedObject.Update();
-						foreach (var element in change.elementsToRemove)
+						foreach (var element in change.elementsToRemove.Where(e => e is ISerializableElement).Select(e => e as ISerializableElement))
 						{
-							if (element is ISerializableElement)
-							{
-								elementsProp.DeleteArrayElementAtIndex((element as ISerializableElement).GetCurrentIndex());
-							}
+							elementsProp.DeleteArrayElementAtIndex(element.GetCurrentIndex());
 							if (element is GraphNode)
 							{
 								// sould remove id from referent group.
@@ -118,20 +115,6 @@ namespace FriendSea
 									}
 								}
 							}
-							if (element is Edge)
-							{
-								for (int i = 0; i < elementsProp.arraySize; i++)
-								{
-									var prop = elementsProp.GetArrayElementAtIndex(i);
-									if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Edge))) continue;
-									if (((element as Edge).output.node as GraphNode).id != prop.FindPropertyRelative("outputNode").FindPropertyRelative("id").stringValue) continue;
-									if ((element as Edge).output.userData as string != prop.FindPropertyRelative("outputPort").stringValue) continue;
-									if (((element as Edge).input.node as GraphNode).id != prop.FindPropertyRelative("inputNode").FindPropertyRelative("id").stringValue) continue;
-									if ((element as Edge).input.userData as string != prop.FindPropertyRelative("inputPort").stringValue) continue;
-									elementsProp.DeleteArrayElementAtIndex(i);
-									break;
-								}
-							}
 						}
 						dataProperty.serializedObject.ApplyModifiedProperties();
 					}
@@ -142,21 +125,25 @@ namespace FriendSea
 						dataProperty.serializedObject.Update();
 						foreach (var edge in change.edgesToCreate)
 						{
+							// to use custom edge, remove added.
+							EditorApplication.delayCall += () => RemoveElement(edge);
+
 							// avoid dupricate edge.
 							if (elementsProp.ArrayAsEnumerable().Any(prop =>
 							{
 								return
 									(prop.FindPropertyRelative("outputNode")?.FindPropertyRelative("id")?.stringValue == (edge.output.node as GraphNode).id) &&
-									(prop.FindPropertyRelative("outputPort")?.stringValue == (edge.output as Port).userData as string) &&
+									(prop.FindPropertyRelative("outputPort")?.stringValue == edge.output.userData as string) &&
 									(prop.FindPropertyRelative("inputNode")?.FindPropertyRelative("id")?.stringValue == (edge.input.node as GraphNode).id) &&
-									(prop.FindPropertyRelative("inputPort")?.stringValue == (edge.input as Port).userData as string);
+									(prop.FindPropertyRelative("inputPort")?.stringValue == edge.input.userData as string);
 							}))
 							{
 								Debug.Log("Create dupricate edge : Canceled.");
-								EditorApplication.delayCall += () => edge.parent.Remove(edge);
 								return new GraphViewChange();
 							}
 
+
+							// add edge
 							elementsProp.arraySize++;
 							var prop = elementsProp.GetArrayElementAtIndex(elementsProp.arraySize - 1);
 							prop.managedReferenceValue = new GraphViewData.Edge()
@@ -167,6 +154,10 @@ namespace FriendSea
 								inputNode = new GraphViewData.Id((edge.input.node as GraphNode).id),
 								inputPort = (edge.input as Port).userData as string,
 							};
+
+							var customEdge = new GraphEdge();
+							AddElement(customEdge);
+							customEdge.Initialize(prop, this);
 						}
 						dataProperty.serializedObject.ApplyModifiedProperties();
 					}
@@ -181,26 +172,24 @@ namespace FriendSea
 			};
 
 			// copy paste
+			int pasteCount = 0;
 			serializeGraphElements = elements =>
 			{
-				var obj = new GraphViewData();
-				foreach (var element in elements)
-				{
-					if (element is ISerializableElement)
-					{
-						obj.elements.Add((element as ISerializableElement).GetProperty().managedReferenceValue as GraphViewData.ElementData);
-					}
-				}
+				pasteCount = 0;
+				var obj = new GraphViewData() {
+					elements = elements.Where(e => e is ISerializableElement).Select(e => (e as ISerializableElement).GetProperty().managedReferenceValue as GraphViewData.ElementData).ToList()
+				};
 				var result = JsonUtility.ToJson(obj);
 				return result;
 			};
 			canPasteSerializedData = str => !string.IsNullOrEmpty(str);
 			unserializeAndPaste = (op, str) =>
 			{
+				pasteCount++;
 				var obj = JsonUtility.FromJson<GraphViewData>(str);
 
 				foreach (var element in obj.elements.Where(e => e is GraphViewData.PositionableElementData).Select(e => e as GraphViewData.PositionableElementData))
-					element.position += Vector2.one * 100f;
+					element.position += Vector2.one * pasteCount * 100f;
 
 				// give new guid, keep references
 				// GraphViewData.Id must be reference type.
@@ -242,18 +231,6 @@ namespace FriendSea
 					AddElement(node as GraphElement);
 					node.Initialize(prop, this);
 				}
-			}
-
-			// load edges
-			foreach(var prop in elementProps)
-			{
-				if (!prop.managedReferenceFullTypename.Contains(nameof(GraphViewData.Edge))) continue;
-				var edge = new Edge();
-				edge.output = GetNode(prop.FindPropertyRelative("outputNode").FindPropertyRelative("id").stringValue).GetOutputPort(prop.FindPropertyRelative("outputPort").stringValue);
-				edge.input = GetNode(prop.FindPropertyRelative("inputNode").FindPropertyRelative("id").stringValue).GetInputPort(prop.FindPropertyRelative("inputPort").stringValue);
-				edge.output.Connect(edge);
-				edge.input.Connect(edge);
-				AddElement(edge);
 			}
 		}
 

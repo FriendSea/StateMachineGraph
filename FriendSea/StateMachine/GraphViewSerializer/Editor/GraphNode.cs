@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace FriendSea
 {
-	[SerializableGraphView.TargetData(typeof(GraphViewData.Node), -1)]
+	[SerializableGraphView.TargetData(typeof(GraphViewData.Node), -100)]
 	public class GraphNode : Node, SerializableGraphView.ISerializableElement, SerializableGraphView.IPositionableElement
 	{
 		public interface IInitializer
