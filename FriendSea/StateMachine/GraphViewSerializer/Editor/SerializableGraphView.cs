@@ -64,7 +64,10 @@ namespace FriendSea
 			this.AddManipulator(new ContentDragger());
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
-			Insert(0, new GridBackground());
+
+			var grid = new GridBackground();
+			Insert(0, grid);
+			grid.StretchToParentSize();
 
 			UpdateViewTransform(dataProperty.FindPropertyRelative("viewPosition").vector3Value, dataProperty.FindPropertyRelative("viewScale").vector3Value);
 
@@ -73,9 +76,7 @@ namespace FriendSea
 			nodeCreationRequest += context =>
 				SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), menuWindowProvider);
 
-			// load elements
 			var elementsProp = dataProperty.FindPropertyRelative("elements");
-			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
 
 			// register edit event
 
@@ -179,7 +180,8 @@ namespace FriendSea
 
 				var serializables = elements.Where(e => e is ISerializableElement).Select(e => e as ISerializableElement).ToList();
 				var ids = serializables.Select(e => e.id).ToList();
-				var obj = new GraphViewData() {
+				var obj = new GraphViewData()
+				{
 					elements = serializables
 					.Select(e => e.GetProperty().managedReferenceValue as GraphViewData.ElementData)
 					.Where(data => data.CollectDependentGuids().All(id => ids.Contains(id.id)))
@@ -219,6 +221,22 @@ namespace FriendSea
 				dataProperty.serializedObject.ApplyModifiedProperties();
 				LoadElements(newProps);
 			};
+
+			// register undo
+			Undo.undoRedoPerformed += RefleshView;
+			RegisterCallback<DetachFromPanelEvent>(e => Undo.undoRedoPerformed -= RefleshView);
+
+			// load elements
+			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
+		}
+
+		public void RefleshView()
+		{
+			foreach (var element in graphElements.Where(e => e is ISerializableElement))
+				RemoveElement(element);
+			dataProperty.serializedObject.Update();
+			var elementsProp = dataProperty.FindPropertyRelative("elements");
+			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
 		}
 
 		void LoadElements(List<SerializedProperty> elementProps)
@@ -231,8 +249,8 @@ namespace FriendSea
 
 			foreach (var pair in elementTypes)
 			{
-				foreach(var prop in elementProps) { 
-					if (prop.managedReferenceValue.GetType() != pair.Key) continue;
+				foreach (var prop in elementProps.Where(p => p.managedReferenceValue.GetType() == pair.Key))
+				{
 					var node = (ISerializableElement)System.Activator.CreateInstance(pair.Value);
 					AddElement(node as GraphElement);
 					node.Initialize(prop, this);

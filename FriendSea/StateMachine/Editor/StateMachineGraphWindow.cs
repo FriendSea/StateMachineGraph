@@ -41,13 +41,7 @@ namespace FriendSea
 
 		private void OnEnable()
 		{
-			Undo.undoRedoPerformed += RefleshGraphView;
 			RefleshGraphView();
-		}
-
-		private void OnDisable()
-		{
-			Undo.undoRedoPerformed -= RefleshGraphView;
 		}
 	}
 }

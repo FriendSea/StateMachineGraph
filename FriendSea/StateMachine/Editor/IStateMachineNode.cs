@@ -116,7 +116,7 @@ namespace FriendSea
 
 		public void Initialize(GraphNode node)
 		{
-			node.capabilities ^= Capabilities.Deletable;
+			node.capabilities ^= Capabilities.Deletable | Capabilities.Copiable;
 			node.mainContainer.style.backgroundColor = Color.blue;
 			node.title = "Entry";
 			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(object));
@@ -134,7 +134,7 @@ namespace FriendSea
 
 		public void Initialize(GraphNode node)
 		{
-			node.capabilities ^= Capabilities.Deletable;
+			node.capabilities ^= Capabilities.Deletable | Capabilities.Copiable;
 			node.mainContainer.style.backgroundColor = Color.red;
 			node.title = "Fallback";
 			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(object));
