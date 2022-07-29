@@ -98,7 +98,7 @@ namespace FriendSea
 		public override Type TargetType => typeof(StateMachineStateNode);
 		public override void Initialize(GraphNode node)
 		{
-			node.SetupRenamableTitle();
+			node.SetupRenamableTitle("data.name");
 			Initialize(node, typeof(StateMachineStateNode), typeof(StateMachineTransitionNode));
 		}
 	}

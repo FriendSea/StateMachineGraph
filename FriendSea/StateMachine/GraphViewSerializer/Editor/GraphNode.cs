@@ -65,12 +65,12 @@ namespace FriendSea
 			return null;
 		}
 
-		public void SetupRenamableTitle()
+		public void SetupRenamableTitle(string relativeProperyPath)
 		{
 			capabilities |= Capabilities.Renamable;
 
 			var titleLabel = this.Q("title-label") as Label;
-			var t = this.GetProperty().FindPropertyRelative("data").FindPropertyRelative("name").stringValue;
+			var t = this.GetProperty().FindPropertyRelative(relativeProperyPath).stringValue;
 			title = string.IsNullOrEmpty(t) ? "State" : t;
 
 			var titleTextField = new TextField { isDelayed = true };
@@ -78,21 +78,9 @@ namespace FriendSea
 			titleLabel.parent.Insert(0, titleTextField);
 
 			titleLabel.RegisterCallback<MouseDownEvent>(e => {
-				if (e.clickCount == 2 && e.button == (int)MouseButton.LeftMouse)
-					StartEdit();
-			});
+				if (e.clickCount != 2) return;
+				if (e.button != (int)MouseButton.LeftMouse) return;
 
-			titleTextField.RegisterValueChangedCallback(e => EndEdit(e.newValue));
-
-			titleTextField.RegisterCallback<MouseDownEvent>(e => {
-				if (e.clickCount == 2 && e.button == (int)MouseButton.LeftMouse)
-					EndEdit(titleTextField.value);
-			});
-
-			titleTextField.RegisterCallback<FocusOutEvent>(e => EndEdit(titleTextField.value));
-
-			void StartEdit()
-			{
 				titleTextField.style.display = DisplayStyle.Flex;
 				titleLabel.style.display = DisplayStyle.None;
 				titleTextField.focusable = true;
@@ -100,7 +88,10 @@ namespace FriendSea
 				titleTextField.SetValueWithoutNotify(title);
 				titleTextField.Focus();
 				titleTextField.SelectAll();
-			}
+			});
+
+			titleTextField.RegisterValueChangedCallback(e => EndEdit(e.newValue));
+			titleTextField.RegisterCallback<FocusOutEvent>(e => EndEdit(titleTextField.value));
 
 			void EndEdit(string newTitle)
 			{
@@ -110,7 +101,7 @@ namespace FriendSea
 
 				if (string.IsNullOrEmpty(newTitle)) return;
 
-				this.GetProperty().FindPropertyRelative("data").FindPropertyRelative("name").stringValue = newTitle;
+				this.GetProperty().FindPropertyRelative(relativeProperyPath).stringValue = newTitle;
 				this.GetProperty().serializedObject.ApplyModifiedProperties();
 				this.title = newTitle;
 			}
