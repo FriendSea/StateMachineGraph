@@ -12,11 +12,12 @@ ScriptedImporter:
     elements:
     - rid: 1000
     - rid: 1001
-    - rid: 3345224069709561937
-    - rid: 3345224069709561956
-    - rid: 3345224069709561959
-    - rid: 3345224069709561960
-    viewPosition: {x: 155, y: 61, z: 0}
+    - rid: 4061796638055727439
+    - rid: 4061796638055727441
+    - rid: 4061796638055727443
+    - rid: 4061796638055727447
+    - rid: 4061796638055727451
+    viewPosition: {x: 155, y: 95, z: 0}
     viewScale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 2
@@ -41,61 +42,85 @@ ScriptedImporter:
       type: {class: StateMachineEntryNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
     - rid: 1003
       type: {class: StateMachineFallbackNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
-    - rid: 3345224069709561937
+    - rid: 4061796638055727439
       type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: ed2f8aee-1a1b-4970-968e-8bef81209f93
-        position: {x: 226, y: 74}
+          id: 9196401b-dd4d-4ae8-a053-94074c493107
+        position: {x: 517.5, y: 237}
         data:
-          rid: 3345224069709561938
-    - rid: 3345224069709561938
-      type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+          rid: 4061796638055727440
+    - rid: 4061796638055727440
+      type: {class: StateMachineTransitionNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        name: 
-        behaviours:
-        - rid: 3345224069709561955
-    - rid: 3345224069709561955
-      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
-      data:
-        velocity: {x: 0, y: 0, z: 0}
-    - rid: 3345224069709561956
+        transitions:
+        - rid: 4061796638055727444
+    - rid: 4061796638055727441
       type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 23d7efa7-1dca-4032-b5e8-2c619c95282b
-        position: {x: 226, y: 238}
+          id: 87d12bc6-b145-4d7d-8080-41fcbde46140
+        position: {x: 93.5, y: 104}
         data:
-          rid: 3345224069709561957
-    - rid: 3345224069709561957
+          rid: 4061796638055727442
+    - rid: 4061796638055727442
       type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        name: 
+        name: State
         behaviours:
-        - rid: 3345224069709561958
-    - rid: 3345224069709561958
-      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
-      data:
-        velocity: {x: 0, y: 0, z: 0}
-    - rid: 3345224069709561959
+        - rid: 4061796638055727453
+    - rid: 4061796638055727443
       type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: 517d1b48-a5ab-49d9-a0bf-8ffe934cd153
+          id: 1c7bb3a3-8d8f-4df9-a96b-e62f976bc1b7
         outputNode:
           id: 06faf013-b8a6-4b00-8c52-7d7700674163
         outputPort: transitions
         inputNode:
-          id: ed2f8aee-1a1b-4970-968e-8bef81209f93
+          id: 87d12bc6-b145-4d7d-8080-41fcbde46140
         inputPort: enter
-    - rid: 3345224069709561960
-      type: {class: GraphViewData/Edge, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+    - rid: 4061796638055727444
+      type: {class: FrameTransition, ns: FriendSea, asm: FriendSea.StateMachine}
+      data:
+        length: 0
+    - rid: 4061796638055727447
+      type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
       data:
         id:
-          id: fa07853e-d231-4b15-b033-25196d46f8a9
-        outputNode:
-          id: 46e2ae9f-8618-4eac-910c-65787b4bd62d
-        outputPort: transitions
-        inputNode:
-          id: 23d7efa7-1dca-4032-b5e8-2c619c95282b
-        inputPort: enter
+          id: 174e48dc-4df6-4f41-a8e5-8a35bb3a7844
+        position: {x: 389.5, y: 54.5}
+        data:
+          rid: 4061796638055727448
+    - rid: 4061796638055727448
+      type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        name: State
+        behaviours:
+        - rid: 4061796638055727449
+        - rid: 4061796638055727450
+    - rid: 4061796638055727449
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
+        velocity: {x: 0, y: 0, z: 0}
+    - rid: 4061796638055727450
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
+        velocity: {x: 0, y: 0, z: 0}
+    - rid: 4061796638055727451
+      type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
+      data:
+        id:
+          id: 98699f63-78c9-4fde-9896-43c17b27ea82
+        position: {x: 176.5, y: 268}
+        data:
+          rid: 4061796638055727452
+    - rid: 4061796638055727452
+      type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
+      data:
+        name: 
+        behaviours: []
+    - rid: 4061796638055727453
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
+        velocity: {x: 0, y: 0, z: 0}

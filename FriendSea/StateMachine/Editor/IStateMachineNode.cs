@@ -27,14 +27,6 @@ namespace FriendSea
 		internal StateMachineState.ITransition[] transitions;
 	}
 
-	public class StateMachineEntryNode
-	{
-	}
-	public class StateMachineFallbackNode
-	{
-	}
-
-
 	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
 	{
 		public abstract Type TargetType { get; }
@@ -65,19 +57,12 @@ namespace FriendSea
 
 			// add fields
 
+			node.extensionContainer.style.overflow = Overflow.Hidden;
 			node.extensionContainer.Add(new IMGUIContainer(() =>
 			{
 				node.GetProperty().serializedObject.Update();
 				var prop = node.GetProperty().FindPropertyRelative("data");
-				int depth = prop.depth;
-				prop.NextVisible(true);
-				while (true)
-				{
-					if (prop.depth != depth + 1) continue;
-					EditorGUILayout.PropertyField(prop, GUIContent.none, true);
-					if (!prop.NextVisible(false)) break;
-					if (prop.depth <= depth) break;
-				}
+				EditorGUILayout.PropertyField(prop, new GUIContent(prop.managedReferenceFullTypename), true);
 				node.GetProperty().serializedObject.ApplyModifiedProperties();
 			}));
 
@@ -108,41 +93,5 @@ namespace FriendSea
 		public override Type TargetType => typeof(StateMachineTransitionNode);
 		public override void Initialize(GraphNode node) =>
 			Initialize(node, typeof(StateMachineTransitionNode), typeof(StateMachineStateNode));
-	}
-
-	public class StateMachineEntryNodeInitializer : GraphNode.IInitializer
-	{
-		public Type TargetType => typeof(StateMachineEntryNode);
-
-		public void Initialize(GraphNode node)
-		{
-			node.capabilities ^= Capabilities.Deletable | Capabilities.Copiable;
-			node.mainContainer.style.backgroundColor = Color.blue;
-			node.title = "Entry";
-			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(object));
-			outp.userData = "transitions";
-			outp.portType = typeof(StateMachineStateNode);
-			outp.portColor = new Color(1, 0.5f, 0);
-			outp.portName = "";
-			node.outputContainer.Add(outp);
-		}
-	}
-
-	public class StateMachineFallbackNodeInitializer : GraphNode.IInitializer
-	{
-		public Type TargetType => typeof(StateMachineFallbackNode);
-
-		public void Initialize(GraphNode node)
-		{
-			node.capabilities ^= Capabilities.Deletable | Capabilities.Copiable;
-			node.mainContainer.style.backgroundColor = Color.red;
-			node.title = "Fallback";
-			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(object));
-			outp.userData = "transitions";
-			outp.portType = typeof(StateMachineStateNode);
-			outp.portColor = new Color(1, 0.5f, 0);
-			outp.portName = "";
-			node.outputContainer.Add(outp);
-		}
 	}
 }
