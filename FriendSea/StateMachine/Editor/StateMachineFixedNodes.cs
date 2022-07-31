@@ -28,6 +28,8 @@ namespace FriendSea
 			outp.portColor = new Color(1, 0.5f, 0);
 			outp.portName = "";
 			node.outputContainer.Add(outp);
+
+			node.topContainer.Insert(1, node.titleContainer);
 		}
 	}
 
@@ -46,6 +48,8 @@ namespace FriendSea
 			outp.portColor = new Color(1, 0.5f, 0);
 			outp.portName = "";
 			node.outputContainer.Add(outp);
+
+			node.topContainer.Insert(1, node.titleContainer);
 		}
 	}
 }

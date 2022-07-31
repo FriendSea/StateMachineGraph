@@ -13,6 +13,8 @@ namespace FriendSea
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			position.y -= EditorGUIUtility.singleLineHeight;
+			position.x -= 30f;
+			position.width += 30f;
 			var listProp = property.FindPropertyRelative("behaviours");
 			listProp.isExpanded = true;
 			EditorGUI.PropertyField(position, listProp, null, true);
@@ -21,6 +23,27 @@ namespace FriendSea
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			var listProp = property.FindPropertyRelative("behaviours");
+			listProp.isExpanded = true;
+			return EditorGUI.GetPropertyHeight(listProp, null, true) - EditorGUIUtility.singleLineHeight;
+		}
+	}
+
+	[CustomPropertyDrawer(typeof(StateMachineTransitionNode))]
+	class TransitionDrawer : PropertyDrawer
+	{
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			position.y -= EditorGUIUtility.singleLineHeight;
+			position.x -= 30f;
+			position.width += 30f;
+			var listProp = property.FindPropertyRelative("transitions");
+			listProp.isExpanded = true;
+			EditorGUI.PropertyField(position, listProp, null, true);
+		}
+
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			var listProp = property.FindPropertyRelative("transitions");
 			listProp.isExpanded = true;
 			return EditorGUI.GetPropertyHeight(listProp, null, true) - EditorGUIUtility.singleLineHeight;
 		}
