@@ -24,7 +24,7 @@ namespace FriendSea
 			node.title = "Entry";
 			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outp.userData = "transitions";
-			outp.portType = typeof(IStateReference<CachedComponents>);
+			outp.portType = typeof(StateMachineState.IStateReference);
 			outp.portColor = Color.white;
 			outp.portName = "";
 			node.outputContainer.Add(outp);
@@ -44,7 +44,7 @@ namespace FriendSea
 			node.title = "Fallback";
 			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outp.userData = "transitions";
-			outp.portType = typeof(IStateReference<CachedComponents>);
+			outp.portType = typeof(StateMachineState.IStateReference);
 			outp.portColor = Color.white;
 			outp.portName = "";
 			node.outputContainer.Add(outp);
