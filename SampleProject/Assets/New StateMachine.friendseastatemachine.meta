@@ -21,8 +21,8 @@ ScriptedImporter:
     - rid: 8097509545594847241
     - rid: 8097509545594847250
     - rid: 8097509545594847252
-    viewPosition: {x: -6, y: 258, z: 0}
-    viewScale: {x: 1, y: 1, z: 1}
+    viewPosition: {x: 149, y: 240, z: 0}
+    viewScale: {x: 0.49717674, y: 0.49717674, z: 1}
   references:
     version: 2
     RefIds:

@@ -18,12 +18,12 @@ namespace FriendSea {
 
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
 		{
-			CurrentState = entryState.GetState(null, 0).state;
+			CurrentState = entryState.GetState(null, 0).state ?? fallbackState.GetState(null, 0).state;
 			FallbackState = fallbackState;
 			this.target = target;
 		}
 
-		public StateMachine(IStateMachineState<T> entryState, IStateMachineState<T> fallbackState, T target) : this(new StateReference(fallbackState), new StateReference(fallbackState), target) { }
+		public StateMachine(IStateMachineState<T> entryState, IStateMachineState<T> fallbackState, T target) : this(new StateReference(entryState), new StateReference(fallbackState), target) { }
 
 		int frameCount = 0;
 		public void Update()

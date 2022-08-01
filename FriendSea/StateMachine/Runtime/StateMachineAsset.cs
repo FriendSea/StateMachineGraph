@@ -11,8 +11,7 @@ namespace FriendSea
 		[SerializeField]
 		internal StateMachineState.Transition fallbackState;
 
-		public IStateReference<CachedComponents> EntryState => (entryState.GetState(null, 0).state != null) ?
-			entryState : fallbackState;
+		public IStateReference<CachedComponents> EntryState => entryState;
 		public IStateReference<CachedComponents> FallbackState => fallbackState;
 	}
 }
