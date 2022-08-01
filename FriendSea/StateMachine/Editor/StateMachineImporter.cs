@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -122,7 +122,7 @@ namespace FriendSea
 		IEnumerable<GraphViewData.Node> GetConnectedNodes(string nodeId) =>
 			GetConnectedEdges(nodeId).Select(e => GetConnectedNode(e));
 
-		[MenuItem("Assets/Create/FriendSea/StateMachine")]
+		[MenuItem("Assets/Create/❏➡❏ fStateMachine Asset")]
 		static void CreateFile()
 		{
 			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", "");
