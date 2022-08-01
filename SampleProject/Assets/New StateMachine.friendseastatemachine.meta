@@ -21,8 +21,8 @@ ScriptedImporter:
     - rid: 8097509545594847241
     - rid: 8097509545594847250
     - rid: 8097509545594847252
-    viewPosition: {x: 485, y: 181.5, z: 0}
-    viewScale: {x: 0.32690176, y: 0.32690176, z: 1}
+    viewPosition: {x: -6, y: 258, z: 0}
+    viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
@@ -31,7 +31,7 @@ ScriptedImporter:
       data:
         id:
           id: dc100821-7646-483b-85cd-41eae980d8e7
-        position: {x: 0, y: 0}
+        position: {x: 0, y: 21}
         data:
           rid: 1002
     - rid: 1001
@@ -51,13 +51,13 @@ ScriptedImporter:
       data:
         id:
           id: ea9f6ef4-2846-4b5e-97a4-8061a9a51340
-        position: {x: 226, y: 21}
+        position: {x: 229, y: 21}
         data:
           rid: 8097509545594847233
     - rid: 8097509545594847233
       type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        name: 
+        name: Default
         behaviours:
         - rid: 8097509545594847248
     - rid: 8097509545594847234
@@ -87,7 +87,7 @@ ScriptedImporter:
       data:
         id:
           id: c00e5ccd-aaac-45c6-96a8-2028db48980c
-        position: {x: 514.5, y: 21}
+        position: {x: 507, y: 21}
         data:
           rid: 8097509545594847237
     - rid: 8097509545594847237
@@ -111,13 +111,13 @@ ScriptedImporter:
       data:
         id:
           id: 61b42cd0-0523-4312-9b6a-380cfcb3b694
-        position: {x: 805.5, y: 21}
+        position: {x: 737, y: 21}
         data:
           rid: 8097509545594847240
     - rid: 8097509545594847240
       type: {class: StateMachineStateNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
       data:
-        name: 
+        name: State2
         behaviours:
         - rid: 8097509545594847249
     - rid: 8097509545594847241
@@ -148,7 +148,7 @@ ScriptedImporter:
       data:
         id:
           id: c1565011-efdf-45ea-9f3f-e16c4b08ddc5
-        position: {x: 1042.5, y: 21}
+        position: {x: 1043, y: 21}
         data:
           rid: 8097509545594847251
     - rid: 8097509545594847251

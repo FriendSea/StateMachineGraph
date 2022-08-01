@@ -33,8 +33,6 @@ namespace FriendSea
 			var main = ScriptableObject.CreateInstance<StateMachineAsset>();
 			ctx.AddObjectToAsset("main", main);
 			ctx.SetMainObject(main);
-			var mainEditor = Editor.CreateEditor(main);
-
 
 			var assets = new Dictionary<string, Editor>();
 			string entryId = null, fallbackId = null;
@@ -66,23 +64,24 @@ namespace FriendSea
 
 			// construct edges
 
-			mainEditor.serializedObject.Update();
-
-			foreach (var edge in data.elements.Where(e => e is GraphViewData.Edge).Select(e => e as GraphViewData.Edge))
-			{
-				if (edge.outputNode.id == entryId)
+			main.entryState =
+				new StateMachineState.Transition()
 				{
-					mainEditor.serializedObject.FindProperty("entryState").objectReferenceValue = assets[edge.inputNode.id].target;
-					continue;
-				}
-				if (edge.outputNode.id == fallbackId)
+					condition = new ImmediateTransition(),
+					targets =
+					GetConnectedNodes(entryId)
+					.OrderBy(n => n.position.y)
+					.Select(n => GenerateTransition(n, assets)).ToArray(),
+				};
+			main.fallbackState =
+				new StateMachineState.Transition()
 				{
-					mainEditor.serializedObject.FindProperty("fallbackState").objectReferenceValue = assets[edge.inputNode.id].target;
-					continue;
-				}
-			}
-
-			mainEditor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+					condition = new ImmediateTransition(),
+					targets =
+					GetConnectedNodes(fallbackId)
+					.OrderBy(n => n.position.y)
+					.Select(n => GenerateTransition(n, assets)).ToArray(),
+				};
 
 			foreach (var pair in assets)
 			{

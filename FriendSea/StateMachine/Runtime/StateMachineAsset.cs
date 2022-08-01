@@ -6,12 +6,13 @@ namespace FriendSea
 {
 	public class StateMachineAsset : ScriptableObject
 	{
-		[SerializeReference]
-		StateMachineNodeAsset entryState;
-		[SerializeReference]
-		StateMachineNodeAsset fallbackState;
+		[SerializeField]
+		internal StateMachineState.Transition entryState;
+		[SerializeField]
+		internal StateMachineState.Transition fallbackState;
 
-		public IStateMachineState<CachedComponents> EntryState => (entryState == null) ? fallbackState : entryState;
-		public IStateMachineState<CachedComponents> FallbackState => fallbackState;
+		public IStateReference<CachedComponents> EntryState => (entryState.GetState(null, 0).state != null) ?
+			entryState : fallbackState;
+		public IStateReference<CachedComponents> FallbackState => fallbackState;
 	}
 }

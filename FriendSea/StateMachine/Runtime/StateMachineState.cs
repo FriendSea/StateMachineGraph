@@ -18,10 +18,7 @@ namespace FriendSea
 			void OnExit(CachedComponents obj, int frameCount);
 		}
 
-		public interface IStateReference
-		{
-			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount);
-		}
+		public interface IStateReference : IStateReference<CachedComponents> { }
 
 		public struct StateReference : IStateReference
 		{

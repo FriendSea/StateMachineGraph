@@ -94,6 +94,8 @@ namespace FriendSea
 		public override Type TargetType => typeof(StateMachineTransitionNode);
 		public override void Initialize(GraphNode node)
 		{
+			node.title = "Transition";
+			node.style.width = 150f;
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = Color.green / 2f;
 		}
