@@ -33,27 +33,26 @@ namespace FriendSea
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			position.y -= EditorGUIUtility.singleLineHeight;
-			position.x -= 30f;
-			position.width += 30f;
-			var listProp = property.FindPropertyRelative("transitions");
+			position.x -= 10f;
+			position.width += 10f;
+			var listProp = property.FindPropertyRelative("transition");
 			listProp.isExpanded = true;
 			EditorGUI.PropertyField(position, listProp, null, true);
 		}
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			var listProp = property.FindPropertyRelative("transitions");
+			var listProp = property.FindPropertyRelative("transition");
 			listProp.isExpanded = true;
-			return EditorGUI.GetPropertyHeight(listProp, null, true) - EditorGUIUtility.singleLineHeight;
+			return EditorGUI.GetPropertyHeight(listProp, null, true);
 		}
 	}
 
 	[CustomPropertyDrawer(typeof(StateMachineState.IBehaviour), true)]
 	class StateBehaviourDrawer : SubclassDrawerDrawer<StateMachineState.IBehaviour> { }
 
-	[CustomPropertyDrawer(typeof(StateMachineState.ITransition), true)]
-	class StateTransitionDrawer : SubclassDrawerDrawer<StateMachineState.ITransition> { }
+	[CustomPropertyDrawer(typeof(StateMachineState.Transition.ICondition), true)]
+	class StateTransitionDrawer : SubclassDrawerDrawer<StateMachineState.Transition.ICondition> { }
 
 	class SubclassDrawerDrawer<T> : PropertyDrawer
 	{

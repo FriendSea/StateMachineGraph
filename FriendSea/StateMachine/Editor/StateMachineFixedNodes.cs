@@ -22,10 +22,10 @@ namespace FriendSea
 			node.capabilities ^= Capabilities.Deletable | Capabilities.Copiable;
 			node.mainContainer.style.backgroundColor = Color.blue;
 			node.title = "Entry";
-			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(object));
+			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outp.userData = "transitions";
-			outp.portType = typeof(StateMachineStateNode);
-			outp.portColor = new Color(1, 0.5f, 0);
+			outp.portType = typeof(StateMachineState.IStateReference);
+			outp.portColor = Color.white;
 			outp.portName = "";
 			node.outputContainer.Add(outp);
 
@@ -42,10 +42,10 @@ namespace FriendSea
 			node.capabilities ^= Capabilities.Deletable | Capabilities.Copiable;
 			node.mainContainer.style.backgroundColor = Color.red;
 			node.title = "Fallback";
-			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(object));
+			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outp.userData = "transitions";
-			outp.portType = typeof(StateMachineStateNode);
-			outp.portColor = new Color(1, 0.5f, 0);
+			outp.portType = typeof(StateMachineState.IStateReference);
+			outp.portColor = Color.white;
 			outp.portName = "";
 			node.outputContainer.Add(outp);
 

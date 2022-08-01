@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace FriendSea {
 	public class StateMachine<T> where T : class

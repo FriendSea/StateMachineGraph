@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace FriendSea
 {
+	public class ImmediateTransition : StateMachineState.Transition.ICondition
+	{
+		public bool IsValid(CachedComponents obj, int frameCount) => true;
+	}
+
 	[System.Serializable]
 	public sealed class StateMachineState : IStateMachineState<CachedComponents>
 	{
@@ -13,39 +18,62 @@ namespace FriendSea
 			void OnExit(CachedComponents obj, int frameCount);
 		}
 
-		public interface ITransition
+		public interface IStateReference
 		{
-			bool ShouldTransition(CachedComponents obj, int frameCount);
+			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount);
+		}
+
+		public struct StateReference : IStateReference
+		{
+			[SerializeField]
+			internal StateMachineNodeAsset nodeAsset;
+
+			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => (nodeAsset, true);
 		}
 
 		[SerializeReference]
 		internal IBehaviour[] behaviours = null;
 
 		[System.Serializable]
-		internal struct Transition
+		internal struct Transition : IStateReference
 		{
-			[SerializeField]
-			public StateMachineNodeAsset target;
-			[SerializeReference]
-			public ITransition[] conditions;
-
-			public bool ShouldTransition(CachedComponents obj, int frameCount)
+			public interface ICondition
 			{
-				foreach(var t in conditions)
-					if (!t.ShouldTransition(obj, frameCount)) return false;
-				return true;
+				bool IsValid(CachedComponents obj, int frameCount);
+			}
+
+			[SerializeReference]
+			public ICondition condition;
+			[SerializeReference]
+			public IStateReference[] targets;
+
+			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
+			{
+				// 条件にマッチしてない。遷移しない。
+				if (!condition.IsValid(obj, frameCount)) return (null, false);
+				// マッチしたが遷移先がない、nullに遷移
+				if (targets.Length <= 0) return (null, true);
+
+				// 接続先の最初の有効なものに遷移
+				foreach(var target in targets)
+				{
+					var result = target.GetState(obj, frameCount);
+					if (result.isValid) return (result.state, true);
+				}
+				// 何も有効じゃなかった。遷移しない。
+				return (null, false);
 			}
 		}
 
 		[SerializeField]
-		internal Transition[] transitions;
+		internal Transition transition;
 
 		public IStateMachineState<CachedComponents> NextState(CachedComponents obj, int frameCount)
 		{
-			foreach (var t in transitions)
-				if (t.ShouldTransition(obj, frameCount))
-					return t.target;
-			return this;
+			var result = transition.GetState(obj, frameCount);
+			return result.isValid ?
+				result.state :
+				this;
 		}
 
 		public void OnExit(CachedComponents obj, int frameCount) {

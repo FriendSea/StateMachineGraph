@@ -24,25 +24,26 @@ namespace FriendSea
 	public class StateMachineTransitionNode : IStateMachineNode
 	{
 		[SerializeReference]
-		internal StateMachineState.ITransition[] transitions;
+		internal StateMachineState.Transition.ICondition transition;
 	}
 
 	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
 	{
 		public abstract Type TargetType { get; }
-		public void Initialize(GraphNode node, System.Type selfType, System.Type targetType)
+		public void InitializeInternal(GraphNode node)
 		{
 			var nodeTypes = new Dictionary<System.Type, Color> {
 					{ typeof(StateMachineStateNode), new Color(1, 0.5f, 0) },
 					{ typeof(StateMachineTransitionNode), Color.green },
+					{ typeof(StateMachineState.IStateReference), Color.white },
 				};
 
 			// add output port
 
-			var outport = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, (targetType == typeof(StateMachineStateNode)) ? Port.Capacity.Single : Port.Capacity.Multi, typeof(object));
-			outport.userData = "transitions";
-			outport.portType = targetType;
-			outport.portColor = nodeTypes[targetType];
+			var outport = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
+			outport.userData = "transition";
+			outport.portType = typeof(StateMachineState.IStateReference);
+			outport.portColor = Color.white;
 			outport.portName = "";
 			node.outputContainer.Add(outport);
 
@@ -50,8 +51,8 @@ namespace FriendSea
 
 			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
 			inport.userData = "enter";
-			inport.portType = selfType;
-			inport.portColor = nodeTypes[selfType];
+			inport.portType = typeof(StateMachineState.IStateReference);
+			inport.portColor = Color.white;
 			inport.portName = "";
 			node.inputContainer.Add(inport);
 
@@ -72,7 +73,6 @@ namespace FriendSea
 			node.RefreshExpandedState();
 
 			node.topContainer.Insert(1, node.titleContainer);
-			node.mainContainer.style.backgroundColor = nodeTypes[selfType] / 2f;
 		}
 
 		public abstract void Initialize(GraphNode node);
@@ -84,14 +84,18 @@ namespace FriendSea
 		public override void Initialize(GraphNode node)
 		{
 			node.SetupRenamableTitle("data.name");
-			Initialize(node, typeof(StateMachineStateNode), typeof(StateMachineTransitionNode));
+			InitializeInternal(node);
+			node.mainContainer.style.backgroundColor = new Color(1, 0.5f, 0) / 2f;
 		}
 	}
 
 	public class StateMachineTransitionNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(StateMachineTransitionNode);
-		public override void Initialize(GraphNode node) =>
-			Initialize(node, typeof(StateMachineTransitionNode), typeof(StateMachineStateNode));
+		public override void Initialize(GraphNode node)
+		{
+			InitializeInternal(node);
+			node.mainContainer.style.backgroundColor = Color.green / 2f;
+		}
 	}
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace FriendSea
 {
-	public class FrameTransition : StateMachineState.ITransition
+	public class FrameTransition : StateMachineState.Transition.ICondition
 	{
 		[SerializeField]
 		int length;
 
-		public bool ShouldTransition(CachedComponents obj, int frameCount) => frameCount >= length;
+		public bool IsValid(CachedComponents obj, int frameCount) => frameCount >= length;
 	}
 }

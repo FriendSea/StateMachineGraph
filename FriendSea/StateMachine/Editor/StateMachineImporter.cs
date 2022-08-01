@@ -86,21 +86,32 @@ namespace FriendSea
 
 			foreach (var pair in assets)
 			{
-				var targets = GetConnectedNodes(pair.Key)
-					.OrderBy(n => n.position.y)
-					.Select(n =>
+				(pair.Value.target as StateMachineNodeAsset).data.transition =
+					new StateMachineState.Transition()
 					{
-						var id = GetConnectedNodes(n.id.id).FirstOrDefault()?.id.id ?? string.Empty;
-						return new StateMachineState.Transition()
-						{
-							conditions = (n.data as StateMachineTransitionNode).transitions,
-							target = assets.ContainsKey(id) ?
-								assets[id].target as StateMachineNodeAsset :
-								null
-						};
-					});
-				(pair.Value.target as StateMachineNodeAsset).data.transitions = targets.ToArray();
+						condition = new ImmediateTransition(),
+						targets =
+							GetConnectedNodes(pair.Key)
+							.OrderBy(n => n.position.y)
+							.Select(n => GenerateTransition(n, assets)).ToArray(),
+					};
 			}
+		}
+
+		StateMachineState.IStateReference GenerateTransition(GraphViewData.Node node, Dictionary<string, Editor> id2asset)
+		{
+			if (node.data is StateMachineStateNode)
+				return new StateMachineState.StateReference() {
+					nodeAsset = id2asset[node.id.id].target as StateMachineNodeAsset,
+				};
+			return
+				new StateMachineState.Transition() {
+					condition = (node.data as StateMachineTransitionNode).transition,
+					targets =
+						GetConnectedNodes(node.id.id)
+						.OrderBy(n => n.position.y)
+						.Select(n => GenerateTransition(n, id2asset)).ToArray(),
+				};
 		}
 
 		IEnumerable<GraphViewData.Edge> GetConnectedEdges(string nodeId) =>
