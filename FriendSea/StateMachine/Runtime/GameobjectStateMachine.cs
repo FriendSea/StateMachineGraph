@@ -10,6 +10,7 @@ namespace FriendSea
         [SerializeField]
         StateMachineAsset asset;
 
+		public StateMachine<CachedComponents> StateMachine => stateMachine;
         StateMachine<CachedComponents> stateMachine = null;
 
 		private void Awake()
@@ -22,7 +23,7 @@ namespace FriendSea
 			stateMachine.Update();
 		}
 
-		public void ForceState(StateMachineState state)
+		public void ForceState(StateMachineNodeAsset state)
 		{
 			stateMachine.ForceState(state);
 		}

@@ -4,14 +4,6 @@ using System.Collections.Generic;
 namespace FriendSea {
 	public class StateMachine<T> where T : class
 	{
-		class StateReference : IStateReference<T>
-		{
-			IStateMachineState<T> target;
-			public StateReference(IStateMachineState<T> state) => target = state;
-
-			public (IStateMachineState<T> state, bool isValid) GetState(T obj, int frameCount) => (target, true);
-		}
-
 		public IStateMachineState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
 		T target;
@@ -23,8 +15,6 @@ namespace FriendSea {
 			this.target = target;
 		}
 
-		public StateMachine(IStateMachineState<T> entryState, IStateMachineState<T> fallbackState, T target) : this(new StateReference(entryState), new StateReference(fallbackState), target) { }
-
 		int frameCount = 0;
 		public void Update()
 		{
@@ -34,6 +24,7 @@ namespace FriendSea {
 				CurrentState.OnExit(target, frameCount);
 				frameCount = 0;
 				CurrentState = newstate ?? FallbackState.GetState(target, frameCount).state;
+				CurrentState.OnEnter(target, frameCount);
 			}
 			CurrentState.OnUpdate(target, frameCount);
 			frameCount++;
@@ -44,12 +35,17 @@ namespace FriendSea {
 			CurrentState.OnExit(target, frameCount);
 			CurrentState = state ?? FallbackState.GetState(target, frameCount).state;
 			frameCount = 0;
+			CurrentState.OnEnter(target, frameCount);
 		}
+
+		public void ForceState(IStateReference<T> state) =>
+			ForceState(state.GetState(target, frameCount).state);
 	}
 
 	public interface IStateMachineState<T> where T : class
 	{
 		IStateMachineState<T> NextState(T obj, int frameCount);
+		void OnEnter(T obj, int frameCount);
 		void OnUpdate(T obj, int frameCount);
 		void OnExit(T obj, int frameCount);
 	}

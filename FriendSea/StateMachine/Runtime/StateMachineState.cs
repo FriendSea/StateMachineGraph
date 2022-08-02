@@ -14,6 +14,7 @@ namespace FriendSea
 	{
 		public interface IBehaviour
 		{
+			void OnEnter(CachedComponents obj, int frameCount);
 			void OnUpdate(CachedComponents obj, int frameCount);
 			void OnExit(CachedComponents obj, int frameCount);
 		}
@@ -25,7 +26,7 @@ namespace FriendSea
 			[SerializeField]
 			internal StateMachineNodeAsset nodeAsset;
 
-			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => (nodeAsset, true);
+			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => nodeAsset.GetState(obj, frameCount);
 		}
 
 		[SerializeReference]
@@ -71,6 +72,12 @@ namespace FriendSea
 			return result.isValid ?
 				result.state :
 				this;
+		}
+
+		public void OnEnter(CachedComponents obj, int frameCount)
+		{
+			foreach (var b in behaviours)
+				b.OnEnter(obj, frameCount);
 		}
 
 		public void OnExit(CachedComponents obj, int frameCount) {
