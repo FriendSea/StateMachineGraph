@@ -13,6 +13,8 @@ namespace FriendSea {
 			CurrentState = entryState.GetState(null, 0).state ?? fallbackState.GetState(null, 0).state;
 			FallbackState = fallbackState;
 			this.target = target;
+
+			CurrentState.OnEnter(target, 0);
 		}
 
 		int frameCount = 0;
