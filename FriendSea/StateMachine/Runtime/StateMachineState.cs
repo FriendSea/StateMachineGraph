@@ -33,7 +33,7 @@ namespace FriendSea
 		internal IBehaviour[] behaviours = null;
 
 		[System.Serializable]
-		internal struct Transition : IStateReference
+		public struct Transition : IStateReference
 		{
 			public interface ICondition
 			{
