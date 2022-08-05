@@ -18,29 +18,13 @@ namespace FriendSea
 			// create asset
 
 			var main = ScriptableObject.CreateInstance<StateMachineAsset>();
-			ctx.AddObjectToAsset("main", main);
-			ctx.SetMainObject(main);
+
+			var entryId = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is StateMachineEntryNode).id.id;
+			var fallbackId = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is StateMachineFallbackNode).id.id;
 
 			var assets = new Dictionary<string, Editor>();
-			string entryId = null, fallbackId = null;
-			foreach (var node in data.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node))
+			foreach (var node in data.GetElements<GraphViewData.Node>().Where(n => n.data is StateMachineStateNode))
 			{
-				if (node.data is StateMachineEntryNode)
-				{
-					entryId = node.id.id;
-					continue;
-				}
-				if (node.data is StateMachineFallbackNode)
-				{
-					fallbackId = node.id.id;
-					continue;
-				}
-
-				if (node.data is StateMachineTransitionNode)
-				{
-					continue;
-				}
-
 				var state = ScriptableObject.CreateInstance<StateMachineNodeAsset>();
 				state.name = (node.data as StateMachineStateNode).name;
 				ctx.AddObjectToAsset(node.id.id, state);
@@ -82,6 +66,16 @@ namespace FriendSea
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 					};
 			}
+
+			ctx.AddObjectToAsset("main", main);
+			ctx.SetMainObject(main);
+			var deps = EditorUtility.CollectDependencies(new Object[] { main });
+			foreach (var dep in deps)
+			{
+				var path = AssetDatabase.GetAssetPath(dep);
+				if (string.IsNullOrEmpty(path)) continue;
+				ctx.DependsOnSourceAsset(path);
+			}
 		}
 
 		StateMachineState.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, Editor> id2asset)
@@ -90,6 +84,10 @@ namespace FriendSea
 				return new StateMachineState.StateReference() {
 					nodeAsset = id2asset[node.id.id].target as StateMachineNodeAsset,
 				};
+
+			if (node.data is StateMachineReferenceNode)
+				return (node.data as StateMachineReferenceNode).asset?.entryState;
+
 			return
 				new StateMachineState.Transition() {
 					condition = (node.data as StateMachineTransitionNode).transition,
@@ -109,7 +107,7 @@ namespace FriendSea
 		IEnumerable<GraphViewData.Node> GetConnectedNodes(GraphViewData data, string nodeId) =>
 			GetConnectedEdges(data, nodeId).Select(e => GetConnectedNode(data, e));
 
-		[MenuItem("Assets/Create/❏➡❏ fStateMachine Asset")]
+		[MenuItem("Assets/Create/🔶➡🔶 fStateMachine Asset")]
 		static void CreateFile()
 		{
 			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", JsonUtility.ToJson(new GraphViewData() {
