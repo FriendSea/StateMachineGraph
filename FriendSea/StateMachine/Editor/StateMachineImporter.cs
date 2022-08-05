@@ -11,22 +11,9 @@ namespace FriendSea
 	[ScriptedImporter(0, "friendseastatemachine")]
 	public class StateMachineImporter : ScriptedImporter
 	{
-		[SerializeField]
-		internal GraphViewData data = new GraphViewData();
-
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
-			// initialize when created
-
-			if (data.elements.Count() <= 0)
-			{
-				data.elements = new List<GraphViewData.ElementData> {
-					new GraphViewData.Node() { id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new StateMachineEntryNode() },
-					new GraphViewData.Node() { id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new StateMachineFallbackNode() },
-				};
-			}
-
-			EditorUtility.SetDirty(this);
+			var data = JsonUtility.FromJson<GraphViewData>(File.ReadAllText(assetPath));
 
 			// create asset
 
@@ -69,18 +56,18 @@ namespace FriendSea
 				{
 					condition = new ImmediateTransition(),
 					targets =
-					GetConnectedNodes(entryId)
+					GetConnectedNodes(data, entryId)
 					.OrderBy(n => n.position.y)
-					.Select(n => GenerateTransition(n, assets)).ToArray(),
+					.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
 			main.fallbackState =
 				new StateMachineState.Transition()
 				{
 					condition = new ImmediateTransition(),
 					targets =
-					GetConnectedNodes(fallbackId)
+					GetConnectedNodes(data, fallbackId)
 					.OrderBy(n => n.position.y)
-					.Select(n => GenerateTransition(n, assets)).ToArray(),
+					.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
 
 			foreach (var pair in assets)
@@ -90,14 +77,14 @@ namespace FriendSea
 					{
 						condition = new ImmediateTransition(),
 						targets =
-							GetConnectedNodes(pair.Key)
+							GetConnectedNodes(data, pair.Key)
 							.OrderBy(n => n.position.y)
-							.Select(n => GenerateTransition(n, assets)).ToArray(),
+							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 					};
 			}
 		}
 
-		StateMachineState.IStateReference GenerateTransition(GraphViewData.Node node, Dictionary<string, Editor> id2asset)
+		StateMachineState.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, Editor> id2asset)
 		{
 			if (node.data is StateMachineStateNode)
 				return new StateMachineState.StateReference() {
@@ -107,25 +94,31 @@ namespace FriendSea
 				new StateMachineState.Transition() {
 					condition = (node.data as StateMachineTransitionNode).transition,
 					targets =
-						GetConnectedNodes(node.id.id)
+						GetConnectedNodes(data, node.id.id)
 						.OrderBy(n => n.position.y)
-						.Select(n => GenerateTransition(n, id2asset)).ToArray(),
+						.Select(n => GenerateTransition(data, n, id2asset)).ToArray(),
 				};
 		}
 
-		IEnumerable<GraphViewData.Edge> GetConnectedEdges(string nodeId) =>
+		IEnumerable<GraphViewData.Edge> GetConnectedEdges(GraphViewData data, string nodeId) =>
 			data.elements.Where(e => e is GraphViewData.Edge).Select(e => e as GraphViewData.Edge).Where(e => e.outputNode.id == nodeId);
 
-		GraphViewData.Node GetConnectedNode(GraphViewData.Edge edge) =>
+		GraphViewData.Node GetConnectedNode(GraphViewData data, GraphViewData.Edge edge) =>
 			data.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node).Where(n => n.id.id == edge.inputNode.id).FirstOrDefault();
 
-		IEnumerable<GraphViewData.Node> GetConnectedNodes(string nodeId) =>
-			GetConnectedEdges(nodeId).Select(e => GetConnectedNode(e));
+		IEnumerable<GraphViewData.Node> GetConnectedNodes(GraphViewData data, string nodeId) =>
+			GetConnectedEdges(data, nodeId).Select(e => GetConnectedNode(data, e));
 
 		[MenuItem("Assets/Create/❏➡❏ fStateMachine Asset")]
 		static void CreateFile()
 		{
-			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", "");
+			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", JsonUtility.ToJson(new GraphViewData() {
+				elements = new List<GraphViewData.ElementData>()
+				{
+					new GraphViewData.Node(){id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new StateMachineEntryNode()},
+					new GraphViewData.Node(){id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new StateMachineFallbackNode(), position = new Vector2(0, 100)},
+				}
+			}));
 			AssetDatabase.Refresh();
 		}
 	}

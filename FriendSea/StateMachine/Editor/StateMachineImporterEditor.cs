@@ -11,7 +11,7 @@ namespace FriendSea
 		public override void OnInspectorGUI()
 		{
 			if (GUILayout.Button("Open Graph Editor"))
-				StateMachineGraphWindow.Open(target as StateMachineImporter);
+				StateMachineGraphWindow.Open((target as StateMachineImporter).assetPath);
 			using (new EditorGUI.DisabledGroupScope(true))
 				base.OnInspectorGUI();
 		}
@@ -21,7 +21,7 @@ namespace FriendSea
 		{
 			var target = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID))) as StateMachineImporter;
 			if (target == null) return false;
-			StateMachineGraphWindow.Open(target);
+			StateMachineGraphWindow.Open(target.assetPath);
 			return true;
 		}
 	}

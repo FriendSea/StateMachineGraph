@@ -11,32 +11,38 @@ namespace FriendSea
 {
 	public class StateMachineGraphWindow : EditorWindow
 	{
-		public static void Open(StateMachineImporter importer)
+		public static void Open(string assetPath)
 		{
-			GetWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow))).LoadAsset(importer);
+			GetWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow))).LoadAsset(assetPath);
 		}
 
 		[SerializeField]
-		StateMachineImporter target;
+		GraphViewData data;
+		[SerializeField]
+		string path;
 
-		void LoadAsset(StateMachineImporter importer)
+		void LoadAsset(string assetPath)
 		{
-			target = importer;
+			path = assetPath;
+			data = JsonUtility.FromJson<GraphViewData>(File.ReadAllText(assetPath));
 
-			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(importer.assetPath) + " (StateMachine)");
+			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(assetPath) + " (StateMachine)");
 
 			RefleshGraphView();
 		}
 
 		void RefleshGraphView()
 		{
-			if (target == null) return;
+			if (data == null) return;
 
 			rootVisualElement.Clear();
-			var graphView = new SerializableGraphView(this, new SerializedObject(target).FindProperty("data"), typeof(IStateMachineNode));
+			var graphView = new SerializableGraphView(this, new SerializedObject(this).FindProperty("data"), typeof(IStateMachineNode));
 
 			rootVisualElement.Add(graphView);
-			rootVisualElement.Add(new Button(target.SaveAndReimport) { text = "Apply" });
+			rootVisualElement.Add(new Button(()=> {
+				File.WriteAllText(path, JsonUtility.ToJson(data));
+				AssetDatabase.Refresh();
+			}) { text = "Save" });
 		}
 
 		private void OnEnable()
