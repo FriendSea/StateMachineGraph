@@ -14,11 +14,25 @@ namespace FriendSea
         public static List<Type> GetSubClasses(Type type)
 		{
             if (!subClassLists.ContainsKey(type))
-                subClassLists[type] = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assem => assem.GetTypes())
+                subClassLists[type] = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assem => TryGetTypes(assem))
                     .Where(t => type.IsAssignableFrom(t) && (t != type))
                     .Where(t => !t.IsInterface && !t.IsAbstract).ToList();
             return subClassLists[type];
 		}
+
+        static Type[] TryGetTypes(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (Exception e)
+            {
+                if (e is ReflectionTypeLoadException)
+                    return new Type[0];
+                throw e;
+            }
+        }
 
         /*
         static Dictionary<string, Type> classList = new Dictionary<string, Type>();
@@ -44,7 +58,7 @@ namespace FriendSea
         }
         */
 
-		public struct WrapEnumerable<T> : IEnumerable<T>
+        public struct WrapEnumerable<T> : IEnumerable<T>
 		{
             IEnumerator<T> enumerator;
 
