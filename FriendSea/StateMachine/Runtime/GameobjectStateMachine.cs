@@ -7,6 +7,8 @@ namespace FriendSea
 	[RequireComponent(typeof(CachedComponents))]
     public class GameobjectStateMachine : MonoBehaviour
     {
+		public bool Paused { get; set; } = false;
+
         [SerializeField]
         StateMachineAsset asset;
 
@@ -20,6 +22,7 @@ namespace FriendSea
 
 		void FixedUpdate()
 		{
+			if (Paused) return;
 			stateMachine.Update();
 		}
 

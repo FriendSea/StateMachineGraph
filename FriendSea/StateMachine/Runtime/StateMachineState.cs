@@ -9,8 +9,10 @@ namespace FriendSea
 		public bool IsValid(CachedComponents obj, int frameCount) => true;
 	}
 
+	public interface IGameObjectStateMachineState : IStateMachineState<CachedComponents> { }
+
 	[System.Serializable]
-	public sealed class StateMachineState : IStateMachineState<CachedComponents>
+	public class StateMachineState : IGameObjectStateMachineState
 	{
 		public interface IBehaviour
 		{
