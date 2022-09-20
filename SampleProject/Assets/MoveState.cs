@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FriendSea;
+using FriendSea.StateMachine;
 
-public class MoveBehaviour : StateMachineState.IBehaviour
+public class MoveBehaviour : State.IBehaviour
 {
 	[SerializeField]
 	Vector3 velocity;

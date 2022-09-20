@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
 	[RequireComponent(typeof(CachedComponents))]
     public class GameobjectStateMachine : MonoBehaviour
@@ -26,7 +26,7 @@ namespace FriendSea
 			stateMachine.Update();
 		}
 
-		public void ForceState(StateMachineNodeAsset state)
+		public void ForceState(NodeAsset state)
 		{
 			stateMachine.ForceState(state);
 		}

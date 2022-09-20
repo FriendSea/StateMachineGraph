@@ -6,25 +6,25 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
 	public interface IStateMachineNode {
 	}
 
 	[System.Serializable]
-	public class StateMachineStateNode : IStateMachineNode
+	public class StateNode : IStateMachineNode
 	{
 		[SerializeField, HideInInspector]
 		internal string name;
 		[SerializeReference]
-		internal StateMachineState.IBehaviour[] behaviours;
+		internal State.IBehaviour[] behaviours;
 	}
 
 	[System.Serializable]
-	public class StateMachineTransitionNode : IStateMachineNode
+	public class TransitionNode : IStateMachineNode
 	{
 		[SerializeReference]
-		internal StateMachineState.Transition.ICondition transition;
+		internal State.Transition.ICondition transition;
 	}
 
 	[System.Serializable]
@@ -35,7 +35,7 @@ namespace FriendSea
 	}
 
 	[System.Serializable]
-	public class StateMachineComponentTransitionNode : IStateMachineNode
+	public class ComponentTransitionNode : IStateMachineNode
 	{
 		[SerializeField]
 		internal StateMachineAsset asset;
@@ -47,16 +47,16 @@ namespace FriendSea
 		public void InitializeInternal(GraphNode node)
 		{
 			var nodeTypes = new Dictionary<System.Type, Color> {
-					{ typeof(StateMachineStateNode), new Color(1, 0.5f, 0) },
-					{ typeof(StateMachineTransitionNode), Color.green },
-					{ typeof(StateMachineState.IStateReference), Color.white },
+					{ typeof(StateNode), new Color(1, 0.5f, 0) },
+					{ typeof(TransitionNode), Color.green },
+					{ typeof(State.IStateReference), Color.white },
 				};
 
 			// add output port
 
 			var outport = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outport.userData = "transition";
-			outport.portType = typeof(StateMachineState.IStateReference);
+			outport.portType = typeof(State.IStateReference);
 			outport.portColor = Color.white;
 			outport.portName = "";
 			node.outputContainer.Add(outport);
@@ -65,7 +65,7 @@ namespace FriendSea
 
 			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
 			inport.userData = "enter";
-			inport.portType = typeof(StateMachineState.IStateReference);
+			inport.portType = typeof(State.IStateReference);
 			inport.portColor = Color.white;
 			inport.portName = "";
 			node.inputContainer.Add(inport);
@@ -92,9 +92,9 @@ namespace FriendSea
 		public abstract void Initialize(GraphNode node);
 	}
 
-	public class StateMachineStateNodeInitializer : StateMachineNodeInitializerBase
+	public class StateNodeInitializer : StateMachineNodeInitializerBase
 	{
-		public override Type TargetType => typeof(StateMachineStateNode);
+		public override Type TargetType => typeof(StateNode);
 		public override void Initialize(GraphNode node)
 		{
 			node.SetupRenamableTitle("data.name");
@@ -103,9 +103,9 @@ namespace FriendSea
 		}
 	}
 
-	public class StateMachineTransitionNodeInitializer : StateMachineNodeInitializerBase
+	public class TransitionNodeInitializer : StateMachineNodeInitializerBase
 	{
-		public override Type TargetType => typeof(StateMachineTransitionNode);
+		public override Type TargetType => typeof(TransitionNode);
 		public override void Initialize(GraphNode node)
 		{
 			node.title = "Transition";
@@ -126,7 +126,7 @@ namespace FriendSea
 
 			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
 			inport.userData = "enter";
-			inport.portType = typeof(StateMachineState.IStateReference);
+			inport.portType = typeof(State.IStateReference);
 			inport.portColor = Color.white;
 			inport.portName = "";
 			node.inputContainer.Add(inport);
@@ -153,9 +153,9 @@ namespace FriendSea
 		}
 	}
 
-	public class StateMachineComponentTransitionNodeInitializer : GraphNode.IInitializer
+	public class ComponentTransitionNodeInitializer : GraphNode.IInitializer
 	{
-		public Type TargetType => typeof(StateMachineComponentTransitionNode);
+		public Type TargetType => typeof(ComponentTransitionNode);
 		public void Initialize(GraphNode node)
 		{
 			node.title = "Component Transition";
@@ -164,22 +164,10 @@ namespace FriendSea
 
 			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
 			inport.userData = "enter";
-			inport.portType = typeof(StateMachineState.IStateReference);
+			inport.portType = typeof(State.IStateReference);
 			inport.portColor = Color.white;
 			inport.portName = "";
 			node.inputContainer.Add(inport);
-
-			// add fields
-			/*
-			node.extensionContainer.style.overflow = Overflow.Hidden;
-			node.extensionContainer.Add(new IMGUIContainer(() =>
-			{
-				node.GetProperty().serializedObject.Update();
-				var prop = node.GetProperty().FindPropertyRelative("data").FindPropertyRelative("asset");
-				EditorGUILayout.PropertyField(prop, true);
-				node.GetProperty().serializedObject.ApplyModifiedProperties();
-			}));
-			*/
 
 			// force expanded
 			node.titleButtonContainer.Clear();

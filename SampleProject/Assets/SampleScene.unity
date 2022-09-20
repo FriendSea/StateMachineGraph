@@ -813,12 +813,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1027930647}
-        m_TargetAssemblyTypeName: FriendSea.GameobjectStateMachine, FriendSea.StateMachine
+        m_TargetAssemblyTypeName: FriendSea.StateMachine.GameobjectStateMachine,
+          FriendSea.StateMachine
         m_MethodName: ForceState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: -5846562298998493988, guid: 9c407d4c665144455baaf21dd66e8750, type: 3}
-          m_ObjectArgumentAssemblyTypeName: FriendSea.StateMachineNodeAsset, FriendSea.StateMachine
+          m_ObjectArgument: {fileID: -2417951991364577106, guid: 4da806c419d0345f3bd82882d63e3669, type: 3}
+          m_ObjectArgumentAssemblyTypeName: FriendSea.StateMachine.NodeAsset, FriendSea.StateMachine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

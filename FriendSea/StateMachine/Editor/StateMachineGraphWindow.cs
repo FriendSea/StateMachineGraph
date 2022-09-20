@@ -7,7 +7,7 @@ using System.IO;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
 	public class StateMachineGraphWindow : EditorWindow
 	{

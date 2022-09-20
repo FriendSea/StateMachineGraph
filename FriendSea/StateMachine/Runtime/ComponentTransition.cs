@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
-	public struct StateMachineComponentTransition : StateMachineState.IStateReference
+	public struct ComponentTransition : State.IStateReference
 	{
-		static List<StateMachineState.IStateReference> sharedList = new List<StateMachineState.IStateReference>();
+		static List<State.IStateReference> sharedList = new List<State.IStateReference>();
 
-		public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
+		public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
 		{
 			sharedList.Clear();
 			obj.gameObject.GetComponentsInChildren(sharedList);

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
-	public class FrameTransition : StateMachineState.Transition.ICondition
+	public class FrameTransition : State.Transition.ICondition
 	{
 		[SerializeField]
 		int length;

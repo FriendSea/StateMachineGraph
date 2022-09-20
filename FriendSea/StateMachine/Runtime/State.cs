@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
-	public class ImmediateTransition : StateMachineState.Transition.ICondition
+	public class ImmediateTransition : State.Transition.ICondition
 	{
 		public bool IsValid(CachedComponents obj, int frameCount) => true;
 	}
 
-	public interface IGameObjectStateMachineState : IStateMachineState<CachedComponents> { }
+	public interface IGameObjectState : IState<CachedComponents> { }
 
 	[System.Serializable]
-	public class StateMachineState : IGameObjectStateMachineState
+	public class State : IGameObjectState
 	{
 		public interface IBehaviour
 		{
@@ -26,9 +26,9 @@ namespace FriendSea
 		public struct StateReference : IStateReference
 		{
 			[SerializeField]
-			internal StateMachineNodeAsset nodeAsset;
+			internal NodeAsset nodeAsset;
 
-			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => nodeAsset.GetState(obj, frameCount);
+			public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => nodeAsset.GetState(obj, frameCount);
 		}
 
 		[SerializeReference]
@@ -47,7 +47,7 @@ namespace FriendSea
 			[SerializeReference]
 			public IStateReference[] targets;
 
-			public (IStateMachineState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
+			public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
 			{
 				// 条件にマッチしてない。遷移しない。
 				if (!condition.IsValid(obj, frameCount)) return (null, false);
@@ -68,7 +68,7 @@ namespace FriendSea
 		[SerializeField]
 		internal Transition transition;
 
-		public IStateMachineState<CachedComponents> NextState(CachedComponents obj, int frameCount)
+		public IState<CachedComponents> NextState(CachedComponents obj, int frameCount)
 		{
 			var result = transition.GetState(obj, frameCount);
 			return result.isValid ?

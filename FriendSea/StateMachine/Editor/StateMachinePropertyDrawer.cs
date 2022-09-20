@@ -5,9 +5,9 @@ using UnityEditor;
 using UnityEditorInternal;
 using System.Linq;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
-	[CustomPropertyDrawer(typeof(StateMachineStateNode))]
+	[CustomPropertyDrawer(typeof(StateNode))]
 	class StateDrawer : PropertyDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -28,7 +28,7 @@ namespace FriendSea
 		}
 	}
 
-	[CustomPropertyDrawer(typeof(StateMachineTransitionNode))]
+	[CustomPropertyDrawer(typeof(TransitionNode))]
 	class TransitionDrawer : PropertyDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -48,11 +48,11 @@ namespace FriendSea
 		}
 	}
 
-	[CustomPropertyDrawer(typeof(StateMachineState.IBehaviour), true)]
-	class StateBehaviourDrawer : SubclassDrawerDrawer<StateMachineState.IBehaviour> { }
+	[CustomPropertyDrawer(typeof(State.IBehaviour), true)]
+	class StateBehaviourDrawer : SubclassDrawerDrawer<State.IBehaviour> { }
 
-	[CustomPropertyDrawer(typeof(StateMachineState.Transition.ICondition), true)]
-	class StateTransitionDrawer : SubclassDrawerDrawer<StateMachineState.Transition.ICondition> { }
+	[CustomPropertyDrawer(typeof(State.Transition.ICondition), true)]
+	class StateTransitionDrawer : SubclassDrawerDrawer<State.Transition.ICondition> { }
 
 	class SubclassDrawerDrawer<T> : PropertyDrawer
 	{

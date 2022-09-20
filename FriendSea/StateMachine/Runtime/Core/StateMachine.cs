@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace FriendSea {
+namespace FriendSea.StateMachine {
 	public class StateMachine<T> where T : class
 	{
-		public IStateMachineState<T> CurrentState { get; private set; }
+		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
 		T target;
 
@@ -32,7 +32,7 @@ namespace FriendSea {
 			frameCount++;
 		}
 
-		public void ForceState(IStateMachineState<T> state)
+		public void ForceState(IState<T> state)
 		{
 			CurrentState.OnExit(target, frameCount);
 			CurrentState = state ?? FallbackState.GetState(target, frameCount).state;
@@ -44,9 +44,9 @@ namespace FriendSea {
 			ForceState(state.GetState(target, frameCount).state);
 	}
 
-	public interface IStateMachineState<T> where T : class
+	public interface IState<T> where T : class
 	{
-		IStateMachineState<T> NextState(T obj, int frameCount);
+		IState<T> NextState(T obj, int frameCount);
 		void OnEnter(T obj, int frameCount);
 		void OnUpdate(T obj, int frameCount);
 		void OnExit(T obj, int frameCount);
@@ -54,6 +54,6 @@ namespace FriendSea {
 
 	public interface IStateReference<T> where T : class
 	{
-		(IStateMachineState<T> state, bool isValid) GetState(T obj, int frameCount);
+		(IState<T> state, bool isValid) GetState(T obj, int frameCount);
 	}
 }

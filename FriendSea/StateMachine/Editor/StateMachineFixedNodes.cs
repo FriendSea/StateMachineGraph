@@ -4,18 +4,18 @@ using UnityEngine;
 using System;
 using UnityEditor.Experimental.GraphView;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
-	public class StateMachineEntryNode
+	public class EntryNode
 	{
 	}
-	public class StateMachineFallbackNode
+	public class FallbackNode
 	{
 	}
 
-	public class StateMachineEntryNodeInitializer : GraphNode.IInitializer
+	public class EntryNodeInitializer : GraphNode.IInitializer
 	{
-		public Type TargetType => typeof(StateMachineEntryNode);
+		public Type TargetType => typeof(EntryNode);
 
 		public void Initialize(GraphNode node)
 		{
@@ -24,7 +24,7 @@ namespace FriendSea
 			node.title = "Entry";
 			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outp.userData = "transitions";
-			outp.portType = typeof(StateMachineState.IStateReference);
+			outp.portType = typeof(State.IStateReference);
 			outp.portColor = Color.white;
 			outp.portName = "";
 			node.outputContainer.Add(outp);
@@ -33,9 +33,9 @@ namespace FriendSea
 		}
 	}
 
-	public class StateMachineFallbackNodeInitializer : GraphNode.IInitializer
+	public class FallbackNodeInitializer : GraphNode.IInitializer
 	{
-		public Type TargetType => typeof(StateMachineFallbackNode);
+		public Type TargetType => typeof(FallbackNode);
 
 		public void Initialize(GraphNode node)
 		{
@@ -44,7 +44,7 @@ namespace FriendSea
 			node.title = "Fallback";
 			var outp = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outp.userData = "transitions";
-			outp.portType = typeof(StateMachineState.IStateReference);
+			outp.portType = typeof(State.IStateReference);
 			outp.portColor = Color.white;
 			outp.portName = "";
 			node.outputContainer.Add(outp);

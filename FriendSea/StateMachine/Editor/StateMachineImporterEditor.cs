@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace FriendSea
+namespace FriendSea.StateMachine
 {
 	[CustomEditor(typeof(StateMachineImporter))]
 	public class StateMachineImporterEditor : Editor

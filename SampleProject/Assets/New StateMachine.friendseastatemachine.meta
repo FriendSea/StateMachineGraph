@@ -8,32 +8,3 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: d148ac8075b7c46859287bce5fc3571d, type: 3}
-  data:
-    elements:
-    - rid: 1000
-    - rid: 1001
-    viewPosition: {x: 0, y: 0, z: 0}
-    viewScale: {x: 1, y: 1, z: 1}
-  references:
-    version: 2
-    RefIds:
-    - rid: 1000
-      type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
-      data:
-        id:
-          id: ad7ceb46-3bac-44b0-a0ea-81cbba600947
-        position: {x: 0, y: 0}
-        data:
-          rid: 1002
-    - rid: 1001
-      type: {class: GraphViewData/Node, ns: FriendSea, asm: FriendSea.GraphViewSerializer.Editor}
-      data:
-        id:
-          id: 1beefd78-bafc-4faa-839a-6a6cc786631c
-        position: {x: 0, y: 0}
-        data:
-          rid: 1003
-    - rid: 1002
-      type: {class: StateMachineEntryNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
-    - rid: 1003
-      type: {class: StateMachineFallbackNode, ns: FriendSea, asm: FriendSea.StateMachine.Editor}
