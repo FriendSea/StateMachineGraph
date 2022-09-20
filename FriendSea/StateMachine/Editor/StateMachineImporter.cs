@@ -88,6 +88,9 @@ namespace FriendSea
 			if (node.data is StateMachineReferenceNode)
 				return (node.data as StateMachineReferenceNode).asset?.entryState;
 
+			if (node.data is StateMachineComponentTransitionNode)
+				return new StateMachineComponentTransition();
+
 			return
 				new StateMachineState.Transition() {
 					condition = (node.data as StateMachineTransitionNode).transition,

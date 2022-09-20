@@ -34,6 +34,13 @@ namespace FriendSea
 		internal StateMachineAsset asset;
 	}
 
+	[System.Serializable]
+	public class StateMachineComponentTransitionNode : IStateMachineNode
+	{
+		[SerializeField]
+		internal StateMachineAsset asset;
+	}
+
 	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
 	{
 		public abstract Type TargetType { get; }
@@ -134,6 +141,45 @@ namespace FriendSea
 				EditorGUILayout.PropertyField(prop, true);
 				node.GetProperty().serializedObject.ApplyModifiedProperties();
 			}));
+
+			// force expanded
+			node.titleButtonContainer.Clear();
+			node.expanded = true;
+			node.RefreshExpandedState();
+
+			node.topContainer.Insert(1, node.titleContainer);
+
+			node.mainContainer.style.backgroundColor = Color.blue / 2f;
+		}
+	}
+
+	public class StateMachineComponentTransitionNodeInitializer : GraphNode.IInitializer
+	{
+		public Type TargetType => typeof(StateMachineComponentTransitionNode);
+		public void Initialize(GraphNode node)
+		{
+			node.title = "Component Transition";
+
+			// add input port
+
+			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
+			inport.userData = "enter";
+			inport.portType = typeof(StateMachineState.IStateReference);
+			inport.portColor = Color.white;
+			inport.portName = "";
+			node.inputContainer.Add(inport);
+
+			// add fields
+			/*
+			node.extensionContainer.style.overflow = Overflow.Hidden;
+			node.extensionContainer.Add(new IMGUIContainer(() =>
+			{
+				node.GetProperty().serializedObject.Update();
+				var prop = node.GetProperty().FindPropertyRelative("data").FindPropertyRelative("asset");
+				EditorGUILayout.PropertyField(prop, true);
+				node.GetProperty().serializedObject.ApplyModifiedProperties();
+			}));
+			*/
 
 			// force expanded
 			node.titleButtonContainer.Clear();
