@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FriendSea.StateMachine {
 	public class StateMachine<T> where T : class
@@ -8,6 +9,14 @@ namespace FriendSea.StateMachine {
 		public IStateReference<T> FallbackState { get; private set; }
 		T target;
 
+		struct StatePairFrame
+		{
+			public int frameCount;
+			public IState<T> state;
+		}
+
+		List<StatePairFrame> ResidentStates = new List<StatePairFrame>();
+
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
 		{
 			CurrentState = entryState.GetState(null, 0).state ?? fallbackState.GetState(null, 0).state;
@@ -15,29 +24,53 @@ namespace FriendSea.StateMachine {
 			this.target = target;
 
 			CurrentState.OnEnter(target, 0);
+			foreach (var s in CurrentState.ResidentStates)
+				ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
 		}
 
 		int frameCount = 0;
 		public void Update()
 		{
+			// Transition
 			var newstate = CurrentState.NextState(target, frameCount);
 			if (newstate != CurrentState)
-			{
-				CurrentState.OnExit(target, frameCount);
-				frameCount = 0;
-				CurrentState = newstate ?? FallbackState.GetState(target, frameCount).state;
-				CurrentState.OnEnter(target, frameCount);
-			}
+				ForceState(newstate);
+			// Update
 			CurrentState.OnUpdate(target, frameCount);
+			foreach (var s in ResidentStates)
+				s.state.OnUpdate(target, s.frameCount);
+			// add frame count;
 			frameCount++;
+			for (int i = 0; i < ResidentStates.Count; i++)
+			{
+				var pair = ResidentStates[i];
+				pair.frameCount++;
+				ResidentStates[i] = pair;
+			}
 		}
 
 		public void ForceState(IState<T> state)
 		{
+			state = state ?? FallbackState.GetState(target, frameCount).state;
+
+			// remove resident states
 			CurrentState.OnExit(target, frameCount);
-			CurrentState = state ?? FallbackState.GetState(target, frameCount).state;
+			for(int i = ResidentStates.Count - 1; i >= 0; i--)
+			{
+				if (state.ResidentStates.Contains(ResidentStates[i].state)) continue;
+				ResidentStates[i].state.OnExit(target, ResidentStates[i].frameCount);
+				ResidentStates.RemoveAt(i);
+			}
+
+			// replace main statge
+			CurrentState = state;
 			frameCount = 0;
+
+			// add resident state
 			CurrentState.OnEnter(target, frameCount);
+			foreach (var s in state.ResidentStates)
+				if (!ResidentStates.Select(pair => pair.state).Contains(s))
+					ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
 		}
 
 		public void ForceState(IStateReference<T> state) =>
@@ -50,6 +83,7 @@ namespace FriendSea.StateMachine {
 		void OnEnter(T obj, int frameCount);
 		void OnUpdate(T obj, int frameCount);
 		void OnExit(T obj, int frameCount);
+		IEnumerable<IState<T>> ResidentStates { get; }
 	}
 
 	public interface IStateReference<T> where T : class

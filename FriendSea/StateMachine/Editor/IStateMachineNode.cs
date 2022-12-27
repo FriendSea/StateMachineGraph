@@ -28,6 +28,15 @@ namespace FriendSea.StateMachine
 	}
 
 	[System.Serializable]
+	public class ResidentStateNode : IStateMachineNode
+	{
+		[SerializeField, HideInInspector]
+		internal string name;
+		[SerializeReference]
+		internal State.IBehaviour[] behaviours;
+	}
+
+	[System.Serializable]
 	public class StateMachineReferenceNode : IStateMachineNode
 	{
 		[SerializeField]
@@ -44,34 +53,27 @@ namespace FriendSea.StateMachine
 	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
 	{
 		public abstract Type TargetType { get; }
-		public void InitializeInternal(GraphNode node)
+		public void SetupInputPort(GraphNode node)
 		{
-			var nodeTypes = new Dictionary<System.Type, Color> {
-					{ typeof(StateNode), new Color(1, 0.5f, 0) },
-					{ typeof(TransitionNode), Color.green },
-					{ typeof(State.IStateReference), Color.white },
-				};
-
-			// add output port
-
-			var outport = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
-			outport.userData = "transition";
-			outport.portType = typeof(State.IStateReference);
-			outport.portColor = Color.white;
-			outport.portName = "";
-			node.outputContainer.Add(outport);
-
-			// add input port
-
 			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
 			inport.userData = "enter";
 			inport.portType = typeof(State.IStateReference);
 			inport.portColor = Color.white;
 			inport.portName = "";
 			node.inputContainer.Add(inport);
-
+		}
+		public void SetupOutputPort(GraphNode node)
+		{
+			var outport = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
+			outport.userData = "transition";
+			outport.portType = typeof(State.IStateReference);
+			outport.portColor = Color.white;
+			outport.portName = "";
+			node.outputContainer.Add(outport);
+		}
+		public void InitializeInternal(GraphNode node)
+		{
 			// add fields
-
 			node.extensionContainer.style.overflow = Overflow.Hidden;
 			node.extensionContainer.Add(new IMGUIContainer(() =>
 			{
@@ -98,6 +100,8 @@ namespace FriendSea.StateMachine
 		public override void Initialize(GraphNode node)
 		{
 			node.SetupRenamableTitle("data.name");
+			SetupInputPort(node);
+			SetupOutputPort(node);
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = new Color(1, 0.5f, 0) / 2f;
 		}
@@ -110,8 +114,22 @@ namespace FriendSea.StateMachine
 		{
 			node.title = "Transition";
 			node.style.width = 150f;
+			SetupInputPort(node);
+			SetupOutputPort(node);
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = Color.green / 2f;
+		}
+	}
+
+	public class ResidentStateNodeInitializer : StateMachineNodeInitializerBase
+	{
+		public override Type TargetType => typeof(ResidentStateNode);
+		public override void Initialize(GraphNode node)
+		{
+			node.SetupRenamableTitle("data.name");
+			SetupOutputPort(node);
+			InitializeInternal(node);
+			node.mainContainer.style.backgroundColor = Color.yellow / 2f;
 		}
 	}
 

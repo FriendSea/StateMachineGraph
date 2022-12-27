@@ -29,7 +29,13 @@ namespace FriendSea.StateMachine
 				state.name = (node.data as StateNode).name;
 				ctx.AddObjectToAsset(node.id.id, state);
 				var editor = Editor.CreateEditor(state);
-				state.data = new State() { behaviours = (node.data as StateNode).behaviours };
+				state.data = new State() { 
+					behaviours = (node.data as StateNode).behaviours,
+					residentStates = new State.ResitentStateRefernce() { 
+						stateMachine = main,
+						guids = GetChildNodes(data, GetContainingGroup(data, node.id.id)?.id?.id).Where(e => e.data is ResidentStateNode).Select(e => e.id.id).ToArray(),
+					} 
+				};
 				assets.Add(node.id.id, editor);
 			}
 
@@ -39,20 +45,35 @@ namespace FriendSea.StateMachine
 				new State.Transition()
 				{
 					condition = new ImmediateTransition(),
-					targets =
-					GetConnectedNodes(data, entryId)
-					.OrderBy(n => n.position.y)
-					.Select(n => GenerateTransition(data, n, assets)).ToArray(),
+					targets = GetConnectedNodes(data, entryId)
+						.OrderBy(n => n.position.y)
+						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
 			main.fallbackState =
 				new State.Transition()
 				{
 					condition = new ImmediateTransition(),
-					targets =
-					GetConnectedNodes(data, fallbackId)
-					.OrderBy(n => n.position.y)
-					.Select(n => GenerateTransition(data, n, assets)).ToArray(),
+					targets = GetConnectedNodes(data, fallbackId)
+						.OrderBy(n => n.position.y)
+						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
+			main.residentStates = data.elements
+				.Where(e => e is GraphViewData.Node)
+				.Where(e => (e as GraphViewData.Node).data is ResidentStateNode)
+				.Select(e => e as GraphViewData.Node)
+				.Select(e => new StateMachineAsset.ResidentState() {
+					guid = e.id.id,
+					state = new State() { 
+						behaviours = (e.data as ResidentStateNode).behaviours,
+						transition = new State.Transition()
+						{
+							condition = new ImmediateTransition(),
+							targets = GetConnectedNodes(data, e.id.id)
+								.OrderBy(n => n.position.y)
+								.Select(n => GenerateTransition(data, n, assets)).ToArray(),
+						}
+					} 
+				}).ToArray();
 
 			foreach (var pair in assets)
 			{
@@ -60,8 +81,7 @@ namespace FriendSea.StateMachine
 					new State.Transition()
 					{
 						condition = new ImmediateTransition(),
-						targets =
-							GetConnectedNodes(data, pair.Key)
+						targets = GetConnectedNodes(data, pair.Key)
 							.OrderBy(n => n.position.y)
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 					};
@@ -94,8 +114,7 @@ namespace FriendSea.StateMachine
 			return
 				new State.Transition() {
 					condition = (node.data as TransitionNode).transition,
-					targets =
-						GetConnectedNodes(data, node.id.id)
+					targets = GetConnectedNodes(data, node.id.id)
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, id2asset)).ToArray(),
 				};
@@ -109,6 +128,12 @@ namespace FriendSea.StateMachine
 
 		IEnumerable<GraphViewData.Node> GetConnectedNodes(GraphViewData data, string nodeId) =>
 			GetConnectedEdges(data, nodeId).Select(e => GetConnectedNode(data, e));
+
+		GraphViewData.Group GetContainingGroup(GraphViewData data, string nodeId) =>
+			data.elements.Where(e => e is GraphViewData.Group).FirstOrDefault(e => (e as GraphViewData.Group).nodes.Select(n => n.id).Contains(nodeId)) as GraphViewData.Group;
+
+		IEnumerable<GraphViewData.Node> GetChildNodes(GraphViewData data, string groupId) =>
+			(data.elements.FirstOrDefault(e => e.id.id == groupId) as GraphViewData.Group)?.nodes?.Select(id => data.elements.FirstOrDefault(e => e.id.id == id.id) as GraphViewData.Node) ?? new List<GraphViewData.Node>();
 
 		[MenuItem("Assets/Create/🔶➡🔶 fStateMachine Asset")]
 		static void CreateFile()

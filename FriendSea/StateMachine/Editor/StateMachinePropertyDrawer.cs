@@ -8,6 +8,7 @@ using System.Linq;
 namespace FriendSea.StateMachine
 {
 	[CustomPropertyDrawer(typeof(StateNode))]
+	[CustomPropertyDrawer(typeof(ResidentStateNode))]
 	class StateDrawer : PropertyDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

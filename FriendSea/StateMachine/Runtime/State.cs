@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace FriendSea.StateMachine
 {
@@ -23,6 +24,7 @@ namespace FriendSea.StateMachine
 
 		public interface IStateReference : IStateReference<CachedComponents> { }
 
+		[System.Serializable]
 		public struct StateReference : IStateReference
 		{
 			[SerializeField]
@@ -68,6 +70,33 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal Transition transition;
 
+		[System.Serializable]
+		public struct ResitentStateRefernce : IEnumerable<IState<CachedComponents>>
+		{
+			[SerializeField]
+			internal StateMachineAsset stateMachine;
+			[SerializeField]
+			internal string[] guids;
+			[System.NonSerialized]
+			List<IState<CachedComponents>> cachedList;
+
+			public IEnumerator<IState<CachedComponents>> GetEnumerator()
+			{
+				if (cachedList == null)
+				{
+					cachedList = new List<IState<CachedComponents>>();
+					foreach (var guid in guids)
+						cachedList.Add(stateMachine.GetResidentState(guid));
+				}
+				return cachedList.GetEnumerator();
+			}
+
+			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		}
+
+		[SerializeField]
+		internal ResitentStateRefernce residentStates;
+
 		public IState<CachedComponents> NextState(CachedComponents obj, int frameCount)
 		{
 			var result = transition.GetState(obj, frameCount);
@@ -91,5 +120,7 @@ namespace FriendSea.StateMachine
 			foreach (var b in behaviours)
 				b.OnUpdate(obj, frameCount);
 		}
+
+		public IEnumerable<IState<CachedComponents>> ResidentStates => residentStates;
 	}
 }
