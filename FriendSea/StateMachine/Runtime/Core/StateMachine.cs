@@ -25,7 +25,10 @@ namespace FriendSea.StateMachine {
 
 			CurrentState.OnEnter(target, 0);
 			foreach (var s in CurrentState.ResidentStates)
+			{
 				ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
+				s.OnEnter(target, 0);
+			}
 		}
 
 		int frameCount = 0;
@@ -69,8 +72,11 @@ namespace FriendSea.StateMachine {
 			// add resident state
 			CurrentState.OnEnter(target, frameCount);
 			foreach (var s in state.ResidentStates)
-				if (!ResidentStates.Select(pair => pair.state).Contains(s))
-					ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
+			{
+				if (ResidentStates.Select(pair => pair.state).Contains(s)) continue;
+				ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
+				s.OnEnter(target, 0);
+			}
 		}
 
 		public void ForceState(IStateReference<T> state) =>
