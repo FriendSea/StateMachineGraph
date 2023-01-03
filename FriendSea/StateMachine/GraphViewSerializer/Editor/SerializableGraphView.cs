@@ -187,14 +187,15 @@ namespace FriendSea
 					.Where(data => data.CollectDependentGuids().All(id => ids.Contains(id.id)))
 					.ToList()
 				};
-				var result = JsonUtility.ToJson(obj);
+				var result = EditorJsonUtility.ToJson(obj);
 				return result;
 			};
 			canPasteSerializedData = str => !string.IsNullOrEmpty(str);
 			unserializeAndPaste = (op, str) =>
 			{
 				pasteCount++;
-				var obj = JsonUtility.FromJson<GraphViewData>(str);
+				var obj = new GraphViewData();
+				EditorJsonUtility.FromJsonOverwrite(str, obj);
 
 				foreach (var element in obj.elements.Where(e => e is GraphViewData.PositionableElementData).Select(e => e as GraphViewData.PositionableElementData))
 					element.position += Vector2.one * pasteCount * 100f;

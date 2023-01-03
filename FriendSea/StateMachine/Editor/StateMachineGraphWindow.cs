@@ -24,7 +24,8 @@ namespace FriendSea.StateMachine
 		void LoadAsset(string assetPath)
 		{
 			path = assetPath;
-			data = JsonUtility.FromJson<GraphViewData>(File.ReadAllText(assetPath));
+			data = new GraphViewData();
+			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(assetPath) + " (StateMachine)");
 
@@ -40,7 +41,7 @@ namespace FriendSea.StateMachine
 
 			rootVisualElement.Add(graphView);
 			rootVisualElement.Add(new Button(()=> {
-				File.WriteAllText(path, JsonUtility.ToJson(data));
+				File.WriteAllText(path, EditorJsonUtility.ToJson(data, true));
 				AssetDatabase.Refresh();
 			}) { text = "Save" });
 		}

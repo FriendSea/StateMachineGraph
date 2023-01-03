@@ -13,7 +13,8 @@ namespace FriendSea.StateMachine
 	{
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
-			var data = JsonUtility.FromJson<GraphViewData>(File.ReadAllText(assetPath));
+			var data = new GraphViewData();
+			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
 
 			// create asset
 
@@ -138,7 +139,7 @@ namespace FriendSea.StateMachine
 		[MenuItem("Assets/Create/🔶➡🔶 fStateMachine Asset")]
 		static void CreateFile()
 		{
-			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", JsonUtility.ToJson(new GraphViewData() {
+			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", EditorJsonUtility.ToJson(new GraphViewData() {
 				elements = new List<GraphViewData.ElementData>()
 				{
 					new GraphViewData.Node(){id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new EntryNode()},
