@@ -13,7 +13,8 @@ namespace FriendSea.StateMachine
 	{
 		public static void Open(string assetPath)
 		{
-			GetWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow))).LoadAsset(assetPath);
+			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => w.path == assetPath) ?? CreateWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow)), typeof(StateMachineGraphWindow));
+			window.LoadAsset(assetPath);
 		}
 
 		[SerializeField]
@@ -23,6 +24,7 @@ namespace FriendSea.StateMachine
 
 		void LoadAsset(string assetPath)
 		{
+			Focus();
 			path = assetPath;
 			data = new GraphViewData();
 			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
