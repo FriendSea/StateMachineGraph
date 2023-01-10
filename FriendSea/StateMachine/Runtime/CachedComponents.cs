@@ -12,5 +12,14 @@ namespace FriendSea.StateMachine
 				cache.Add(typeof(T), GetComponentInChildren<T>());
 			return cache[typeof(T)] as T;
 		}
+
+		Dictionary<object, int> values = new Dictionary<object, int>();
+		internal int GetValue(object target)
+		{
+			if (!values.ContainsKey(target))
+				values.Add(target, 0);
+			return values[target];
+		}
+		internal int SetValue(object target, int value) => values[target] = value;
 	}
 }
