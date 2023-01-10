@@ -28,6 +28,11 @@ namespace FriendSea.StateMachine
 	}
 
 	[System.Serializable]
+	public class SequenceNode : IStateMachineNode
+	{
+	}
+
+	[System.Serializable]
 	public class ResidentStateNode : IStateMachineNode
 	{
 		[SerializeField, HideInInspector]
@@ -121,6 +126,20 @@ namespace FriendSea.StateMachine
 		}
 	}
 
+	public class SequenceNodeInitializer : StateMachineNodeInitializerBase
+	{
+		public override Type TargetType => typeof(SequenceNode);
+		public override void Initialize(GraphNode node)
+		{
+			node.title = "Sequence";
+			node.style.width = 150f;
+			SetupInputPort(node);
+			SetupOutputPort(node);
+			InitializeInternal(node);
+			node.mainContainer.style.backgroundColor = Color.black / 2f;
+		}
+	}
+
 	public class ResidentStateNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(ResidentStateNode);
@@ -138,7 +157,7 @@ namespace FriendSea.StateMachine
 		public Type TargetType => typeof(StateMachineReferenceNode);
 		public void Initialize(GraphNode node)
 		{
-			node.title = "StateMachine Reference";
+			node.title = node?.GetProperty()?.FindPropertyRelative("data")?.FindPropertyRelative("asset")?.objectReferenceValue?.name ?? "StateMachine Reference";
 
 			// add input port
 
@@ -156,8 +175,12 @@ namespace FriendSea.StateMachine
 			{
 				node.GetProperty().serializedObject.Update();
 				var prop = node.GetProperty().FindPropertyRelative("data").FindPropertyRelative("asset");
+				var before = prop.objectReferenceValue;
 				EditorGUILayout.PropertyField(prop, true);
+				var changed = prop.objectReferenceValue;
 				node.GetProperty().serializedObject.ApplyModifiedProperties();
+				if (before != changed)
+					node.title = changed.name;
 			}));
 
 			// force expanded

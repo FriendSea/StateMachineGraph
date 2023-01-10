@@ -33,6 +33,31 @@ namespace FriendSea.StateMachine
 			public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => nodeAsset.GetState(obj, frameCount);
 		}
 
+		[System.Serializable]
+		public struct Sequence : IStateReference
+		{
+			[SerializeReference]
+			public IStateReference[] targets;
+			[System.NonSerialized]
+			int nextIndex;
+
+			public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
+			{
+				// 遷移先がない、nullに遷移
+				if (targets.Length <= 0) return (null, true);
+
+				var currentIndex = nextIndex;
+				nextIndex = (nextIndex + 1) % targets.Length;
+
+				// 現在のインデックスの遷移先
+				var result = targets[currentIndex].GetState(obj, frameCount);
+				if (result.isValid) 
+					return (result.state, true);
+				else
+					return (null, true);
+			}
+		}
+
 		[SerializeReference]
 		internal IBehaviour[] behaviours = null;
 

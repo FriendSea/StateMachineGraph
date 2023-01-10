@@ -47,10 +47,19 @@
         },
         {
             "rid": 1015
+        },
+        {
+            "rid": 1016
+        },
+        {
+            "rid": 1017
+        },
+        {
+            "rid": 1018
         }
     ],
     "viewPosition": {
-        "x": -204.0,
+        "x": -431.0,
         "y": 480.0,
         "z": 0.0
     },
@@ -78,7 +87,7 @@
                         "y": 0.0
                     },
                     "data": {
-                        "rid": 1016
+                        "rid": 1019
                     }
                 }
             },
@@ -98,7 +107,7 @@
                         "y": 100.0
                     },
                     "data": {
-                        "rid": 1017
+                        "rid": 1020
                     }
                 }
             },
@@ -118,7 +127,7 @@
                         "y": 19.5
                     },
                     "data": {
-                        "rid": 1018
+                        "rid": 1021
                     }
                 }
             },
@@ -180,7 +189,7 @@
                         "y": 19.5
                     },
                     "data": {
-                        "rid": 1019
+                        "rid": 1022
                     }
                 }
             },
@@ -242,7 +251,7 @@
                         "y": 19.5
                     },
                     "data": {
-                        "rid": 1020
+                        "rid": 1023
                     }
                 }
             },
@@ -262,7 +271,7 @@
                         "y": 19.5
                     },
                     "data": {
-                        "rid": 1021
+                        "rid": 1024
                     }
                 }
             },
@@ -299,37 +308,16 @@
                         "id": "5508a837-7e96-4033-aaa4-48d034575739"
                     },
                     "position": {
-                        "x": 997.5,
-                        "y": 19.5
+                        "x": 1269.0,
+                        "y": -99.0
                     },
                     "data": {
-                        "rid": 1022
+                        "rid": 1025
                     }
                 }
             },
             {
                 "rid": 1012,
-                "type": {
-                    "class": "GraphViewData/Edge",
-                    "ns": "FriendSea",
-                    "asm": "FriendSea.GraphViewSerializer.Editor"
-                },
-                "data": {
-                    "id": {
-                        "id": "a5521c74-d287-495c-9d93-630bf5cbd85f"
-                    },
-                    "outputNode": {
-                        "id": "dc5568fa-37b3-4ed4-8ec2-bcc7a2bca23b"
-                    },
-                    "outputPort": "transition",
-                    "inputNode": {
-                        "id": "5508a837-7e96-4033-aaa4-48d034575739"
-                    },
-                    "inputPort": "enter"
-                }
-            },
-            {
-                "rid": 1013,
                 "type": {
                     "class": "GraphViewData/Group",
                     "ns": "FriendSea",
@@ -360,7 +348,7 @@
                 }
             },
             {
-                "rid": 1014,
+                "rid": 1013,
                 "type": {
                     "class": "GraphViewData/Node",
                     "ns": "FriendSea",
@@ -375,7 +363,27 @@
                         "y": -220.0
                     },
                     "data": {
-                        "rid": 1023
+                        "rid": 1026
+                    }
+                }
+            },
+            {
+                "rid": 1014,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "95c47b5b-905f-467f-bd5e-fd922893a377"
+                    },
+                    "position": {
+                        "x": 1049.0,
+                        "y": 20.0
+                    },
+                    "data": {
+                        "rid": 1027
                     }
                 }
             },
@@ -388,10 +396,31 @@
                 },
                 "data": {
                     "id": {
-                        "id": "82f37842-860a-46d0-bfc5-4dce1e457364"
+                        "id": "270797f4-c073-41bb-bb47-f26c7a8eb03e"
                     },
                     "outputNode": {
-                        "id": "903d1f5c-ae83-455d-a2d8-a451b6ba1aaf"
+                        "id": "dc5568fa-37b3-4ed4-8ec2-bcc7a2bca23b"
+                    },
+                    "outputPort": "transition",
+                    "inputNode": {
+                        "id": "95c47b5b-905f-467f-bd5e-fd922893a377"
+                    },
+                    "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1016,
+                "type": {
+                    "class": "GraphViewData/Edge",
+                    "ns": "FriendSea",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "a1a8896c-4a18-48e1-8c87-064f61156c7e"
+                    },
+                    "outputNode": {
+                        "id": "95c47b5b-905f-467f-bd5e-fd922893a377"
                     },
                     "outputPort": "transition",
                     "inputNode": {
@@ -401,7 +430,48 @@
                 }
             },
             {
-                "rid": 1016,
+                "rid": 1017,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "3387c0a1-081c-4b04-a729-a3c134915574"
+                    },
+                    "position": {
+                        "x": 1269.0,
+                        "y": 52.0
+                    },
+                    "data": {
+                        "rid": 1028
+                    }
+                }
+            },
+            {
+                "rid": 1018,
+                "type": {
+                    "class": "GraphViewData/Edge",
+                    "ns": "FriendSea",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "b94e8ef1-8208-4c77-958b-b8f8a69bcb35"
+                    },
+                    "outputNode": {
+                        "id": "95c47b5b-905f-467f-bd5e-fd922893a377"
+                    },
+                    "outputPort": "transition",
+                    "inputNode": {
+                        "id": "3387c0a1-081c-4b04-a729-a3c134915574"
+                    },
+                    "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1019,
                 "type": {
                     "class": "EntryNode",
                     "ns": "FriendSea.StateMachine",
@@ -410,7 +480,7 @@
                 "data": {}
             },
             {
-                "rid": 1017,
+                "rid": 1020,
                 "type": {
                     "class": "FallbackNode",
                     "ns": "FriendSea.StateMachine",
@@ -419,7 +489,7 @@
                 "data": {}
             },
             {
-                "rid": 1018,
+                "rid": 1021,
                 "type": {
                     "class": "StateNode",
                     "ns": "FriendSea.StateMachine",
@@ -429,13 +499,13 @@
                     "name": "MoveUp",
                     "behaviours": [
                         {
-                            "rid": 1024
+                            "rid": 1029
                         }
                     ]
                 }
             },
             {
-                "rid": 1019,
+                "rid": 1022,
                 "type": {
                     "class": "TransitionNode",
                     "ns": "FriendSea.StateMachine",
@@ -443,12 +513,12 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1025
+                        "rid": 1030
                     }
                 }
             },
             {
-                "rid": 1020,
+                "rid": 1023,
                 "type": {
                     "class": "StateNode",
                     "ns": "FriendSea.StateMachine",
@@ -458,13 +528,13 @@
                     "name": "MoveDown",
                     "behaviours": [
                         {
-                            "rid": 1026
+                            "rid": 1031
                         }
                     ]
                 }
             },
             {
-                "rid": 1021,
+                "rid": 1024,
                 "type": {
                     "class": "TransitionNode",
                     "ns": "FriendSea.StateMachine",
@@ -472,12 +542,12 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1027
+                        "rid": 1032
                     }
                 }
             },
             {
-                "rid": 1022,
+                "rid": 1025,
                 "type": {
                     "class": "StateMachineReferenceNode",
                     "ns": "FriendSea.StateMachine",
@@ -492,7 +562,7 @@
                 }
             },
             {
-                "rid": 1023,
+                "rid": 1026,
                 "type": {
                     "class": "ResidentStateNode",
                     "ns": "FriendSea.StateMachine",
@@ -502,13 +572,37 @@
                     "name": "ResidentState",
                     "behaviours": [
                         {
-                            "rid": 1028
+                            "rid": 1033
                         }
                     ]
                 }
             },
             {
-                "rid": 1024,
+                "rid": 1027,
+                "type": {
+                    "class": "SequenceNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1028,
+                "type": {
+                    "class": "StateMachineReferenceNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "asset": {
+                        "fileID": -6750239444755058063,
+                        "guid": "1a87d67bbf1435e46a2914b59462a4d1",
+                        "type": 3
+                    }
+                }
+            },
+            {
+                "rid": 1029,
                 "type": {
                     "class": "MoveBehaviour",
                     "ns": "",
@@ -523,7 +617,7 @@
                 }
             },
             {
-                "rid": 1025,
+                "rid": 1030,
                 "type": {
                     "class": "FrameTransition",
                     "ns": "FriendSea.StateMachine",
@@ -534,7 +628,7 @@
                 }
             },
             {
-                "rid": 1026,
+                "rid": 1031,
                 "type": {
                     "class": "MoveBehaviour",
                     "ns": "",
@@ -549,7 +643,7 @@
                 }
             },
             {
-                "rid": 1027,
+                "rid": 1032,
                 "type": {
                     "class": "FrameTransition",
                     "ns": "FriendSea.StateMachine",
@@ -560,7 +654,7 @@
                 }
             },
             {
-                "rid": 1028,
+                "rid": 1033,
                 "type": {
                     "class": "ScaleBehaviour",
                     "ns": "",

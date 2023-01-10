@@ -112,6 +112,14 @@ namespace FriendSea.StateMachine
 			if (node.data is ComponentTransitionNode)
 				return new ComponentTransition();
 
+			if (node.data is SequenceNode)
+				return new State.Sequence()
+				{
+					targets = GetConnectedNodes(data, node.id.id)
+						.OrderBy(n => n.position.y)
+						.Select(n => GenerateTransition(data, n, id2asset)).ToArray(),
+				};
+
 			return
 				new State.Transition() {
 					condition = (node.data as TransitionNode).transition,
