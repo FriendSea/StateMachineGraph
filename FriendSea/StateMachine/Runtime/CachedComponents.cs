@@ -9,7 +9,7 @@ namespace FriendSea.StateMachine
 		Dictionary<System.Type, Component> cache = new Dictionary<System.Type, Component>();
 		public T Get<T>() where T : Component {
 			if (!cache.ContainsKey(typeof(T)))
-				cache.Add(typeof(T), GetComponentInChildren<T>());
+				cache.Add(typeof(T), GetComponentInChildren<T>(true));
 			return cache[typeof(T)] as T;
 		}
 
