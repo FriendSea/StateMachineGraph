@@ -263,6 +263,22 @@ namespace FriendSea
 		{
 			base.BuildContextualMenu(evt);
 
+			evt.menu.AppendAction("Add Note", action => {
+				dataProperty.serializedObject.Update();
+				var array = dataProperty.FindPropertyRelative("elements");
+				array.arraySize++;
+				var prop = array.GetArrayElementAtIndex(array.arraySize - 1);
+				prop.managedReferenceValue = new GraphViewData.StickyNote()
+				{
+					id = new GraphViewData.Id(System.Guid.NewGuid().ToString()),
+					content = "New Note",
+				};
+				dataProperty.serializedObject.ApplyModifiedProperties();
+
+				var note = new GraphNote();
+				note.Initialize(prop, this);
+				AddElement(note);
+			});
 			if (selection.Count() > 0)
 			{
 				if (selection.Where(item => item is GraphNode).Count() > 0)

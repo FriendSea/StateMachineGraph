@@ -72,6 +72,14 @@ namespace FriendSea
 			}
 		}
 
+		public class StickyNote : PositionableElementData
+		{
+			[SerializeField]
+			public string content;
+			[SerializeField]
+			public Vector2 size;
+		}
+
 		[SerializeReference]
 		public List<ElementData> elements = new List<ElementData>();
 
