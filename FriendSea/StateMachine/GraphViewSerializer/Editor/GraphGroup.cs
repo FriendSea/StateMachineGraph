@@ -35,6 +35,8 @@ namespace FriendSea
 			text.RegisterCallback<FocusOutEvent>(evt => { Input.imeCompositionMode = IMECompositionMode.Auto; });
 
 			capabilities |= Capabilities.Renamable;
+			this.AddManipulator(new ContextualMenuManipulator(e => graphView.BuildContextualMenu(e)));
+
 			initialized = true;
 		}
 
