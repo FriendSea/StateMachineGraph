@@ -164,6 +164,7 @@ namespace FriendSea
 					}
 				return change;
 			};
+			/*
 			viewTransformChanged += graph =>
 			{
 				dataProperty.serializedObject.Update();
@@ -171,6 +172,7 @@ namespace FriendSea
 				dataProperty.FindPropertyRelative("viewScale").vector3Value = viewTransform.scale;
 				dataProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo();
 			};
+			*/
 
 			// copy paste
 			int pasteCount = 0;
@@ -229,6 +231,14 @@ namespace FriendSea
 
 			// load elements
 			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
+		}
+
+		public void UpdateViewTransform()
+		{
+			dataProperty.serializedObject.Update();
+			dataProperty.FindPropertyRelative("viewPosition").vector3Value = viewTransform.position;
+			dataProperty.FindPropertyRelative("viewScale").vector3Value = viewTransform.scale;
+			dataProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo();
 		}
 
 		public void RefleshView()
