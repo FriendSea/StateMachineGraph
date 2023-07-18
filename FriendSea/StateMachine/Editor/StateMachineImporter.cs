@@ -35,7 +35,8 @@ namespace FriendSea.StateMachine
 					residentStates = new State.ResitentStateRefernce() { 
 						stateMachine = main,
 						guids = GetChildNodes(data, GetContainingGroup(data, node.id.id)?.id?.id).Where(e => e.data is ResidentStateNode).Select(e => e.id.id).ToArray(),
-					} 
+					},
+					id = AssetDatabase.AssetPathToGUID(assetPath) + node.id.id,
 				};
 				assets.Add(node.id.id, editor);
 			}
@@ -62,18 +63,16 @@ namespace FriendSea.StateMachine
 				.Where(e => e is GraphViewData.Node)
 				.Where(e => (e as GraphViewData.Node).data is ResidentStateNode)
 				.Select(e => e as GraphViewData.Node)
-				.Select(e => new StateMachineAsset.ResidentState() {
-					guid = e.id.id,
-					state = new State() { 
-						behaviours = (e.data as ResidentStateNode).behaviours,
-						transition = new State.Transition()
-						{
-							condition = new ImmediateTransition(),
-							targets = GetConnectedNodes(data, e.id.id)
-								.OrderBy(n => n.position.y)
-								.Select(n => GenerateTransition(data, n, assets)).ToArray(),
-						}
-					} 
+				.Select(e => new State() { 
+					behaviours = (e.data as ResidentStateNode).behaviours,
+					transition = new State.Transition()
+					{
+						condition = new ImmediateTransition(),
+						targets = GetConnectedNodes(data, e.id.id)
+							.OrderBy(n => n.position.y)
+							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
+					},
+					id = e.id.id,
 				}).ToArray();
 
 			foreach (var pair in assets)

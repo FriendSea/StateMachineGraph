@@ -11,7 +11,7 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal State.Transition fallbackState;
 		[SerializeField]
-		internal ResidentState[] residentStates;
+		internal State[] residentStates;
 
 		[System.Serializable]
 		internal struct ResidentState
@@ -25,7 +25,7 @@ namespace FriendSea.StateMachine
 		public IState<CachedComponents> GetResidentState(string guid)
 		{
 			foreach(var state in residentStates)
-				if (state.guid == guid) return state.state;
+				if (state.Id == guid) return state;
 			return null;
 		}
 

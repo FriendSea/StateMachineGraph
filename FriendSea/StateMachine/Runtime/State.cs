@@ -144,5 +144,9 @@ namespace FriendSea.StateMachine
 		}
 
 		public IEnumerable<IState<CachedComponents>> ResidentStates => residentStates;
+
+		[SerializeField]
+		internal string id;
+		public string Id => id;
 	}
 }

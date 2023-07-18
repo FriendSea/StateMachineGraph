@@ -22,6 +22,8 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		string path;
 
+		SerializableGraphView graphView;
+
 		void LoadAsset(string assetPath)
 		{
 			Focus();
@@ -38,7 +40,7 @@ namespace FriendSea.StateMachine
 
 			rootVisualElement.Clear();
 
-			var graphView = new SerializableGraphView(this, new SerializedObject(this).FindProperty("data"), typeof(IStateMachineNode));
+			graphView = new SerializableGraphView(this, new SerializedObject(this).FindProperty("data"), typeof(IStateMachineNode));
 			rootVisualElement.Add(graphView);
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(path) + " (StateMachine)");
@@ -70,12 +72,26 @@ namespace FriendSea.StateMachine
 		private void OnEnable()
 		{
 			RefleshGraphView();
+			StateMachine<CachedComponents>.OnStateChanged += OnStateChanged;
+		}
+
+		private void OnDisable()
+		{
+			StateMachine<CachedComponents>.OnStateChanged -= OnStateChanged;
+		}
+
+		private void OnStateChanged(string id, CachedComponents target)
+		{
+			graphView.UpdateActiveNode(node => {
+				return (AssetDatabase.AssetPathToGUID(path) + node.id) == id;
+			});
 		}
 
 		event System.Action onDirty;
 		private void OnValidate()
 		{
-			EditorApplication.delayCall += () => {
+			EditorApplication.delayCall += () =>
+			{
 				if (!EditorUtility.IsDirty(this)) return;
 				onDirty?.Invoke();
 			};

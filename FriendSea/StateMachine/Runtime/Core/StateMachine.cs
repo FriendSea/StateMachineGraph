@@ -77,10 +77,14 @@ namespace FriendSea.StateMachine {
 				ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
 				s.OnEnter(target, 0);
 			}
+
+			OnStateChanged?.Invoke(CurrentState.Id, target);
 		}
 
 		public void ForceState(IStateReference<T> state) =>
 			ForceState(state.GetState(target, frameCount).state);
+
+		internal static event System.Action<string, T> OnStateChanged;
 	}
 
 	public interface IState<T> where T : class
@@ -90,6 +94,7 @@ namespace FriendSea.StateMachine {
 		void OnUpdate(T obj, int frameCount);
 		void OnExit(T obj, int frameCount);
 		IEnumerable<IState<T>> ResidentStates { get; }
+		string Id { get; }
 	}
 
 	public interface IStateReference<T> where T : class
