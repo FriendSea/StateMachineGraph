@@ -89,11 +89,13 @@ namespace FriendSea.StateMachine
 
 			ctx.AddObjectToAsset("main", main);
 			ctx.SetMainObject(main);
+
 			var deps = EditorUtility.CollectDependencies(new Object[] { main });
 			foreach (var dep in deps)
 			{
 				var path = AssetDatabase.GetAssetPath(dep);
 				if (string.IsNullOrEmpty(path)) continue;
+				if (!(dep is StateMachineAsset)) continue;
 				ctx.DependsOnSourceAsset(path);
 			}
 		}
