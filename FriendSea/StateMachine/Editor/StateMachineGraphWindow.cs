@@ -13,21 +13,21 @@ namespace FriendSea.StateMachine
 	{
 		public static void Open(string assetPath)
 		{
-			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => w.path == assetPath) ?? CreateWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow)), typeof(StateMachineGraphWindow));
+			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => AssetDatabase.GUIDToAssetPath(w.guid) == assetPath) ?? CreateWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow)), typeof(StateMachineGraphWindow));
 			window.LoadAsset(assetPath);
 		}
 
 		[SerializeField]
 		GraphViewData data;
 		[SerializeField]
-		string path;
+		string guid;
 
 		SerializableGraphView graphView;
 
 		void LoadAsset(string assetPath)
 		{
 			Focus();
-			path = assetPath;
+			guid = AssetDatabase.AssetPathToGUID(assetPath);
 			data = new GraphViewData();
 			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
 
@@ -43,7 +43,7 @@ namespace FriendSea.StateMachine
 			graphView = new SerializableGraphView(this, new SerializedObject(this).FindProperty("data"), typeof(IStateMachineNode));
 			rootVisualElement.Add(graphView);
 
-			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(path) + " (StateMachine)");
+			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
 			var saveButton = new Button();
 			saveButton.text = "Saved";
@@ -52,19 +52,19 @@ namespace FriendSea.StateMachine
 			{
 				graphView.UpdateViewTransform();
 
-				File.WriteAllText(path, EditorJsonUtility.ToJson(data, true));
+				File.WriteAllText(AssetDatabase.GUIDToAssetPath(guid), EditorJsonUtility.ToJson(data, true));
 				AssetDatabase.Refresh();
 				EditorUtility.ClearDirty(this);
 				saveButton.text = "Saved";
 				saveButton.style.backgroundColor = new StyleColor(Color.black);
 
-				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(path) + " (StateMachine)");
+				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 			};
 			onDirty = () => {
 				saveButton.text = "Save";
 				saveButton.style.backgroundColor = new StyleColor(Color.gray);
 
-				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(path) + "* (StateMachine)");
+				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + "* (StateMachine)");
 			};
 			rootVisualElement.Add(saveButton);
 		}
@@ -83,7 +83,7 @@ namespace FriendSea.StateMachine
 		private void OnStateChanged(string id, CachedComponents target)
 		{
 			graphView.UpdateActiveNode(node => {
-				return (AssetDatabase.AssetPathToGUID(path) + node.id) == id;
+				return (AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id) == id;
 			});
 		}
 
