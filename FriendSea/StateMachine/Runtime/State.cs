@@ -7,22 +7,22 @@ namespace FriendSea.StateMachine
 {
 	public class ImmediateTransition : State.Transition.ICondition
 	{
-		public bool IsValid(CachedComponents obj, int frameCount) => true;
+		public bool IsValid(IContextContainer obj, int frameCount) => true;
 	}
 
-	public interface IGameObjectState : IState<CachedComponents> { }
+	public interface IGameObjectState : IState<IContextContainer> { }
 
 	[System.Serializable]
 	public class State : IGameObjectState
 	{
 		public interface IBehaviour
 		{
-			void OnEnter(CachedComponents obj, int frameCount);
-			void OnUpdate(CachedComponents obj, int frameCount);
-			void OnExit(CachedComponents obj, int frameCount);
+			void OnEnter(IContextContainer obj, int frameCount);
+			void OnUpdate(IContextContainer obj, int frameCount);
+			void OnExit(IContextContainer obj, int frameCount);
 		}
 
-		public interface IStateReference : IStateReference<CachedComponents> { }
+		public interface IStateReference : IStateReference<IContextContainer> { }
 
 		[System.Serializable]
 		public struct StateReference : IStateReference
@@ -30,7 +30,7 @@ namespace FriendSea.StateMachine
 			[SerializeField]
 			internal NodeAsset nodeAsset;
 
-			public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => nodeAsset.GetState(obj, frameCount);
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount) => nodeAsset.GetState(obj, frameCount);
 		}
 
 		[System.Serializable]
@@ -38,7 +38,7 @@ namespace FriendSea.StateMachine
 		{
 			[SerializeReference]
 			public IStateReference[] targets;
-			public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
 			{
 				// 遷移先がない、nullに遷移
 				if (targets.Length <= 0) return (null, true);
@@ -63,7 +63,7 @@ namespace FriendSea.StateMachine
 		{
 			public interface ICondition
 			{
-				bool IsValid(CachedComponents obj, int frameCount);
+				bool IsValid(IContextContainer obj, int frameCount);
 			}
 
 			[SerializeReference]
@@ -71,7 +71,7 @@ namespace FriendSea.StateMachine
 			[SerializeReference]
 			public IStateReference[] targets;
 
-			public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
 			{
 				// 条件にマッチしてない。遷移しない。
 				if (!condition.IsValid(obj, frameCount)) return (null, false);
@@ -93,20 +93,20 @@ namespace FriendSea.StateMachine
 		internal Transition transition;
 
 		[System.Serializable]
-		public struct ResitentStateRefernce : IEnumerable<IState<CachedComponents>>
+		public struct ResitentStateRefernce : IEnumerable<IState<IContextContainer>>
 		{
 			[SerializeField]
 			internal StateMachineAsset stateMachine;
 			[SerializeField]
 			internal string[] guids;
 			[System.NonSerialized]
-			List<IState<CachedComponents>> cachedList;
+			List<IState<IContextContainer>> cachedList;
 
-			public IEnumerator<IState<CachedComponents>> GetEnumerator()
+			public IEnumerator<IState<IContextContainer>> GetEnumerator()
 			{
 				if (cachedList == null)
 				{
-					cachedList = new List<IState<CachedComponents>>();
+					cachedList = new List<IState<IContextContainer>>();
 					foreach (var guid in guids)
 						cachedList.Add(stateMachine.GetResidentState(guid));
 				}
@@ -119,7 +119,7 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal ResitentStateRefernce residentStates;
 
-		public IState<CachedComponents> NextState(CachedComponents obj, int frameCount)
+		public IState<IContextContainer> NextState(IContextContainer obj, int frameCount)
 		{
 			var result = transition.GetState(obj, frameCount);
 			return result.isValid ?
@@ -127,23 +127,23 @@ namespace FriendSea.StateMachine
 				this;
 		}
 
-		public void OnEnter(CachedComponents obj, int frameCount)
+		public void OnEnter(IContextContainer obj, int frameCount)
 		{
 			foreach (var b in behaviours)
 				b.OnEnter(obj, frameCount);
 		}
 
-		public void OnExit(CachedComponents obj, int frameCount) {
+		public void OnExit(IContextContainer obj, int frameCount) {
 			foreach (var b in behaviours)
 				b.OnExit(obj, frameCount);
 		}
 
-		public void OnUpdate(CachedComponents obj, int frameCount) {
+		public void OnUpdate(IContextContainer obj, int frameCount) {
 			foreach (var b in behaviours)
 				b.OnUpdate(obj, frameCount);
 		}
 
-		public IEnumerable<IState<CachedComponents>> ResidentStates => residentStates;
+		public IEnumerable<IState<IContextContainer>> ResidentStates => residentStates;
 
 		[SerializeField]
 		internal string id;

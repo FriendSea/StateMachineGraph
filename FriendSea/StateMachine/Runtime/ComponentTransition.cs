@@ -8,10 +8,10 @@ namespace FriendSea.StateMachine
 	{
 		static List<State.IStateReference> sharedList = new List<State.IStateReference>();
 
-		public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount)
+		public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
 		{
 			sharedList.Clear();
-			obj.gameObject.GetComponentsInChildren(sharedList);
+			obj.Get<GameObject>().GetComponentsInChildren(sharedList);
 			foreach (var reference in sharedList)
 			{
 				var result = reference.GetState(obj, frameCount);

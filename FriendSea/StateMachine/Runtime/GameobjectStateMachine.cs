@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace FriendSea.StateMachine
 {
-	[RequireComponent(typeof(CachedComponents))]
     public class GameobjectStateMachine : MonoBehaviour
     {
 		public bool Paused { get; set; } = false;
@@ -12,12 +11,12 @@ namespace FriendSea.StateMachine
         [SerializeField]
         StateMachineAsset asset;
 
-		public StateMachine<CachedComponents> StateMachine => stateMachine;
-        StateMachine<CachedComponents> stateMachine = null;
+		public StateMachine<IContextContainer> StateMachine => stateMachine;
+        StateMachine<IContextContainer> stateMachine = null;
 
 		private void Awake()
 		{
-			stateMachine = new StateMachine<CachedComponents>(asset.EntryState, asset.FallbackState, GetComponent<CachedComponents>());
+			stateMachine = new StateMachine<IContextContainer>(asset.EntryState, asset.FallbackState, new GameObjectContextContainer(gameObject));
 		}
 
 		void FixedUpdate()

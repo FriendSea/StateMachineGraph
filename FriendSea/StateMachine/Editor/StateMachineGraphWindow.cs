@@ -72,15 +72,15 @@ namespace FriendSea.StateMachine
 		private void OnEnable()
 		{
 			RefleshGraphView();
-			StateMachine<CachedComponents>.OnStateChanged += OnStateChanged;
+			StateMachine<IContextContainer>.OnStateChanged += OnStateChanged;
 		}
 
 		private void OnDisable()
 		{
-			StateMachine<CachedComponents>.OnStateChanged -= OnStateChanged;
+			StateMachine<IContextContainer>.OnStateChanged -= OnStateChanged;
 		}
 
-		private void OnStateChanged(string id, CachedComponents target)
+		private void OnStateChanged(string id, IContextContainer target)
 		{
 			graphView.UpdateActiveNode(node => {
 				return (AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id) == id;

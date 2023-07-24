@@ -8,15 +8,15 @@ public class MoveBehaviour : State.IBehaviour
 	[SerializeField]
 	Vector3 velocity;
 
-	public void OnEnter(CachedComponents obj, int frameCount)
+	public void OnEnter(IContextContainer obj, int frameCount)
 	{
 		Debug.Log($"Entered Move State.");
 	}
 
-	public void OnExit(CachedComponents obj, int frameCount) { }
+	public void OnExit(IContextContainer obj, int frameCount) { }
 
-	public void OnUpdate(CachedComponents obj, int frameCount)
+	public void OnUpdate(IContextContainer obj, int frameCount)
 	{
-		obj.transform.position += velocity * Time.fixedDeltaTime;
+		obj.Get<Transform>().position += velocity * Time.fixedDeltaTime;
 	}
 }

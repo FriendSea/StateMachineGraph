@@ -22,14 +22,14 @@ namespace FriendSea.StateMachine
 			internal State state;
 		}
 
-		public IState<CachedComponents> GetResidentState(string guid)
+		public IState<IContextContainer> GetResidentState(string guid)
 		{
 			foreach(var state in residentStates)
 				if (state.Id == guid) return state;
 			return null;
 		}
 
-		public IStateReference<CachedComponents> EntryState => entryState;
-		public IStateReference<CachedComponents> FallbackState => fallbackState;
+		public IStateReference<IContextContainer> EntryState => entryState;
+		public IStateReference<IContextContainer> FallbackState => fallbackState;
 	}
 }

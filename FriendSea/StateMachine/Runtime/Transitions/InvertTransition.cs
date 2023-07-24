@@ -9,7 +9,7 @@ namespace FriendSea.StateMachine
 		[SerializeReference]
 		internal State.Transition.ICondition transition;
 
-		public bool IsValid(CachedComponents obj, int frameCount)
+		public bool IsValid(IContextContainer obj, int frameCount)
 		{
 			return !transition.IsValid(obj, frameCount);
 		}

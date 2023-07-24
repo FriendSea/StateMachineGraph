@@ -8,6 +8,6 @@ namespace FriendSea.StateMachine {
 		[SerializeField]
 		internal State data;
 
-		public (IState<CachedComponents> state, bool isValid) GetState(CachedComponents obj, int frameCount) => (data, true);
+		public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount) => (data, true);
 	}
 }
