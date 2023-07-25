@@ -13,15 +13,6 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal State[] residentStates;
 
-		[System.Serializable]
-		internal struct ResidentState
-		{
-			[SerializeField]
-			internal string guid;
-			[SerializeField]
-			internal State state;
-		}
-
 		public IState<IContextContainer> GetResidentState(string guid)
 		{
 			foreach(var state in residentStates)
