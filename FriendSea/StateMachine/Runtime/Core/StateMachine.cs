@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace FriendSea.StateMachine {
-	public class StateMachine<T> where T : class
+	public abstract class StateMachine
+	{
+		public static event System.Action<StateMachine> OnInstanceCreated;
+		protected void InvekeEvent(StateMachine instance) => OnInstanceCreated?.Invoke(instance);
+	}
+
+	public class StateMachine<T> : StateMachine where T : class
 	{
 		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
@@ -29,6 +35,8 @@ namespace FriendSea.StateMachine {
 				ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
 				s.OnEnter(target, 0);
 			}
+
+			InvekeEvent(this);
 		}
 
 		int frameCount = 0;
@@ -83,7 +91,7 @@ namespace FriendSea.StateMachine {
 
 		public void ForceState(IStateReference<T> state) =>
 			ForceState(state.GetState(target, frameCount).state);
-
+		  
 		internal static event System.Action<string, T> OnStateChanged;
 	}
 

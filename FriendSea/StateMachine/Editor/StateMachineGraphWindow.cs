@@ -6,11 +6,23 @@ using UnityEngine.UIElements;
 using System.IO;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
+using System;
 
 namespace FriendSea.StateMachine
 {
 	public class StateMachineGraphWindow : EditorWindow
 	{
+		static List<WeakReference<StateMachine>> targets = new List<WeakReference<StateMachine>>();
+
+		[InitializeOnLoadMethod]
+		static void RegisterEvent()
+		{
+			StateMachine.OnInstanceCreated += instance =>
+			{
+				targets.Add(new WeakReference<StateMachine>(instance));
+			};
+		}
+
 		public static void Open(string assetPath)
 		{
 			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => AssetDatabase.GUIDToAssetPath(w.guid) == assetPath) ?? CreateWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow)), typeof(StateMachineGraphWindow));
@@ -40,8 +52,14 @@ namespace FriendSea.StateMachine
 
 			rootVisualElement.Clear();
 
+			var path = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
+			path = System.IO.Path.ChangeExtension(path, "uxml");
+			Debug.Log(path);
+			var tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path).CloneTree();
+			rootVisualElement.Add(tree);
+
 			graphView = new SerializableGraphView(this, new SerializedObject(this).FindProperty("data"), typeof(IStateMachineNode));
-			rootVisualElement.Add(graphView);
+			tree.Q("GraphArea").Add(graphView);
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
