@@ -7,6 +7,8 @@ namespace FriendSea.StateMachine {
 	{
 		internal static event System.Action<StateMachine<T>> OnInstanceCreated;
 
+		internal event System.Action<IState<T>> OnStateChanged;
+		
 		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
 		T target;
@@ -82,13 +84,11 @@ namespace FriendSea.StateMachine {
 				s.OnEnter(target, 0);
 			}
 
-			OnStateChanged?.Invoke(CurrentState.Id, target);
+			OnStateChanged?.Invoke(CurrentState);
 		}
 
 		public void ForceState(IStateReference<T> state) =>
 			ForceState(state.GetState(target, frameCount).state);
-		  
-		internal static event System.Action<string, T> OnStateChanged;
 	}
 
 	public interface IState<T> where T : class

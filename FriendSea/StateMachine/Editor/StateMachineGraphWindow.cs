@@ -24,6 +24,23 @@ namespace FriendSea.StateMachine
 		string guid;
 
 		SerializableGraphView graphView;
+		StateMachine<IContextContainer> _selected = null;
+		StateMachine<IContextContainer> Selected
+		{
+			get => _selected;
+			set
+			{
+				if (_selected != null)
+					_selected.OnStateChanged -= OnStateChanged;
+				_selected = value;
+				if (_selected != null)
+					_selected.OnStateChanged += OnStateChanged;
+				OnStateChanged(_selected.CurrentState);
+			}
+		}
+
+		private void OnStateChanged(IState<IContextContainer> obj) =>
+			graphView.UpdateActiveNode(node => AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id == obj.Id);
 
 		void LoadAsset(string assetPath)
 		{
@@ -62,55 +79,43 @@ namespace FriendSea.StateMachine
 				saveButton.SetEnabled(false);
 				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 			};
-			onDirty = () => {
+			onDirty = () =>
+			{
 				saveButton.SetEnabled(true);
-
 				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + "* (StateMachine)");
 			};
 
 			var listView = rootVisualElement.Q<ListView>();
+			listView.visible = EditorApplication.isPlaying;
 			listView.makeItem = () => new Label();
 			listView.bindItem = (label, index) => (label as Label).text = (listView.itemsSource[index] as GameobjectStateMachine).gameObject.name;
 			listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
+			listView.onSelectionChange += objects => 
+				Selected = ((GameobjectStateMachine)objects.FirstOrDefault())?.StateMachine;
 			StateMachine<IContextContainer>.OnInstanceCreated += instance =>
 			{
 				var items = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
 				listView.itemsSource = items;
 				items.First(item => item.StateMachine == null).OnDestroyCalled += StateMachineGraphWindow_OnDestroyCalled;
 			};
-
 			void StateMachineGraphWindow_OnDestroyCalled(GameobjectStateMachine instance)
 			{
 				instance.OnDestroyCalled -= StateMachineGraphWindow_OnDestroyCalled;
 				listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
 			}
-
-			listView.visible = EditorApplication.isPlaying;
 		}
 
 		private void OnEnable()
 		{
 			RefleshGraphView();
-			StateMachine<IContextContainer>.OnStateChanged += OnStateChanged;
-
-			EditorApplication.playModeStateChanged += EditorApplication_playModeStateChanged;
+			EditorApplication.playModeStateChanged += PlayModeStateChanged;
 		}
 
-		private void EditorApplication_playModeStateChanged(PlayModeStateChange _) =>
+		private void PlayModeStateChanged(PlayModeStateChange _) =>
 			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
 
-		private void OnDisable()
-		{
-			StateMachine<IContextContainer>.OnStateChanged -= OnStateChanged;
-			EditorApplication.playModeStateChanged -= EditorApplication_playModeStateChanged;
-		}
-
-		private void OnStateChanged(string id, IContextContainer target)
-		{
-			graphView.UpdateActiveNode(node => {
-				return (AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id) == id;
-			});
-		}
+		private void OnDisable() =>
+			EditorApplication.playModeStateChanged -= PlayModeStateChanged;
 
 		event System.Action onDirty;
 		private void OnValidate()

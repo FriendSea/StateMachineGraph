@@ -235,7 +235,7 @@ namespace FriendSea
 		public void UpdateActiveNode(System.Func<GraphNode, bool> func)
 		{
 			foreach(GraphNode node in nodes)
-				node.style.backgroundColor = new StyleColor(func(node) ? Color.white : Color.black);
+				node.style.backgroundColor = new StyleColor(func(node) ? Color.white : Color.clear);
 		}
 
 		public void RefleshView()

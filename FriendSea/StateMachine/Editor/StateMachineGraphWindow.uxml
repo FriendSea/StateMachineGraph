@@ -5,7 +5,7 @@
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
             <ui:VisualElement name="GraphArea" style="flex-grow: 1; position: absolute; left: 0; top: 2px; right: 0; bottom: -1px;" />
-            <ui:ListView focusable="true" show-border="true" style="width: 100px;" />
+            <ui:ListView focusable="true" style="width: 100px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
