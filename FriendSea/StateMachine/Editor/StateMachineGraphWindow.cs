@@ -12,17 +12,6 @@ namespace FriendSea.StateMachine
 {
 	public class StateMachineGraphWindow : EditorWindow
 	{
-		static List<WeakReference<StateMachine>> targets = new List<WeakReference<StateMachine>>();
-
-		[InitializeOnLoadMethod]
-		static void RegisterEvent()
-		{
-			StateMachine.OnInstanceCreated += instance =>
-			{
-				targets.Add(new WeakReference<StateMachine>(instance));
-			};
-		}
-
 		public static void Open(string assetPath)
 		{
 			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => AssetDatabase.GUIDToAssetPath(w.guid) == assetPath) ?? CreateWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow)), typeof(StateMachineGraphWindow));
@@ -53,19 +42,16 @@ namespace FriendSea.StateMachine
 			rootVisualElement.Clear();
 
 			var path = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
-			path = System.IO.Path.ChangeExtension(path, "uxml");
-			Debug.Log(path);
-			var tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path).CloneTree();
-			rootVisualElement.Add(tree);
+			path = Path.ChangeExtension(path, "uxml");
+			AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path).CloneTree(rootVisualElement);
 
 			graphView = new SerializableGraphView(this, new SerializedObject(this).FindProperty("data"), typeof(IStateMachineNode));
-			tree.Q("GraphArea").Add(graphView);
+			rootVisualElement.Q("GraphArea").Add(graphView);
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
-			var saveButton = new Button();
-			saveButton.text = "Saved";
-			saveButton.style.backgroundColor = new StyleColor(Color.black);
+			var saveButton = rootVisualElement.Q("SaveButton") as Button;
+			saveButton.SetEnabled(EditorUtility.IsDirty(this));
 			saveButton.clicked += () =>
 			{
 				graphView.UpdateViewTransform();
@@ -73,29 +59,50 @@ namespace FriendSea.StateMachine
 				File.WriteAllText(AssetDatabase.GUIDToAssetPath(guid), EditorJsonUtility.ToJson(data, true));
 				AssetDatabase.Refresh();
 				EditorUtility.ClearDirty(this);
-				saveButton.text = "Saved";
-				saveButton.style.backgroundColor = new StyleColor(Color.black);
-
+				saveButton.SetEnabled(false);
 				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 			};
 			onDirty = () => {
-				saveButton.text = "Save";
-				saveButton.style.backgroundColor = new StyleColor(Color.gray);
+				saveButton.SetEnabled(true);
 
 				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + "* (StateMachine)");
 			};
-			rootVisualElement.Add(saveButton);
+
+			var listView = rootVisualElement.Q<ListView>();
+			listView.makeItem = () => new Label();
+			listView.bindItem = (label, index) => (label as Label).text = (listView.itemsSource[index] as GameobjectStateMachine).gameObject.name;
+			listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
+			StateMachine<IContextContainer>.OnInstanceCreated += instance =>
+			{
+				var items = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
+				listView.itemsSource = items;
+				items.First(item => item.StateMachine == null).OnDestroyCalled += StateMachineGraphWindow_OnDestroyCalled;
+			};
+
+			void StateMachineGraphWindow_OnDestroyCalled(GameobjectStateMachine instance)
+			{
+				instance.OnDestroyCalled -= StateMachineGraphWindow_OnDestroyCalled;
+				listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
+			}
+
+			listView.visible = EditorApplication.isPlaying;
 		}
 
 		private void OnEnable()
 		{
 			RefleshGraphView();
 			StateMachine<IContextContainer>.OnStateChanged += OnStateChanged;
+
+			EditorApplication.playModeStateChanged += EditorApplication_playModeStateChanged;
 		}
+
+		private void EditorApplication_playModeStateChanged(PlayModeStateChange _) =>
+			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
 
 		private void OnDisable()
 		{
 			StateMachine<IContextContainer>.OnStateChanged -= OnStateChanged;
+			EditorApplication.playModeStateChanged -= EditorApplication_playModeStateChanged;
 		}
 
 		private void OnStateChanged(string id, IContextContainer target)

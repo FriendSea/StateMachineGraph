@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace FriendSea.StateMachine {
-	public abstract class StateMachine
+	public class StateMachine<T> where T : class
 	{
-		public static event System.Action<StateMachine> OnInstanceCreated;
-		protected void InvekeEvent(StateMachine instance) => OnInstanceCreated?.Invoke(instance);
-	}
+		internal static event System.Action<StateMachine<T>> OnInstanceCreated;
 
-	public class StateMachine<T> : StateMachine where T : class
-	{
 		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
 		T target;
@@ -36,7 +32,7 @@ namespace FriendSea.StateMachine {
 				s.OnEnter(target, 0);
 			}
 
-			InvekeEvent(this);
+			OnInstanceCreated?.Invoke(this);
 		}
 
 		int frameCount = 0;

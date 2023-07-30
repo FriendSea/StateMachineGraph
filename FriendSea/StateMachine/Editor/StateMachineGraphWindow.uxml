@@ -1,8 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:GroupBox style="height: 20px; left: 0; top: 0; right: 0; visibility: visible; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
-        <ui:Button text="Save" display-tooltip-when-elided="true" style="left: 0; top: 0; right: 0; bottom: 0;" />
-    </ui:GroupBox>
-    <ui:GroupBox name="GraphArea" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; bottom: 0; top: 20px; right: 0; left: 0; position: absolute; justify-content: flex-start;">
-        <ui:ListView focusable="true" name="ListView" show-border="true" style="left: 0; top: 0; bottom: 0; width: 100px; position: absolute;" />
-    </ui:GroupBox>
+    <ui:VisualElement style="flex-grow: 1; flex-shrink: 0;">
+        <ui:VisualElement style="height: auto;">
+            <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <ui:VisualElement name="GraphArea" style="flex-grow: 1; position: absolute; left: 0; top: 2px; right: 0; bottom: -1px;" />
+            <ui:ListView focusable="true" show-border="true" style="width: 100px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>
