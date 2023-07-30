@@ -35,12 +35,14 @@ namespace FriendSea.StateMachine
 				_selected = value;
 				if (_selected != null)
 					_selected.OnStateChanged += OnStateChanged;
-				OnStateChanged(_selected.CurrentState);
+				OnStateChanged(_selected?.CurrentState);
 			}
 		}
 
 		private void OnStateChanged(IState<IContextContainer> obj) =>
-			graphView.UpdateActiveNode(node => AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id == obj.Id);
+			graphView.UpdateActiveNode(node => AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id == obj?.Id);
+		private void PlayModeStateChanged(PlayModeStateChange _) =>
+			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
 
 		void LoadAsset(string assetPath)
 		{
@@ -97,6 +99,10 @@ namespace FriendSea.StateMachine
 				var items = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
 				listView.itemsSource = items;
 				items.First(item => item.StateMachine == null).OnDestroyCalled += StateMachineGraphWindow_OnDestroyCalled;
+
+				if (items.Length != 1) return;
+				listView.selectedIndex = 0;
+				Selected = instance;
 			};
 			void StateMachineGraphWindow_OnDestroyCalled(GameobjectStateMachine instance)
 			{
@@ -111,20 +117,15 @@ namespace FriendSea.StateMachine
 			EditorApplication.playModeStateChanged += PlayModeStateChanged;
 		}
 
-		private void PlayModeStateChanged(PlayModeStateChange _) =>
-			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
-
 		private void OnDisable() =>
 			EditorApplication.playModeStateChanged -= PlayModeStateChanged;
 
 		event System.Action onDirty;
-		private void OnValidate()
-		{
+		private void OnValidate() =>
 			EditorApplication.delayCall += () =>
 			{
 				if (!EditorUtility.IsDirty(this)) return;
 				onDirty?.Invoke();
 			};
-		}
 	}
 }
