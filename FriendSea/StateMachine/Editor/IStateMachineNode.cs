@@ -105,6 +105,7 @@ namespace FriendSea.StateMachine
 		public override void Initialize(GraphNode node)
 		{
 			node.SetupRenamableTitle("data.name");
+			node.style.width = 300f;
 			SetupInputPort(node);
 			SetupOutputPort(node);
 			InitializeInternal(node);
@@ -146,6 +147,7 @@ namespace FriendSea.StateMachine
 		public override void Initialize(GraphNode node)
 		{
 			node.SetupRenamableTitle("data.name");
+			node.style.width = 300f;
 			SetupOutputPort(node);
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = Color.yellow / 2f;
