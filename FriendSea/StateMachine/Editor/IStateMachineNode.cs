@@ -138,6 +138,7 @@ namespace FriendSea.StateMachine
 			SetupOutputPort(node);
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = Color.black / 2f;
+			node.extensionContainer.Clear();
 		}
 	}
 
@@ -178,7 +179,7 @@ namespace FriendSea.StateMachine
 				node.GetProperty().serializedObject.Update();
 				var prop = node.GetProperty().FindPropertyRelative("data").FindPropertyRelative("asset");
 				var before = prop.objectReferenceValue;
-				EditorGUILayout.PropertyField(prop, true);
+				EditorGUILayout.PropertyField(prop, GUIContent.none, true);
 				var changed = prop.objectReferenceValue;
 				node.GetProperty().serializedObject.ApplyModifiedProperties();
 				if (before != changed)
