@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using UnityEditor.UIElements;
 
 namespace FriendSea.StateMachine
 {
@@ -80,13 +81,7 @@ namespace FriendSea.StateMachine
 		{
 			// add fields
 			node.extensionContainer.style.overflow = Overflow.Hidden;
-			node.extensionContainer.Add(new IMGUIContainer(() =>
-			{
-				node.GetProperty().serializedObject.Update();
-				var prop = node.GetProperty().FindPropertyRelative("data");
-				EditorGUILayout.PropertyField(prop, new GUIContent(prop.managedReferenceFullTypename), true);
-				node.GetProperty().serializedObject.ApplyModifiedProperties();
-			}));
+			node.extensionContainer.Add(new PropertyField(node.GetProperty().FindPropertyRelative("data")));
 
 			// force expanded
 			node.titleButtonContainer.Clear();

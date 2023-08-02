@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine.UIElements;
 using System.Linq;
+using UnityEditor.UIElements;
 
 namespace FriendSea
 {
@@ -162,6 +163,7 @@ namespace FriendSea
 						}
 						dataProperty.serializedObject.ApplyModifiedProperties();
 					}
+				RefleshView();
 				return change;
 			};
 
@@ -264,6 +266,7 @@ namespace FriendSea
 					node.Initialize(prop, this);
 				}
 			}
+			this.Bind(dataProperty.serializedObject);
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
