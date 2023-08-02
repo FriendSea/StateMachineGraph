@@ -72,6 +72,7 @@ namespace FriendSea.StateMachine
 			}
 
 			var original = EditorGUIUtility.labelWidth;
+			property.isExpanded = true;
 			EditorGUIUtility.labelWidth = 50;
 			EditorGUI.PropertyField(position, property, new GUIContent(""), true);
 			EditorGUIUtility.labelWidth = original;

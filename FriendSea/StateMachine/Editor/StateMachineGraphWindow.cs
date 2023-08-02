@@ -7,6 +7,7 @@ using System.IO;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
 using System;
+using UnityEditor.UIElements;
 
 namespace FriendSea.StateMachine
 {
@@ -14,8 +15,13 @@ namespace FriendSea.StateMachine
 	{
 		public static void Open(string assetPath)
 		{
-			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => AssetDatabase.GUIDToAssetPath(w.guid) == assetPath) ?? CreateWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow)), typeof(StateMachineGraphWindow));
-			window.LoadAsset(assetPath);
+			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => AssetDatabase.GUIDToAssetPath(w.guid) == assetPath);
+			if (window == null)
+			{
+				window = CreateWindow<StateMachineGraphWindow>(ObjectNames.NicifyVariableName(nameof(StateMachineGraphWindow)), typeof(StateMachineGraphWindow));
+				window.LoadAsset(assetPath);
+			}
+			window.Focus();
 		}
 
 		[SerializeField]
@@ -25,6 +31,7 @@ namespace FriendSea.StateMachine
 
 		SerializableGraphView graphView;
 		StateMachine<IContextContainer> _selected = null;
+		Button saveButton;
 		StateMachine<IContextContainer> Selected
 		{
 			get => _selected;
@@ -46,7 +53,6 @@ namespace FriendSea.StateMachine
 
 		void LoadAsset(string assetPath)
 		{
-			Focus();
 			guid = AssetDatabase.AssetPathToGUID(assetPath);
 			data = new GraphViewData();
 			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
@@ -69,18 +75,9 @@ namespace FriendSea.StateMachine
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
-			var saveButton = rootVisualElement.Q("SaveButton") as Button;
+			saveButton = rootVisualElement.Q("SaveButton") as Button;
 			saveButton.SetEnabled(EditorUtility.IsDirty(this));
-			saveButton.clicked += () =>
-			{
-				graphView.UpdateViewTransform();
-
-				File.WriteAllText(AssetDatabase.GUIDToAssetPath(guid), EditorJsonUtility.ToJson(data, true));
-				AssetDatabase.Refresh();
-				EditorUtility.ClearDirty(this);
-				saveButton.SetEnabled(false);
-				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
-			};
+			saveButton.clicked += SaveAssrt;
 			onDirty = () =>
 			{
 				saveButton.SetEnabled(true);
@@ -92,7 +89,7 @@ namespace FriendSea.StateMachine
 			listView.makeItem = () => new Label();
 			listView.bindItem = (label, index) => (label as Label).text = (listView.itemsSource[index] as GameobjectStateMachine).gameObject.name;
 			listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
-			listView.onSelectionChange += objects => 
+			listView.onSelectionChange += objects =>
 				Selected = ((GameobjectStateMachine)objects.FirstOrDefault())?.StateMachine;
 			StateMachine<IContextContainer>.OnInstanceCreated += instance =>
 			{
@@ -109,6 +106,17 @@ namespace FriendSea.StateMachine
 				instance.OnDestroyCalled -= StateMachineGraphWindow_OnDestroyCalled;
 				listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
 			}
+		}
+
+		void SaveAssrt()
+		{
+			graphView.UpdateViewTransform();
+
+			File.WriteAllText(AssetDatabase.GUIDToAssetPath(guid), EditorJsonUtility.ToJson(data, true));
+			AssetDatabase.Refresh();
+			EditorUtility.ClearDirty(this);
+			saveButton.SetEnabled(false);
+			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 		}
 
 		private void OnEnable()
