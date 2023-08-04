@@ -2,7 +2,7 @@
     <ui:VisualElement style="flex-grow: 1; flex-shrink: 0;">
         <ui:VisualElement style="height: auto; flex-direction: row; justify-content: space-between;">
             <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" />
-            <ui:Toggle label="Save On Play" binding-path="saveOnPlay" />
+            <ui:Toggle label="Save On Play" name="SaveOnPlay" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
             <ui:VisualElement name="GraphArea" style="flex-grow: 1; position: absolute; left: 0; top: 2px; right: 0; bottom: -1px;" />

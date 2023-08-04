@@ -13,6 +13,8 @@ namespace FriendSea.StateMachine
 {
 	public class StateMachineGraphWindow : EditorWindow
 	{
+		const string saveOnPlaySettingKey = "friendseastatemachinesaveonplay";
+
 		public static void Open(string assetPath)
 		{
 			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => AssetDatabase.GUIDToAssetPath(w.guid) == assetPath);
@@ -28,8 +30,12 @@ namespace FriendSea.StateMachine
 		GraphViewData data;
 		[SerializeField]
 		string guid;
-		[SerializeField]
-		bool saveOnPlay;
+
+		bool SaveOnPlay
+		{
+			get => !string.IsNullOrEmpty(EditorUserSettings.GetConfigValue(saveOnPlaySettingKey));
+			set => EditorUserSettings.SetConfigValue(saveOnPlaySettingKey, value ? "yes!" : null);
+		}
 
 		SerializableGraphView graphView;
 		StateMachine<IContextContainer> _selected = null;
@@ -54,7 +60,7 @@ namespace FriendSea.StateMachine
 		private void PlayModeStateChanged(PlayModeStateChange change)
 		{
 			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
-			if (change == PlayModeStateChange.ExitingEditMode)
+			if (change == PlayModeStateChange.ExitingEditMode && SaveOnPlay)
 				SaveAsset();
 		}
 
@@ -78,7 +84,6 @@ namespace FriendSea.StateMachine
 			AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path).CloneTree(rootVisualElement);
 
 			var so = new SerializedObject(this);
-			rootVisualElement.Bind(so);
 
 			graphView = new SerializableGraphView(this, so.FindProperty("data"), typeof(IStateMachineNode));
 			rootVisualElement.Q("GraphArea").Add(graphView);
@@ -93,6 +98,10 @@ namespace FriendSea.StateMachine
 				saveButton.SetEnabled(true);
 				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + "* (StateMachine)");
 			};
+
+			var saveOnPlay = rootVisualElement.Q<Toggle>("SaveOnPlay");
+			saveOnPlay.value = SaveOnPlay;
+			saveOnPlay.RegisterValueChangedCallback(e => SaveOnPlay = e.newValue);
 
 			var listView = rootVisualElement.Q<ListView>();
 			listView.visible = EditorApplication.isPlaying;
