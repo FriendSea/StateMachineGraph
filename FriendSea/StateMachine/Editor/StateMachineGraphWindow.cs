@@ -28,6 +28,8 @@ namespace FriendSea.StateMachine
 		GraphViewData data;
 		[SerializeField]
 		string guid;
+		[SerializeField]
+		bool saveOnPlay;
 
 		SerializableGraphView graphView;
 		StateMachine<IContextContainer> _selected = null;
@@ -48,15 +50,20 @@ namespace FriendSea.StateMachine
 
 		private void OnStateChanged(IState<IContextContainer> obj) =>
 			graphView.UpdateActiveNode(node => AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id == obj?.Id);
-		private void PlayModeStateChanged(PlayModeStateChange _) =>
+
+		private void PlayModeStateChanged(PlayModeStateChange change)
+		{
 			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
+			if (change == PlayModeStateChange.ExitingEditMode)
+				SaveAsset();
+		}
 
 		void LoadAsset(string assetPath)
 		{
 			guid = AssetDatabase.AssetPathToGUID(assetPath);
 			data = new GraphViewData();
 			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
-
+			EditorUtility.ClearDirty(this);
 			RefleshGraphView();
 		}
 
@@ -70,14 +77,17 @@ namespace FriendSea.StateMachine
 			path = Path.ChangeExtension(path, "uxml");
 			AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path).CloneTree(rootVisualElement);
 
-			graphView = new SerializableGraphView(this, new SerializedObject(this).FindProperty("data"), typeof(IStateMachineNode));
+			var so = new SerializedObject(this);
+			rootVisualElement.Bind(so);
+
+			graphView = new SerializableGraphView(this, so.FindProperty("data"), typeof(IStateMachineNode));
 			rootVisualElement.Q("GraphArea").Add(graphView);
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
 			saveButton = rootVisualElement.Q("SaveButton") as Button;
 			saveButton.SetEnabled(EditorUtility.IsDirty(this));
-			saveButton.clicked += SaveAssrt;
+			saveButton.clicked += SaveAsset;
 			onDirty = () =>
 			{
 				saveButton.SetEnabled(true);
@@ -108,7 +118,7 @@ namespace FriendSea.StateMachine
 			}
 		}
 
-		void SaveAssrt()
+		void SaveAsset()
 		{
 			graphView.UpdateViewTransform();
 
