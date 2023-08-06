@@ -37,6 +37,8 @@ namespace FriendSea
 			capabilities |= Capabilities.Renamable;
 			this.AddManipulator(new ContextualMenuManipulator(e => graphView.BuildContextualMenu(e)));
 
+			style.backgroundColor = new StyleColor(new Color(0,0,0,0.5f));
+
 			initialized = true;
 		}
 
