@@ -119,6 +119,7 @@ namespace FriendSea
 							}
 						}
 						dataProperty.serializedObject.ApplyModifiedProperties();
+						RefleshView();
 					}
 				// add edge
 				if (change.edgesToCreate != null)
@@ -163,7 +164,6 @@ namespace FriendSea
 						}
 						dataProperty.serializedObject.ApplyModifiedProperties();
 					}
-				RefleshView();
 				return change;
 			};
 
@@ -362,6 +362,7 @@ namespace FriendSea
 			var node = new GraphNode();
 			AddElement(node);
 			node.Initialize(prop, this);
+			this.Bind(dataProperty.serializedObject);
 		}
 
 		public GraphNode GetNode(string id)
