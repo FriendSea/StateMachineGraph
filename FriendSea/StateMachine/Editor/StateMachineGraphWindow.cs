@@ -87,6 +87,8 @@ namespace FriendSea.StateMachine
 
 			graphView = new SerializableGraphView(this, so.FindProperty("data"), typeof(IStateMachineNode));
 			rootVisualElement.Q("GraphArea").Add(graphView);
+			path = Path.ChangeExtension(path, "uss");
+			graphView.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(path));
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
