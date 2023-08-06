@@ -40,6 +40,13 @@ namespace FriendSea
 
 			SetPosition(new Rect(property.FindPropertyRelative("position").vector2Value, Vector2.one));
 
+			RegisterCallback<GeometryChangedEvent>(e => {
+				var rect = e.newRect;
+				rect.x = Mathf.Round(rect.x / 10f) * 10f;
+				rect.y = Mathf.Round(rect.y / 10f) * 10f;
+				SetPosition(rect);
+			});
+
 			if (Initializers.ContainsKey(property.FindPropertyRelative("data").managedReferenceValue.GetType()))
 				Initializers[property.FindPropertyRelative("data").managedReferenceValue.GetType()].Initialize(this);
 		}
