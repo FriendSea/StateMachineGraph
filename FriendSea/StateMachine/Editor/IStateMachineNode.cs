@@ -113,7 +113,7 @@ namespace FriendSea.StateMachine
 		public override Type TargetType => typeof(TransitionNode);
 		public override void Initialize(GraphNode node)
 		{
-			node.title = "Transition";
+			node.title = "Condition";
 			node.style.width = 150f;
 			SetupInputPort(node);
 			SetupOutputPort(node);

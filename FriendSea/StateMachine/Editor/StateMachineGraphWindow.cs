@@ -92,7 +92,7 @@ namespace FriendSea.StateMachine
 
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
-			saveButton = rootVisualElement.Q("SaveButton") as Button;
+			saveButton = rootVisualElement.Q<Button>("SaveButton");
 			saveButton.SetEnabled(EditorUtility.IsDirty(this));
 			saveButton.clicked += SaveAsset;
 			onDirty = () =>
@@ -100,6 +100,8 @@ namespace FriendSea.StateMachine
 				saveButton.SetEnabled(true);
 				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + "* (StateMachine)");
 			};
+
+			rootVisualElement.Q<Button>("FitButton").clicked += graphView.FitToContainer;
 
 			var saveOnPlay = rootVisualElement.Q<Toggle>("SaveOnPlay");
 			saveOnPlay.value = SaveOnPlay;

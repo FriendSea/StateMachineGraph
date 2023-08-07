@@ -226,6 +226,14 @@ namespace FriendSea
 			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
 		}
 
+		public void FitToContainer()
+		{
+			var rectToFit = CalculateRectToFitAll(contentViewContainer);
+			CalculateFrameTransform(rectToFit, layout, 0, out var frameTranslation, out var frameScaling);
+			Matrix4x4.TRS(frameTranslation, Quaternion.identity, frameScaling);
+			UpdateViewTransform(frameTranslation, frameScaling);
+		}
+
 		public void UpdateViewTransform()
 		{
 			dataProperty.serializedObject.Update();
