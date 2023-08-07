@@ -3,7 +3,6 @@
         <ui:VisualElement style="height: auto; flex-direction: row;">
             <ui:Button text="Save Asset" display-tooltip-when-elided="true" name="SaveButton" />
             <ui:Toggle label="Save On Play" name="SaveOnPlay" />
-            <ui:Button text="Save As ..." display-tooltip-when-elided="true" name="SaveAsButton" />
             <ui:Button text="Show In Project" display-tooltip-when-elided="true" name="ShowInProject" />
             <ui:Button text="Fit To Window" display-tooltip-when-elided="true" name="FitButton" />
         </ui:VisualElement>
