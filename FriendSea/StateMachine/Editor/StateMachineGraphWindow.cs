@@ -101,6 +101,9 @@ namespace FriendSea.StateMachine
 				titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + "* (StateMachine)");
 			};
 
+			rootVisualElement.Q<Button>("ShowInProject").clicked += () =>
+				EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<StateMachineAsset>(AssetDatabase.GUIDToAssetPath(guid)));
+
 			rootVisualElement.Q<Button>("FitButton").clicked += graphView.FitToContainer;
 
 			var saveOnPlay = rootVisualElement.Q<Toggle>("SaveOnPlay");
