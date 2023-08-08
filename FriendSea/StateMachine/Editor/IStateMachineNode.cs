@@ -104,7 +104,7 @@ namespace FriendSea.StateMachine
 			SetupInputPort(node);
 			SetupOutputPort(node);
 			InitializeInternal(node);
-			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.StateColor;
+			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(StateNode));
 		}
 	}
 
@@ -118,7 +118,7 @@ namespace FriendSea.StateMachine
 			SetupInputPort(node);
 			SetupOutputPort(node);
 			InitializeInternal(node);
-			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.ConditionColor;
+			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(TransitionNode));
 		}
 	}
 
@@ -132,7 +132,7 @@ namespace FriendSea.StateMachine
 			SetupInputPort(node);
 			SetupOutputPort(node);
 			InitializeInternal(node);
-			node.mainContainer.style.backgroundColor = Color.black / 2f;
+			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(SequenceNode));
 			node.extensionContainer.Clear();
 		}
 	}
@@ -146,7 +146,7 @@ namespace FriendSea.StateMachine
 			node.style.width = 300f;
 			SetupOutputPort(node);
 			InitializeInternal(node);
-			node.mainContainer.style.backgroundColor = Color.yellow / 2f;
+			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(ResidentStateNode));
 		}
 	}
 
@@ -188,7 +188,7 @@ namespace FriendSea.StateMachine
 
 			node.topContainer.Insert(1, node.titleContainer);
 
-			node.mainContainer.style.backgroundColor = Color.blue / 2f;
+			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(StateMachineReferenceNode));
 		}
 	}
 
@@ -215,7 +215,7 @@ namespace FriendSea.StateMachine
 
 			node.topContainer.Insert(1, node.titleContainer);
 
-			node.mainContainer.style.backgroundColor = Color.blue / 2f;
+			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(ComponentTransitionNode));
 		}
 	}
 }
