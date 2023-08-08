@@ -99,9 +99,8 @@ namespace FriendSea.StateMachine
 			rootVisualElement.Q<Button>("FitButton").clicked += graphView.FitToContainer;
 
 			var settingButton = rootVisualElement.Q<Button>("SettingsButton");
-			settingButton.clicked += () => {
-				UnityEditor.PopupWindow.Show(settingButton.worldBound, new StateMavhineGraphSettings(RefleshGraphView));
-			};
+			settingButton.clicked += () =>
+				UnityEditor.PopupWindow.Show(settingButton.worldBound, new StateMavhineGraphSettings(graphView.RefleshView));
 
 			var saveOnPlay = rootVisualElement.Q<Toggle>("SaveOnPlay");
 			saveOnPlay.value = StateMavhineGraphSettings.SaveOnPlay;
