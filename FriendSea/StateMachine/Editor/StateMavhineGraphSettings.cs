@@ -14,15 +14,11 @@ internal class StateMavhineGraphSettings : PopupWindowContent
 	}
 
 	const string StateColorKey = "friendseastatemachinestatecolor";
-	public static Color StateColor
-	{
+	public static Color StateColor {
 		get => ColorUtility.TryParseHtmlString(EditorUserSettings.GetConfigValue(StateColorKey), out var color) ?
-				color :
-				new Color(1, 0.5f, 0) / 2f;
-		set {
-			Debug.Log(value);
-			EditorUserSettings.SetConfigValue(StateColorKey, ColorUtility.ToHtmlStringRGBA(value)); 
-		}
+					color :
+					new Color(1, 0.5f, 0) / 2f;
+		set => EditorUserSettings.SetConfigValue(StateColorKey, "#" + ColorUtility.ToHtmlStringRGBA(value));
 	}
 
 	const string ConditionColorKey = "friendseastatemachineconditioncolor";
@@ -31,8 +27,11 @@ internal class StateMavhineGraphSettings : PopupWindowContent
 		get => ColorUtility.TryParseHtmlString(EditorUserSettings.GetConfigValue(ConditionColorKey), out var color) ?
 				color :
 				Color.green / 2f;
-		set => EditorUserSettings.SetConfigValue(ConditionColorKey, ColorUtility.ToHtmlStringRGBA(value));
+		set => EditorUserSettings.SetConfigValue(ConditionColorKey, "#" + ColorUtility.ToHtmlStringRGBA(value));
 	}
+
+	event System.Action onClose;
+	public StateMavhineGraphSettings(System.Action onClose) => this.onClose = onClose;
 
 	public override void OnGUI(Rect rect)
 	{
@@ -48,4 +47,6 @@ internal class StateMavhineGraphSettings : PopupWindowContent
 
 		EditorGUIUtility.labelWidth = originalLabelWidth;
 	}
+
+	public override void OnClose() => onClose?.Invoke();
 }

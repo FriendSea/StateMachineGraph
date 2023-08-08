@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IContextContainer
 {
-	public T Get<T>() where T : class;
+	T Get<T>() where T : class;
 	int GetValue(object target);
 	int SetValue(object target, int value);
 }

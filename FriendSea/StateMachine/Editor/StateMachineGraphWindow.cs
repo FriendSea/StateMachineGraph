@@ -100,7 +100,7 @@ namespace FriendSea.StateMachine
 
 			var settingButton = rootVisualElement.Q<Button>("SettingsButton");
 			settingButton.clicked += () => {
-				UnityEditor.PopupWindow.Show(settingButton.worldBound, new StateMavhineGraphSettings());
+				UnityEditor.PopupWindow.Show(settingButton.worldBound, new StateMavhineGraphSettings(RefleshGraphView));
 			};
 
 			var saveOnPlay = rootVisualElement.Q<Toggle>("SaveOnPlay");
