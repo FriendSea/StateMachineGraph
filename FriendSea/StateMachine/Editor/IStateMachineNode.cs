@@ -104,7 +104,7 @@ namespace FriendSea.StateMachine
 			SetupInputPort(node);
 			SetupOutputPort(node);
 			InitializeInternal(node);
-			node.mainContainer.style.backgroundColor = new Color(1, 0.5f, 0) / 2f;
+			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.StateColor;
 		}
 	}
 

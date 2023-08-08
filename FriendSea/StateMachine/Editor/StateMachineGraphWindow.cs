@@ -13,8 +13,6 @@ namespace FriendSea.StateMachine
 {
 	public class StateMachineGraphWindow : EditorWindow
 	{
-		const string saveOnPlaySettingKey = "friendseastatemachinesaveonplay";
-
 		public static void Open(string assetPath)
 		{
 			var window = Resources.FindObjectsOfTypeAll<StateMachineGraphWindow>().FirstOrDefault(w => AssetDatabase.GUIDToAssetPath(w.guid) == assetPath);
@@ -30,12 +28,6 @@ namespace FriendSea.StateMachine
 		GraphViewData data;
 		[SerializeField]
 		string guid;
-
-		bool SaveOnPlay
-		{
-			get => !string.IsNullOrEmpty(EditorUserSettings.GetConfigValue(saveOnPlaySettingKey));
-			set => EditorUserSettings.SetConfigValue(saveOnPlaySettingKey, value ? "yes!" : null);
-		}
 
 		SerializableGraphView graphView;
 		StateMachine<IContextContainer> _selected = null;
@@ -60,7 +52,7 @@ namespace FriendSea.StateMachine
 		private void PlayModeStateChanged(PlayModeStateChange change)
 		{
 			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
-			if (change == PlayModeStateChange.ExitingEditMode && SaveOnPlay)
+			if (change == PlayModeStateChange.ExitingEditMode && StateMavhineGraphSettings.SaveOnPlay)
 				SaveAsset();
 		}
 
@@ -106,9 +98,14 @@ namespace FriendSea.StateMachine
 
 			rootVisualElement.Q<Button>("FitButton").clicked += graphView.FitToContainer;
 
+			var settingButton = rootVisualElement.Q<Button>("SettingsButton");
+			settingButton.clicked += () => {
+				UnityEditor.PopupWindow.Show(settingButton.worldBound, new StateMavhineGraphSettings());
+			};
+
 			var saveOnPlay = rootVisualElement.Q<Toggle>("SaveOnPlay");
-			saveOnPlay.value = SaveOnPlay;
-			saveOnPlay.RegisterValueChangedCallback(e => SaveOnPlay = e.newValue);
+			saveOnPlay.value = StateMavhineGraphSettings.SaveOnPlay;
+			saveOnPlay.RegisterValueChangedCallback(e => StateMavhineGraphSettings.SaveOnPlay = e.newValue);
 
 			var listView = rootVisualElement.Q<ListView>();
 			listView.visible = EditorApplication.isPlaying;
