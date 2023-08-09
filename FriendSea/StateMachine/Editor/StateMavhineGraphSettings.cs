@@ -18,10 +18,10 @@ namespace FriendSea.StateMachine
 		static Dictionary<System.Type, Color> defaultColors = new Dictionary<System.Type, Color>() {
 			{ typeof(StateNode),  new Color(1f, 0.5f, 0f)/2f},
 			{ typeof(TransitionNode), Color.green/2f },
-			{typeof(ResidentStateNode), Color.yellow/2f },
-			{typeof(SequenceNode), Color.black },
-			{typeof(StateMachineReferenceNode), Color.blue/2f },
-			{typeof(ComponentTransitionNode), Color.blue/2f },
+			{ typeof(ResidentStateNode), Color.yellow/2f },
+			{ typeof(SequenceNode), Color.black },
+			{ typeof(StateMachineReferenceNode), Color.blue/2f },
+			{ typeof(ComponentTransitionNode), Color.blue/2f },
 		};
 
 		const string NodeColorKey = "friendseastatemachinecolor";
