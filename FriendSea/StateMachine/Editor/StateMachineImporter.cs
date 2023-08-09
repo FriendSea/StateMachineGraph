@@ -15,13 +15,14 @@ namespace FriendSea.StateMachine
 		{
 			var data = new GraphViewData();
 			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
+			data.InjectRootForParse();
 
 			// create asset
 
 			var main = ScriptableObject.CreateInstance<StateMachineAsset>();
 
-			var entryId = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is EntryNode).id.id;
-			var fallbackId = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is FallbackNode).id.id;
+			var entryNode = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is EntryNode);
+			var fallbackNode = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is FallbackNode);
 
 			var assets = new Dictionary<string, Editor>();
 			foreach (var node in data.GetElements<GraphViewData.Node>().Where(n => n.data is StateNode))
@@ -34,7 +35,7 @@ namespace FriendSea.StateMachine
 					behaviours = (node.data as StateNode).behaviours,
 					residentStates = new State.ResitentStateRefernce() { 
 						stateMachine = main,
-						guids = GetChildNodes(data, GetContainingGroup(data, node.id.id)?.id?.id).Where(e => e.data is ResidentStateNode).Select(e => e.id.id).ToArray(),
+						guids = node.GetContainingGroup().GetChildNodes().Where(e => e.data is ResidentStateNode).Select(e => e.id.id).ToArray(),
 					},
 					id = AssetDatabase.AssetPathToGUID(assetPath) + node.id.id,
 				};
@@ -47,7 +48,7 @@ namespace FriendSea.StateMachine
 				new State.Transition()
 				{
 					condition = new ImmediateTransition(),
-					targets = GetConnectedNodes(data, entryId)
+					targets = entryNode.GetConnectedNodes()
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
@@ -55,7 +56,7 @@ namespace FriendSea.StateMachine
 				new State.Transition()
 				{
 					condition = new ImmediateTransition(),
-					targets = GetConnectedNodes(data, fallbackId)
+					targets = fallbackNode.GetConnectedNodes()
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
@@ -68,7 +69,7 @@ namespace FriendSea.StateMachine
 					transition = new State.Transition()
 					{
 						condition = new ImmediateTransition(),
-						targets = GetConnectedNodes(data, e.id.id)
+						targets = e.GetConnectedNodes()
 							.OrderBy(n => n.position.y)
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 					},
@@ -81,7 +82,7 @@ namespace FriendSea.StateMachine
 					new State.Transition()
 					{
 						condition = new ImmediateTransition(),
-						targets = GetConnectedNodes(data, pair.Key)
+						targets = data.GetElement<GraphViewData.Node>(pair.Key).GetConnectedNodes()
 							.OrderBy(n => n.position.y)
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 					};
@@ -116,7 +117,7 @@ namespace FriendSea.StateMachine
 			if (node.data is SequenceNode)
 				return new State.Sequence()
 				{
-					targets = GetConnectedNodes(data, node.id.id)
+					targets = node.GetConnectedNodes()
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, id2asset)).ToArray(),
 				};
@@ -124,26 +125,11 @@ namespace FriendSea.StateMachine
 			return
 				new State.Transition() {
 					condition = (node.data as TransitionNode).transition,
-					targets = GetConnectedNodes(data, node.id.id)
+					targets = node.GetConnectedNodes()
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, id2asset)).ToArray(),
 				};
 		}
-
-		IEnumerable<GraphViewData.Edge> GetConnectedEdges(GraphViewData data, string nodeId) =>
-			data.elements.Where(e => e is GraphViewData.Edge).Select(e => e as GraphViewData.Edge).Where(e => e.outputNode.id == nodeId);
-
-		GraphViewData.Node GetConnectedNode(GraphViewData data, GraphViewData.Edge edge) =>
-			data.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node).Where(n => n.id.id == edge.inputNode.id).FirstOrDefault();
-
-		IEnumerable<GraphViewData.Node> GetConnectedNodes(GraphViewData data, string nodeId) =>
-			GetConnectedEdges(data, nodeId).Select(e => GetConnectedNode(data, e));
-
-		GraphViewData.Group GetContainingGroup(GraphViewData data, string nodeId) =>
-			data.elements.Where(e => e is GraphViewData.Group).FirstOrDefault(e => (e as GraphViewData.Group).nodes.Select(n => n.id).Contains(nodeId)) as GraphViewData.Group;
-
-		IEnumerable<GraphViewData.Node> GetChildNodes(GraphViewData data, string groupId) =>
-			(data.elements.FirstOrDefault(e => e.id.id == groupId) as GraphViewData.Group)?.nodes?.Select(id => data.elements.FirstOrDefault(e => e.id.id == id.id) as GraphViewData.Node) ?? new List<GraphViewData.Node>();
 
 		[MenuItem("Assets/Create/🔶➡🔶 fStateMachine Asset")]
 		static void CreateFile()

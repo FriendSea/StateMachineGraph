@@ -21,6 +21,8 @@ namespace FriendSea
 		{
 			[SerializeField]
 			public Id id;
+			[System.NonSerialized]
+			public GraphViewData root;
 
 			public virtual IEnumerable<Id> CollectDependentGuids() { yield break; }
 		}
@@ -82,8 +84,6 @@ namespace FriendSea
 
 		[SerializeReference]
 		public List<ElementData> elements = new List<ElementData>();
-
-		public IEnumerable<T> GetElements<T>() where T : class => elements.Where(e => e is T).Select(e => e as T);
 
 		[SerializeField]
 		Vector3 viewPosition;
