@@ -13,13 +13,13 @@ namespace FriendSea.StateMachine {
 		public IStateReference<T> FallbackState { get; private set; }
 		T target;
 
-		struct StatePairFrame
+		struct StateFramePair
 		{
 			public int frameCount;
 			public IState<T> state;
 		}
 
-		List<StatePairFrame> ResidentStates = new List<StatePairFrame>();
+		List<StateFramePair> ResidentStates = new List<StateFramePair>();
 
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
 		{
@@ -30,20 +30,25 @@ namespace FriendSea.StateMachine {
 			CurrentState.OnEnter(target, 0);
 			foreach (var s in CurrentState.ResidentStates)
 			{
-				ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
+				ResidentStates.Add(new StateFramePair() { frameCount = 0, state = s });
 				s.OnEnter(target, 0);
 			}
 
 			OnInstanceCreated?.Invoke(this);
 		}
 
+		public void DoTransition()
+		{
+			var newstate = CurrentState.NextState(target, frameCount);
+			if (newstate != CurrentState)
+				ForceState(newstate);
+		}
+
 		int frameCount = 0;
 		public void Update()
 		{
 			// Transition
-			var newstate = CurrentState.NextState(target, frameCount);
-			if (newstate != CurrentState)
-				ForceState(newstate);
+			DoTransition();
 			// Update
 			CurrentState.OnUpdate(target, frameCount);
 			foreach (var s in ResidentStates)
@@ -80,7 +85,7 @@ namespace FriendSea.StateMachine {
 			foreach (var s in state.ResidentStates)
 			{
 				if (ResidentStates.Select(pair => pair.state).Contains(s)) continue;
-				ResidentStates.Add(new StatePairFrame() { frameCount = 0, state = s });
+				ResidentStates.Add(new StateFramePair() { frameCount = 0, state = s });
 				s.OnEnter(target, 0);
 			}
 
