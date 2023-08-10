@@ -24,6 +24,11 @@ namespace FriendSea.StateMachine
 			var entryNode = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is EntryNode);
 			var fallbackNode = data.GetElements<GraphViewData.Node>().FirstOrDefault(n => n.data is FallbackNode);
 
+			var globalResidents = data.GetElements<GraphViewData.Node>()
+					.Where(e => e.data is ResidentStateNode)
+					.Where(e => e.GetContainingGroup() == null)
+					.Select(e => e.id.id);
+
 			var assets = new Dictionary<string, Editor>();
 			foreach (var node in data.GetElements<GraphViewData.Node>().Where(n => n.data is StateNode))
 			{
@@ -35,7 +40,7 @@ namespace FriendSea.StateMachine
 					behaviours = (node.data as StateNode).behaviours,
 					residentStates = new State.ResitentStateRefernce() { 
 						stateMachine = main,
-						guids = node.GetContainingGroup().GetChildNodes().Where(e => e.data is ResidentStateNode).Select(e => e.id.id).ToArray(),
+						guids = node.GetContainingGroup().GetChildNodes().Where(e => e.data is ResidentStateNode).Select(e => e.id.id).Concat(globalResidents).ToArray(),
 					},
 					id = AssetDatabase.AssetPathToGUID(assetPath) + node.id.id,
 				};
@@ -68,7 +73,7 @@ namespace FriendSea.StateMachine
 					behaviours = (e.data as ResidentStateNode).behaviours,
 					transition = new State.Transition()
 					{
-						condition = new ImmediateTransition(),
+						condition = e.HasConnectedEdge() ? new ImmediateTransition() : null,
 						targets = e.GetConnectedNodes()
 							.OrderBy(n => n.position.y)
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
@@ -78,11 +83,12 @@ namespace FriendSea.StateMachine
 
 			foreach (var pair in assets)
 			{
+				var node = data.GetElement<GraphViewData.Node>(pair.Key);
 				(pair.Value.target as NodeAsset).data.transition =
 					new State.Transition()
 					{
-						condition = new ImmediateTransition(),
-						targets = data.GetElement<GraphViewData.Node>(pair.Key).GetConnectedNodes()
+						condition = node.HasConnectedEdge() ? new ImmediateTransition() : null,
+						targets = node.GetConnectedNodes()
 							.OrderBy(n => n.position.y)
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 					};

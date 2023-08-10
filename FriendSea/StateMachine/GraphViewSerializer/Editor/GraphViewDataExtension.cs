@@ -25,6 +25,9 @@ namespace FriendSea
 		public static GraphViewData.Node GetConnectedNode(this GraphViewData.Edge edge) =>
 			edge.root.elements.Where(e => e is GraphViewData.Node).Select(e => e as GraphViewData.Node).Where(n => n.id.id == edge.inputNode.id).FirstOrDefault();
 
+		public static bool HasConnectedEdge(this GraphViewData.Node node) =>
+			node.root.elements.Where(e => e is GraphViewData.Edge).Any(e => (e as GraphViewData.Edge).outputNode.id == node.id.id);
+
 		public static IEnumerable<GraphViewData.Node> GetConnectedNodes(this GraphViewData.Node node) =>
 			node.GetConnectedEdges().Select(e => e.GetConnectedNode());
 

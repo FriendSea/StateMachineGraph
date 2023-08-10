@@ -73,6 +73,8 @@ namespace FriendSea.StateMachine
 
 			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
 			{
+				// 遷移なし
+				if (condition == null || targets == null) return (null, false);
 				// 条件にマッチしてない。遷移しない。
 				if (!condition.IsValid(obj, frameCount)) return (null, false);
 				// マッチしたが遷移先がない、nullに遷移
