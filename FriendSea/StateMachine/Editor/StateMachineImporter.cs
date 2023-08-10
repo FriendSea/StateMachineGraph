@@ -106,34 +106,17 @@ namespace FriendSea.StateMachine
 			}
 		}
 
-		static State.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset)
+		public interface IStateReferenceGenerator
 		{
-			if (node.data is StateNode)
-				return new State.StateReference() {
-					nodeAsset = id2asset[node.id.id],
-				};
-
-			if (node.data is StateMachineReferenceNode)
-				return (node.data as StateMachineReferenceNode).asset?.entryState;
-
-			if (node.data is ComponentTransitionNode)
-				return new ComponentTransition();
-
-			if (node.data is SequenceNode)
-				return new State.Sequence()
-				{
-					targets = node.GetConnectedNodes()
-						.OrderBy(n => n.position.y)
-						.Select(n => GenerateTransition(data, n, id2asset)).ToArray(),
-				};
-
-			return
-				new State.Transition() {
-					condition = (node.data as TransitionNode).transition,
-					targets = node.GetConnectedNodes()
-						.OrderBy(n => n.position.y)
-						.Select(n => GenerateTransition(data, n, id2asset)).ToArray(),
-				};
+			System.Type Target { get; }
+			State.IStateReference Generate(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset);
+		}
+		public static State.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset)
+		{
+			var generators = EditorUtils.GetSubClasses(typeof(IStateReferenceGenerator)).Select(type => (IStateReferenceGenerator)System.Activator.CreateInstance(type)).ToList();
+			var generator = generators.FirstOrDefault(g => g.Target == node.data.GetType());
+			if (generator == null) throw new System.NotImplementedException("Node Importer Not fount.");
+			return generator.Generate(data, node, id2asset);
 		}
 
 		[MenuItem("Assets/Create/🔶➡🔶 fStateMachine Asset")]

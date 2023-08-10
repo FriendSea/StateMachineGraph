@@ -39,4 +39,11 @@ namespace FriendSea.StateMachine
 			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(ComponentTransitionNode));
 		}
 	}
+
+	public class ComponentTransitionNodeReferenceGenerator : StateMachineImporter.IStateReferenceGenerator
+	{
+		public Type Target => typeof(ComponentTransitionNode);
+		public State.IStateReference Generate(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			new ComponentTransition();
+	}
 }

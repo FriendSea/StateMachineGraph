@@ -5,7 +5,6 @@ using System;
 
 namespace FriendSea.StateMachine
 {
-
 	[System.Serializable]
 	public class ResidentStateNode : IStateMachineNode
 	{
