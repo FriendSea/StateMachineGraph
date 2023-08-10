@@ -29,13 +29,12 @@ namespace FriendSea.StateMachine
 					.Where(e => e.GetContainingGroup() == null)
 					.Select(e => e.id.id);
 
-			var assets = new Dictionary<string, Editor>();
+			var assets = new Dictionary<string, NodeAsset>();
 			foreach (var node in data.GetElements<GraphViewData.Node>().Where(n => n.data is StateNode))
 			{
 				var state = ScriptableObject.CreateInstance<NodeAsset>();
 				state.name = (node.data as StateNode).name;
 				ctx.AddObjectToAsset(node.id.id, state);
-				var editor = Editor.CreateEditor(state);
 				state.data = new State() { 
 					behaviours = (node.data as StateNode).behaviours,
 					residentStates = new State.ResitentStateRefernce() { 
@@ -44,7 +43,7 @@ namespace FriendSea.StateMachine
 					},
 					id = AssetDatabase.AssetPathToGUID(assetPath) + node.id.id,
 				};
-				assets.Add(node.id.id, editor);
+				assets.Add(node.id.id, state);
 			}
 
 			// construct edges
@@ -84,7 +83,7 @@ namespace FriendSea.StateMachine
 			foreach (var pair in assets)
 			{
 				var node = data.GetElement<GraphViewData.Node>(pair.Key);
-				(pair.Value.target as NodeAsset).data.transition =
+				pair.Value.data.transition =
 					new State.Transition()
 					{
 						condition = node.HasConnectedEdge() ? new ImmediateTransition() : null,
@@ -107,11 +106,11 @@ namespace FriendSea.StateMachine
 			}
 		}
 
-		State.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, Editor> id2asset)
+		static State.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset)
 		{
 			if (node.data is StateNode)
 				return new State.StateReference() {
-					nodeAsset = id2asset[node.id.id].target as NodeAsset,
+					nodeAsset = id2asset[node.id.id],
 				};
 
 			if (node.data is StateMachineReferenceNode)
