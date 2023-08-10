@@ -49,6 +49,39 @@ namespace FriendSea.StateMachine
 		}
 	}
 
+	[CustomPropertyDrawer(typeof(TriggerTransitionLabel))]
+	class TransitionTriggerLabelDrawer : PropertyDrawer
+	{
+		const float newButtonWidth = 20f;
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			position.width -= newButtonWidth;
+
+			var labels = AssetDatabase.FindAssets($"t:{nameof(TriggerTransitionLabel)}").Select(guid => AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(AssetDatabase.GUIDToAssetPath(guid))).Prepend(null).ToList();
+			var currentIndex = Mathf.Max(labels.IndexOf(property.objectReferenceValue), 0);
+			var newIndex = EditorGUI.Popup(position, label, currentIndex, labels.Select(o => new GUIContent(o?.name ?? "<None>")).ToArray());
+			if (currentIndex != newIndex)
+				property.objectReferenceValue = labels[newIndex];
+
+			position.x += position.width;
+			position.width = newButtonWidth;
+
+			if(GUI.Button(position, "+"))
+			{
+				var path = EditorUtility.SaveFilePanelInProject(
+					"Save Trigger Label Asset",
+					"NewTrigger",
+					"asset",
+					"");
+				if (string.IsNullOrEmpty(path)) return;
+				var asset = ScriptableObject.CreateInstance<TriggerTransitionLabel>();
+				AssetDatabase.CreateAsset(asset, path);
+				AssetDatabase.Refresh();
+				property.objectReferenceValue = asset;
+			}
+		}
+	}
+
 	[CustomPropertyDrawer(typeof(State.IBehaviour), true)]
 	class StateBehaviourDrawer : SubclassDrawerDrawer<State.IBehaviour> { }
 
