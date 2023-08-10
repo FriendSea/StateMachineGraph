@@ -49,7 +49,14 @@ namespace FriendSea.StateMachine
 		}
 	}
 
-	[CustomPropertyDrawer(typeof(TriggerTransitionLabel))]
+	[CustomPropertyDrawer(typeof(TriggerNode))]
+	class TriggerDrawer : PropertyDrawer
+	{
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) =>
+			EditorGUI.PropertyField(position, property.FindPropertyRelative("label"), GUIContent.none);
+	}
+
+	[CustomPropertyDrawer(typeof(TriggerLabel))]
 	class TransitionTriggerLabelDrawer : PropertyDrawer
 	{
 		const float newButtonWidth = 20f;
@@ -57,7 +64,7 @@ namespace FriendSea.StateMachine
 		{
 			position.width -= newButtonWidth;
 
-			var labels = AssetDatabase.FindAssets($"t:{nameof(TriggerTransitionLabel)}").Select(guid => AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(AssetDatabase.GUIDToAssetPath(guid))).Prepend(null).ToList();
+			var labels = AssetDatabase.FindAssets($"t:{nameof(TriggerLabel)}").Select(guid => AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(AssetDatabase.GUIDToAssetPath(guid))).Prepend(null).ToList();
 			var currentIndex = Mathf.Max(labels.IndexOf(property.objectReferenceValue), 0);
 			var newIndex = EditorGUI.Popup(position, label, currentIndex, labels.Select(o => new GUIContent(o?.name ?? "<None>")).ToArray());
 			if (currentIndex != newIndex)
@@ -74,7 +81,7 @@ namespace FriendSea.StateMachine
 					"asset",
 					"");
 				if (string.IsNullOrEmpty(path)) return;
-				var asset = ScriptableObject.CreateInstance<TriggerTransitionLabel>();
+				var asset = ScriptableObject.CreateInstance<TriggerLabel>();
 				AssetDatabase.CreateAsset(asset, path);
 				AssetDatabase.Refresh();
 				property.objectReferenceValue = asset;

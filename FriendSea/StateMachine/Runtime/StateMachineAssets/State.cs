@@ -55,6 +55,32 @@ namespace FriendSea.StateMachine
 			}
 		}
 
+		public class Trigger : IStateReference
+		{
+			static List<TriggerLabel> activeLabels = new List<TriggerLabel>();
+			public static void IssueTransiton<T>(StateMachine<T> stateMachine, TriggerLabel label) where T : class
+			{
+				activeLabels.Add(label);
+				stateMachine.DoTransition();
+				activeLabels.Remove(label);
+			}
+
+			[SerializeField]
+			internal TriggerLabel label;
+			[SerializeReference]
+			public IStateReference[] targets;
+
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
+			{
+				foreach (var target in targets)
+				{
+					var result = target.GetState(obj, frameCount);
+					if (result.isValid) return (result.state, activeLabels.Contains(label));
+				}
+				return (null, false);
+			}
+		}
+
 		[SerializeReference]
 		internal IBehaviour[] behaviours = null;
 

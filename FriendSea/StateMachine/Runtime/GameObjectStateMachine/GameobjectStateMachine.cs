@@ -56,7 +56,7 @@ namespace FriendSea.StateMachine
 		public void ForceState(NodeAsset state) =>
 			stateMachine.ForceState(state);
 
-		public void IssueTrigger(TriggerTransitionLabel label) =>
-			StateMachine.IssueTrigger(label);
+		public void IssueTrigger(TriggerLabel label) =>
+			State.Trigger.IssueTransiton(stateMachine, label);
 	}
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 namespace FriendSea.StateMachine
 {
-	public class TriggerTransitionLabel : ScriptableObject { }
+	public class TriggerLabel : ScriptableObject { }
 }
