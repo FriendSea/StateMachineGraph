@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,14 +14,14 @@ namespace FriendSea.StateMachine
 		}
 
 		[SerializeField]
-		TriggerTransitionLabel label;
+		TriggerTransitionLabel label = null;
 
 		public bool IsValid(IContextContainer obj, int frameCount) => activeLabels.Contains(label);
 	}
 
 	public static class StateMachineExtensionForTriggerTransition
 	{
-		public static void IssueTransition<T>(this StateMachine<T> stateMachine, TriggerTransitionLabel label) where T : class =>
+		public static void IssueTrigger<T>(this StateMachine<T> stateMachine, TriggerTransitionLabel label) where T : class =>
 			TriggerTransition.IssueTransiton<T>(stateMachine, label);
 	}
 }

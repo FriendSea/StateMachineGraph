@@ -32,6 +32,6 @@ namespace FriendSea
 			node.root.elements.Where(e => e is GraphViewData.Group).FirstOrDefault(e => (e as GraphViewData.Group).nodes.Select(n => n.id).Contains(node.id.id)) as GraphViewData.Group;
 
 		public static IEnumerable<GraphViewData.Node> GetChildNodes(this GraphViewData.Group group) =>
-			 group.nodes.Select(id => group.root.elements.FirstOrDefault(e => e.id.id == id.id) as GraphViewData.Node) ?? new List<GraphViewData.Node>();
+			 group?.nodes?.Select(id => group.root.elements.FirstOrDefault(e => e.id.id == id.id) as GraphViewData.Node) ?? new List<GraphViewData.Node>();
 	}
 }

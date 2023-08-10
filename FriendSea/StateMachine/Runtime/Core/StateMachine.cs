@@ -41,7 +41,17 @@ namespace FriendSea.StateMachine {
 		{
 			var newstate = CurrentState.NextState(target, frameCount);
 			if (newstate != CurrentState)
+			{
 				ForceState(newstate);
+				return;
+			}
+			foreach(var pair in ResidentStates)
+			{
+				var nextState = pair.state.NextState(target, pair.frameCount);
+				if (nextState == pair.state) continue;
+				ForceState(nextState);
+				return;
+			}
 		}
 
 		int frameCount = 0;
