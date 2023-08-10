@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AssetImporters;
@@ -106,18 +105,8 @@ namespace FriendSea.StateMachine
 			}
 		}
 
-		public interface IStateReferenceGenerator
-		{
-			System.Type Target { get; }
-			State.IStateReference Generate(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset);
-		}
-		public static State.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset)
-		{
-			var generators = EditorUtils.GetSubClasses(typeof(IStateReferenceGenerator)).Select(type => (IStateReferenceGenerator)System.Activator.CreateInstance(type)).ToList();
-			var generator = generators.FirstOrDefault(g => g.Target == node.data.GetType());
-			if (generator == null) throw new System.NotImplementedException("Node Importer Not fount.");
-			return generator.Generate(data, node, id2asset);
-		}
+		public static State.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			(node.data as IStateMachineNode).GenerateReferenceForImport(data, node, id2asset);
 
 		[MenuItem("Assets/Create/🔶➡🔶 fStateMachine Asset")]
 		static void CreateFile()

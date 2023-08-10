@@ -8,7 +8,9 @@ using UnityEditor.UIElements;
 
 namespace FriendSea.StateMachine
 {
-	public interface IStateMachineNode { }
+	public interface IStateMachineNode {
+		State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset);
+	}
 
 	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
 	{

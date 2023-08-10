@@ -11,6 +11,15 @@ namespace FriendSea.StateMachine
 	{
 		[SerializeReference]
 		internal State.Transition.ICondition transition;
+
+		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			new State.Transition()
+			{
+				condition = (node.data as TransitionNode).transition,
+				targets = node.GetConnectedNodes()
+						.OrderBy(n => n.position.y)
+						.Select(n => StateMachineImporter.GenerateTransition(data, n, id2asset)).ToArray(),
+			};
 	}
 
 	public class TransitionNodeInitializer : StateMachineNodeInitializerBase
@@ -25,18 +34,5 @@ namespace FriendSea.StateMachine
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(TransitionNode));
 		}
-	}
-
-	public class TransitionNodeReferenceGenerator : StateMachineImporter.IStateReferenceGenerator
-	{
-		public Type Target => typeof(TransitionNode);
-		public State.IStateReference Generate(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			new State.Transition()
-			{
-				condition = (node.data as TransitionNode).transition,
-				targets = node.GetConnectedNodes()
-						.OrderBy(n => n.position.y)
-						.Select(n => StateMachineImporter.GenerateTransition(data, n, id2asset)).ToArray(),
-			};
 	}
 }

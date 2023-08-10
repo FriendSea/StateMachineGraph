@@ -7,7 +7,16 @@ using System.Linq;
 namespace FriendSea.StateMachine
 {
 	[System.Serializable]
-	public class SequenceNode : IStateMachineNode { }
+	public class SequenceNode : IStateMachineNode
+	{
+		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			new State.Sequence()
+			{
+				targets = node.GetConnectedNodes()
+						.OrderBy(n => n.position.y)
+						.Select(n => StateMachineImporter.GenerateTransition(data, n, id2asset)).ToArray(),
+			};
+	}
 
 	public class SequenceNodeInitializer : StateMachineNodeInitializerBase
 	{
@@ -22,17 +31,5 @@ namespace FriendSea.StateMachine
 			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(SequenceNode));
 			node.extensionContainer.Clear();
 		}
-	}
-
-	public class SequenceNodeReferenceGenerator : StateMachineImporter.IStateReferenceGenerator
-	{
-		public Type Target => typeof(SequenceNode);
-		public State.IStateReference Generate(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			new State.Sequence()
-			{
-				targets = node.GetConnectedNodes()
-						.OrderBy(n => n.position.y)
-						.Select(n => StateMachineImporter.GenerateTransition(data, n, id2asset)).ToArray(),
-			};
 	}
 }

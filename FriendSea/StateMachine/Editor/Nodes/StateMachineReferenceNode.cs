@@ -13,6 +13,9 @@ namespace FriendSea.StateMachine
 	{
 		[SerializeField]
 		internal StateMachineAsset asset;
+
+		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			(node.data as StateMachineReferenceNode).asset?.entryState;
 	}
 
 	public class StateMachineReferenceNodeInitializer : GraphNode.IInitializer
@@ -55,12 +58,5 @@ namespace FriendSea.StateMachine
 
 			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(StateMachineReferenceNode));
 		}
-	}
-
-	public class StareMachineReferenceNodeReferenceGenerator : StateMachineImporter.IStateReferenceGenerator
-	{
-		public Type Target => typeof(StateMachineReferenceNode);
-		public State.IStateReference Generate(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			(node.data as StateMachineReferenceNode).asset?.entryState;
 	}
 }

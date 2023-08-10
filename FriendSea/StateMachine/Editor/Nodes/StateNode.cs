@@ -12,6 +12,9 @@ namespace FriendSea.StateMachine
 		internal string name;
 		[SerializeReference]
 		internal State.IBehaviour[] behaviours;
+
+		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			new State.StateReference() { nodeAsset = id2asset[node.id.id] };
 	}
 
 	public class StateNodeInitializer : StateMachineNodeInitializerBase
@@ -26,12 +29,5 @@ namespace FriendSea.StateMachine
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(StateNode));
 		}
-	}
-
-	public class StateNodeReferenceGenerator : StateMachineImporter.IStateReferenceGenerator
-	{
-		public Type Target => typeof(StateNode);
-		public State.IStateReference Generate(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			new State.StateReference(){ nodeAsset = id2asset[node.id.id] };
 	}
 }
