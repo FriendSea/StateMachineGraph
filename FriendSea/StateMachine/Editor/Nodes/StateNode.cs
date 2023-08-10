@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using System;
 
 namespace FriendSea.StateMachine
@@ -28,6 +29,28 @@ namespace FriendSea.StateMachine
 			SetupOutputPort(node);
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(StateNode));
+		}
+	}
+
+	[CustomPropertyDrawer(typeof(StateNode))]
+	[CustomPropertyDrawer(typeof(ResidentStateNode))]
+	class StateDrawer : PropertyDrawer
+	{
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			position.y -= EditorGUIUtility.singleLineHeight;
+			position.x -= 30f;
+			position.width += 30f;
+			var listProp = property.FindPropertyRelative("behaviours");
+			listProp.isExpanded = true;
+			EditorGUI.PropertyField(position, listProp, null, true);
+		}
+
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			var listProp = property.FindPropertyRelative("behaviours");
+			listProp.isExpanded = true;
+			return EditorGUI.GetPropertyHeight(listProp, null, true) - EditorGUIUtility.singleLineHeight;
 		}
 	}
 }

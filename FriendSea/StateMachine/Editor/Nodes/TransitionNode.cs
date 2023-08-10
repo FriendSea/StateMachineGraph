@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using System;
 using System.Linq;
 
@@ -33,6 +34,26 @@ namespace FriendSea.StateMachine
 			SetupOutputPort(node);
 			InitializeInternal(node);
 			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(TransitionNode));
+		}
+	}
+
+	[CustomPropertyDrawer(typeof(TransitionNode))]
+	class TransitionDrawer : PropertyDrawer
+	{
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			position.x -= 10f;
+			position.width += 10f;
+			var listProp = property.FindPropertyRelative("transition");
+			listProp.isExpanded = true;
+			EditorGUI.PropertyField(position, listProp, null, true);
+		}
+
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			var listProp = property.FindPropertyRelative("transition");
+			listProp.isExpanded = true;
+			return EditorGUI.GetPropertyHeight(listProp, null, true);
 		}
 	}
 }
