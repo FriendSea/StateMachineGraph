@@ -280,8 +280,8 @@ namespace FriendSea
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			base.BuildContextualMenu(evt);
-
-			evt.menu.AppendAction("Add Note", action => {
+			var position = viewTransform.matrix.inverse.MultiplyPoint(evt.localMousePosition);
+			evt.menu.AppendAction("Add StickyNote", action => {
 				dataProperty.serializedObject.Update();
 				var array = dataProperty.FindPropertyRelative("elements");
 				array.arraySize++;
@@ -290,6 +290,7 @@ namespace FriendSea
 				{
 					id = new GraphViewData.Id(System.Guid.NewGuid().ToString()),
 					content = "New Note",
+					position = position,
 				};
 				dataProperty.serializedObject.ApplyModifiedProperties();
 
