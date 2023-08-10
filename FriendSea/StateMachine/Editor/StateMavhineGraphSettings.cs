@@ -21,14 +21,15 @@ namespace FriendSea.StateMachine
 			{ typeof(ResidentStateNode), Color.yellow/2f },
 			{ typeof(SequenceNode), Color.black },
 			{ typeof(StateMachineReferenceNode), Color.blue/2f },
-			{ typeof(ComponentTransitionNode), Color.blue/2f },
 		};
+		public static void AddDefaultColor(System.Type type, Color color) =>
+			defaultColors.Add(type, color);
 
 		const string NodeColorKey = "friendseastatemachinecolor";
 		public static Color GetColor(System.Type type) =>
 			ColorUtility.TryParseHtmlString(EditorUserSettings.GetConfigValue($"{NodeColorKey}_{type.Name}"), out var color) ?
 					color :
-					defaultColors[type];
+					(defaultColors.ContainsKey(type) ? defaultColors[type] : Color.black);
 		public static void SetColor(System.Type type, Color color) =>
 			EditorUserSettings.SetConfigValue($"{NodeColorKey}_{type.Name}", "#" + ColorUtility.ToHtmlStringRGBA(color));
 
@@ -38,7 +39,7 @@ namespace FriendSea.StateMachine
 		public override void OnGUI(Rect rect)
 		{
 			rect.height = EditorGUIUtility.singleLineHeight;
-			foreach(var type in defaultColors.Keys)
+			foreach(var type in EditorUtils.GetSubClasses(typeof(IStateMachineNode)))
 			{
 				SetColor(type, EditorGUI.ColorField(rect, new GUIContent(type.Name), GetColor(type)));
 				rect.y += EditorGUIUtility.singleLineHeight + 2f;
@@ -51,6 +52,6 @@ namespace FriendSea.StateMachine
 
 		public override void OnClose() => onClose?.Invoke();
 		public override Vector2 GetWindowSize() =>
-			new Vector2(300f, (defaultColors.Count + 1) * (EditorGUIUtility.singleLineHeight + 2f));
+			new Vector2(300f, (EditorUtils.GetSubClasses(typeof(IStateMachineNode)).Count + 1) * (EditorGUIUtility.singleLineHeight + 2f));
 	}
 }
