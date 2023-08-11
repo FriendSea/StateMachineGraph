@@ -23,7 +23,8 @@ namespace FriendSea
 			id = property.FindPropertyRelative("id").FindPropertyRelative("id").stringValue;
 			contents = property.FindPropertyRelative("content").stringValue;
 
-			title = null;
+			var titleLabel = this.Q<Label>("title");
+			titleLabel.parent.Remove(titleLabel);
 
 			fontSize = UnityEditor.Experimental.GraphView.StickyNoteFontSize.Medium;
 			SetPosition(new Rect(property.FindPropertyRelative("position").vector2Value, property.FindPropertyRelative("size").vector2Value));
