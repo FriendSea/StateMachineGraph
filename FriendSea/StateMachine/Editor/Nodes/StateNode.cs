@@ -79,18 +79,27 @@ namespace FriendSea.StateMachine
 			position.height = height;
 
 			EditorGUI.DrawRect(position, StateMavhineGraphSettings.GetColor(typeof(StateNode)));
-			base.OnGUI(position, property, label);
+			base.OnGUI(ShrinkRect(position, 5f), property, label);
 
 			position.y += height;
 			position.height = conditionHeight;
 
 			EditorGUI.DrawRect(position, StateMavhineGraphSettings.GetColor(typeof(TransitionNode)));
-			EditorGUI.PropertyField(position, property.FindPropertyRelative("transition.condition"));
+			EditorGUI.PropertyField(ShrinkRect(position, 5f), property.FindPropertyRelative("transition.condition"));
+		}
+
+		Rect ShrinkRect(Rect rect, float amount)
+		{
+			rect.x += amount;
+			rect.width -= amount * 2f;
+			return rect;
 		}
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return base.GetPropertyHeight(property, label) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("transition.condition"));
+			return
+				base.GetPropertyHeight(property, label) +
+				EditorGUI.GetPropertyHeight(property.FindPropertyRelative("transition.condition"));
 		}
 	}
 }
