@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -618,6 +618,7 @@ GameObject:
   - component: {fileID: 1027930649}
   - component: {fileID: 1027930648}
   - component: {fileID: 1027930647}
+  - component: {fileID: 1027930652}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -716,6 +717,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1027930652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027930646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20cb7eda3437f94ba784e1cedd164db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state:
+    behaviours:
+    - rid: 2691582755607675533
+    transition:
+      condition:
+        rid: 2691582755607675573
+      targets: []
+    residentStates:
+      stateMachine: {fileID: 0}
+      guids: []
+    id: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 2691582755607675533
+      type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
+      data:
+        velocity: {x: 0, y: 0, z: 0}
+    - rid: 2691582755607675573
+      type: {class: FrameTransition, ns: FriendSea.StateMachine, asm: FriendSea.StateMachine}
+      data:
+        length: 100
 --- !u!1 &1600433293
 GameObject:
   m_ObjectHideFlags: 0

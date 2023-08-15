@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using UnityEditorInternal;
 
 namespace FriendSea.StateMachine
 {
@@ -34,23 +37,60 @@ namespace FriendSea.StateMachine
 
 	[CustomPropertyDrawer(typeof(StateNode))]
 	[CustomPropertyDrawer(typeof(ResidentStateNode))]
-	class StateDrawer : PropertyDrawer
+	class StateNodeDrawer : PropertyDrawer
+	{
+		Dictionary<SerializedObject, Dictionary<string, ReorderableList>> lists = new Dictionary<SerializedObject, Dictionary<string, ReorderableList>>();
+
+		ReorderableList CreateReorderableList(SerializedProperty property)
+		{
+			var prop = property.FindPropertyRelative("behaviours");
+			var list = new ReorderableList(property.serializedObject, prop);
+			list.drawElementCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
+				EditorGUI.PropertyField(rect, prop.GetArrayElementAtIndex(index));
+			list.elementHeightCallback += index => EditorGUI.GetPropertyHeight(prop.GetArrayElementAtIndex(index));
+			list.headerHeight = 0;
+			return list;
+		}
+
+		ReorderableList GetReorderableList(SerializedProperty property)
+		{
+			if (!lists.ContainsKey(property.serializedObject))
+				lists.Add(property.serializedObject, new Dictionary<string, ReorderableList>());
+			var dict = lists[property.serializedObject];
+			if (!dict.ContainsKey(property.propertyPath))
+				dict.Add(property.propertyPath, CreateReorderableList(property));
+			return dict[property.propertyPath];
+		}
+
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) =>
+			GetReorderableList(property).DoList(position);
+
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label) =>
+			GetReorderableList(property).GetHeight();
+	}
+
+	[CustomPropertyDrawer(typeof(State))]
+	class StateDrawer : StateNodeDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			position.y -= EditorGUIUtility.singleLineHeight;
-			position.x -= 30f;
-			position.width += 30f;
-			var listProp = property.FindPropertyRelative("behaviours");
-			listProp.isExpanded = true;
-			EditorGUI.PropertyField(position, listProp, null, true);
+			var height = base.GetPropertyHeight(property, label);
+			var conditionHeight = position.height - height;
+			position.height = height;
+
+			EditorGUI.DrawRect(position, StateMavhineGraphSettings.GetColor(typeof(StateNode)));
+			base.OnGUI(position, property, label);
+
+			position.y += height;
+			position.height = conditionHeight;
+
+			EditorGUI.DrawRect(position, StateMavhineGraphSettings.GetColor(typeof(TransitionNode)));
+			EditorGUI.PropertyField(position, property.FindPropertyRelative("transition.condition"));
 		}
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			var listProp = property.FindPropertyRelative("behaviours");
-			listProp.isExpanded = true;
-			return EditorGUI.GetPropertyHeight(listProp, null, true) - EditorGUIUtility.singleLineHeight;
+			return base.GetPropertyHeight(property, label) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("transition.condition"));
 		}
 	}
 }
