@@ -726,15 +726,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1027930646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a20cb7eda3437f94ba784e1cedd164db, type: 3}
+  m_Script: {fileID: 11500000, guid: a81147056ddaf35479f3815e52e455bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  label: {fileID: 11400000, guid: ad8d99ef8a130394fb901ea4010c07cf, type: 2}
   state:
     behaviours:
-    - rid: 2691582755607675533
+    - rid: 2691582755607675660
     transition:
       condition:
-        rid: 2691582755607675573
+        rid: 2691582755607675661
       targets: []
     residentStates:
       stateMachine: {fileID: 0}
@@ -743,14 +744,14 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2691582755607675533
+    - rid: 2691582755607675660
       type: {class: MoveBehaviour, ns: , asm: Assembly-CSharp}
       data:
-        velocity: {x: 0, y: 0, z: 0}
-    - rid: 2691582755607675573
+        velocity: {x: 0, y: -5, z: 0}
+    - rid: 2691582755607675661
       type: {class: FrameTransition, ns: FriendSea.StateMachine, asm: FriendSea.StateMachine}
       data:
-        length: 100
+        length: 60
 --- !u!1 &1600433293
 GameObject:
   m_ObjectHideFlags: 0
