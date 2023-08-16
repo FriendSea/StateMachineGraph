@@ -11,10 +11,19 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal EmbededStateLabel label;
 
+		static List<State.IStateReference> sharedList = new List<State.IStateReference>();
+
 		public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
 		{
 			CurrentLabel = label;
-			return obj.Get<State.IStateReference>().GetState(obj, frameCount);
+			obj.Get<GameObject>().GetComponentsInChildren(true, sharedList);
+			foreach(var reference in sharedList)
+			{
+				var result = reference.GetState(obj, frameCount);
+				if (result.isValid)
+					return result;
+			}
+			return (null, false);
 		}
 	}
 }
