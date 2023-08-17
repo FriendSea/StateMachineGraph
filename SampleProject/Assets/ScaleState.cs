@@ -5,6 +5,9 @@ using FriendSea.StateMachine;
 
 public class ScaleBehaviour : State.IBehaviour
 {
+	[InjectContext]
+	float a;
+
 	public void OnEnter(IContextContainer obj, int frameCount)
 	{
 		Debug.Log($"Entered Scale State.");
