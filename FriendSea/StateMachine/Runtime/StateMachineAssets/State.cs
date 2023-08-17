@@ -55,6 +55,21 @@ namespace FriendSea.StateMachine
 			}
 		}
 
+		[System.Serializable]
+		public class Random : IStateReference
+		{
+			[SerializeReference]
+			public IStateReference[] targets;
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
+			{
+				// 遷移先がない、nullに遷移
+				if (targets.Length <= 0) return (null, true);
+
+				// ランダム遷移
+				return targets[UnityEngine.Random.Range(0, targets.Length)].GetState(obj, frameCount);
+			}
+		}
+
 		public class Trigger : IStateReference
 		{
 			static List<TriggerLabel> activeLabels = new List<TriggerLabel>();
@@ -77,7 +92,7 @@ namespace FriendSea.StateMachine
 					var result = target.GetState(obj, frameCount);
 					if (result.isValid) return (result.state, activeLabels.Contains(label));
 				}
-				return (null, false);
+				return (null, activeLabels.Contains(label));
 			}
 		}
 
