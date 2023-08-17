@@ -66,11 +66,7 @@ namespace FriendSea.StateMachine
 				if (targets.Length <= 0) return (null, true);
 
 				// ランダム遷移
-				var result = targets[UnityEngine.Random.Range(0, targets.Length)].GetState(obj, frameCount);
-				if (result.isValid)
-					return (result.state, true);
-				else
-					return (null, true);
+				return targets[UnityEngine.Random.Range(0, targets.Length)].GetState(obj, frameCount);
 			}
 		}
 
@@ -96,7 +92,7 @@ namespace FriendSea.StateMachine
 					var result = target.GetState(obj, frameCount);
 					if (result.isValid) return (result.state, activeLabels.Contains(label));
 				}
-				return (null, false);
+				return (null, activeLabels.Contains(label));
 			}
 		}
 
