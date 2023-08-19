@@ -10,7 +10,7 @@ using UnityEditorInternal;
 namespace FriendSea.StateMachine
 {
 	[System.Serializable]
-	[DisplayName("States/State")]
+	[DisplayName("State")]
 	public class StateNode : IStateMachineNode
 	{
 		[SerializeField, HideInInspector]

@@ -33,23 +33,19 @@ namespace FriendSea
 		List<SearchTreeEntry> CreateEntries(Dictionary<string, System.Type> types, int level)
 		{
 			var result = new List<SearchTreeEntry>();
-			foreach(var group in types.GroupBy(t => GetGroupName(t.Key))){
+			foreach(var group in types.GroupBy(t => GetGroupName(t.Key)).OrderBy(g => g.Key)){
 				if (string.IsNullOrEmpty(group.Key))
-				{
 					result.AddRange(group.Select(pair => new SearchTreeEntry(new GUIContent(pair.Key)) { level = level, userData = pair.Value }));
-				}
 				else
-				{
 					result.AddRange(CreateEntries(group.ToDictionary(pair => pair.Key.Replace($"{group.Key}/", ""), pair => pair.Value), level + 1)
 						.Prepend(new SearchTreeGroupEntry(new GUIContent(group.Key)) { level = level }));
-				}
 			}
 			return result;
 		}
 
 		string GetDisplayName(System.Type type) =>
 			(type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute)?.Name ??
-			type.Name;
+			type.FullName;
 
 		string GetGroupName(string path) =>
 			path.Contains('/') ?

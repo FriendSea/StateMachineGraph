@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 namespace FriendSea.StateMachine
 {
 	[System.Serializable]
-	[DisplayName("State References/StateMachine Reference")]
+	[DisplayName("States/StateMachine Reference")]
 	public class StateMachineReferenceNode : IStateMachineNode
 	{
 		[SerializeField]
