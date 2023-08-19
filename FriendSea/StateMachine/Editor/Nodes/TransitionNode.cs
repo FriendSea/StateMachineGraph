@@ -8,6 +8,7 @@ using System.Linq;
 namespace FriendSea.StateMachine
 {
 	[System.Serializable]
+	[DisplayName("Controls/Transition")]
 	public class TransitionNode : IStateMachineNode
 	{
 		[SerializeReference]

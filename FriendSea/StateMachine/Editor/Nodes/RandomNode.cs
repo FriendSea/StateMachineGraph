@@ -5,6 +5,8 @@ using System;
 
 namespace FriendSea.StateMachine
 {
+	[System.Serializable]
+	[DisplayName("Controls/Random")]
 	public class RandomNode : IStateMachineNode
 	{
 		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>

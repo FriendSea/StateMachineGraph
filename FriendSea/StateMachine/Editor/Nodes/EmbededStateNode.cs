@@ -7,6 +7,8 @@ using System;
 
 namespace FriendSea.StateMachine
 {
+	[System.Serializable]
+	[DisplayName("State References/Embeded State")]
 	public class EmbededStateNode : IStateMachineNode
 	{
 		[SerializeField]

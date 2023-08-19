@@ -7,6 +7,8 @@ using System.Linq;
 
 namespace FriendSea.StateMachine
 {
+	[System.Serializable]
+	[DisplayName("Controls/Trigger")]
 	public class TriggerNode : IStateMachineNode
 	{
 		[SerializeField]
