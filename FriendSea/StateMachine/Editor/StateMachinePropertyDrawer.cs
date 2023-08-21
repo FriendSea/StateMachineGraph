@@ -15,15 +15,23 @@ namespace FriendSea.StateMachine
 
 	class SubclassDrawerDrawer<T> : PropertyDrawer
 	{
+		static List<System.Type> types;
+		static string[] typeNames;
+
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
+			if (types == null)
+				types = TypeCache.GetTypesDerivedFrom<T>()
+					.Where(t => !t.IsAbstract).ToList();
+			if (typeNames == null)
+				typeNames = types.Select(t => t.GetDisplayName()).ToArray();
+
 			var dropPos = position;
 			dropPos.x += EditorGUIUtility.singleLineHeight;
 			dropPos.width -= EditorGUIUtility.singleLineHeight;
 			dropPos.height = EditorGUIUtility.singleLineHeight;
-			var types = EditorUtils.GetSubClasses(typeof(T));
 			var currentIndex = types.IndexOf(property.managedReferenceValue?.GetType());
-			var newIndex = EditorGUI.Popup(dropPos, currentIndex, types.Select(t => t.GetDisplayName()).ToArray());
+			var newIndex = EditorGUI.Popup(dropPos, currentIndex, typeNames);
 			if (newIndex != currentIndex)
 			{
 				property.managedReferenceValue = System.Activator.CreateInstance(types[newIndex]);
