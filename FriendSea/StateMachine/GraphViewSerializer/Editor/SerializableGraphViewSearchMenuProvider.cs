@@ -6,6 +6,7 @@ using UnityEditor;
 using System;
 using UnityEngine.UIElements;
 using System.Linq;
+using System.ComponentModel;
 
 namespace FriendSea
 {
@@ -44,8 +45,8 @@ namespace FriendSea
 		}
 
 		string GetDisplayName(System.Type type) =>
-			(type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute)?.Name ??
-			type.FullName;
+			(type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute)?.DisplayName ??
+			type.FullName.Replace(".", "/");
 
 		string GetGroupName(string path) =>
 			path.Contains('/') ?
