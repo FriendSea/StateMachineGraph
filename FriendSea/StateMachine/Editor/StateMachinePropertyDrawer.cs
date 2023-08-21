@@ -21,10 +21,15 @@ namespace FriendSea.StateMachine
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			if (types == null)
-				types = TypeCache.GetTypesDerivedFrom<T>()
-					.Where(t => !t.IsAbstract).ToList();
-			if (typeNames == null)
-				typeNames = types.Select(t => t.GetDisplayName()).ToArray();
+			{
+				var dict = TypeCache.GetTypesDerivedFrom<T>()
+					.Where(t => !t.IsAbstract)
+					.Select(t => (t.GetDisplayName(), t))
+					.Where(t => !t.Item1.StartsWith("Hidden/"))
+					.ToDictionary(pair => pair.Item1, pair => pair.t);
+				types = dict.Values.ToList();
+				typeNames = dict.Keys.ToArray();
+			}
 
 			var dropPos = position;
 			dropPos.x += EditorGUIUtility.singleLineHeight;
