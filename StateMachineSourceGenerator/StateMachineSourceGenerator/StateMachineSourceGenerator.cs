@@ -37,8 +37,40 @@ namespace FriendSea.StateMachine
 				foreach(var dec in classDecs)
 				{
 					var sementicModel = context.Compilation.GetSemanticModel(dec.SyntaxTree);
-					code += $"/* {sementicModel.GetDeclaredSymbol(dec).Name} : {sementicModel.GetDeclaredSymbol(dec).BaseType.Name} */\n";
+					var symbol = sementicModel.GetDeclaredSymbol(dec);
+
+					if (symbol.BaseType.Name != "BehaviourBase") continue;
+
+					var fields = new Dictionary<string, string>();
+
+					foreach(var sym in symbol.GetMembers())
+					{
+						var fieldSymbol = sym as IFieldSymbol;
+						if (fieldSymbol == null) continue;
+						if (!fieldSymbol.GetAttributes().Any(s => s.AttributeClass.Name == "InjectContextAttribute")) continue;
+						fields.Add(fieldSymbol.Name, fieldSymbol.Type.Name);
+					}
+
+					if (fields.Count == 0) continue;
+
+					var decl = $@"
+partial class {symbol.Name} {{
+	public override void OnSetup(IContextContainer obj, int frameCount) {{ 
+		{string.Join("\n", fields.Select(s => $"{s.Key} = obj.Get<{s.Value}>();"))}
+	}}
+}}
+";
+					if (!string.IsNullOrEmpty(symbol.ContainingNamespace?.Name))
+						decl = $@"
+namespace {symbol.ContainingNamespace?.Name} {{
+{decl}
+}}
+";
+
+					code += decl;
 				}
+
+
 
 				context.AddSource(
 					hintName: "InjectContextAttribute.g.cs",
