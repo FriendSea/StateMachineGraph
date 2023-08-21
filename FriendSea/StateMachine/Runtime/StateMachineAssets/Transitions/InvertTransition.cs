@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace FriendSea.StateMachine
 {
+	[DisplayName("Invert")]
 	public class InvertTransition : State.Transition.ICondition
 	{
 		[SerializeReference]

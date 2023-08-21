@@ -23,7 +23,7 @@ namespace FriendSea.StateMachine
 			dropPos.height = EditorGUIUtility.singleLineHeight;
 			var types = EditorUtils.GetSubClasses(typeof(T));
 			var currentIndex = types.IndexOf(property.managedReferenceValue?.GetType());
-			var newIndex = EditorGUI.Popup(dropPos, currentIndex, types.Select(t => t.Name).ToArray());
+			var newIndex = EditorGUI.Popup(dropPos, currentIndex, types.Select(t => t.GetDisplayName()).ToArray());
 			if (newIndex != currentIndex)
 			{
 				property.managedReferenceValue = System.Activator.CreateInstance(types[newIndex]);

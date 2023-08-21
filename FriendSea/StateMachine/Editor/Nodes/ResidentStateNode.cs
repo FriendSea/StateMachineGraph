@@ -6,6 +6,7 @@ using System;
 namespace FriendSea.StateMachine
 {
 	[System.Serializable]
+	[DisplayName("States/Resident State")]
 	public class ResidentStateNode : IStateMachineNode
 	{
 		[SerializeField, HideInInspector]
