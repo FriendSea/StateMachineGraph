@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace FriendSea.StateMachine
 {
+	[DisplayName("Hidden/Always")]
 	public class ImmediateTransition : State.Transition.ICondition
 	{
 		public bool IsValid(IContextContainer obj, int frameCount) => true;

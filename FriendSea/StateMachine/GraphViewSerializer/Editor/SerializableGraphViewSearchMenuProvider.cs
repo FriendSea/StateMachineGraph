@@ -27,7 +27,7 @@ namespace FriendSea
 		{
 			var entries = new List<SearchTreeEntry>();
 			entries.Add(new SearchTreeGroupEntry(new GUIContent("Create Node")));
-			entries.AddRange(CreateEntries(EditorUtils.GetSubClasses(dataType).ToDictionary(t => GetDisplayName(t), t => t), 1));
+			entries.AddRange(CreateEntries(EditorUtils.GetSubClasses(dataType).ToDictionary(t => t.GetDisplayName(), t => t), 1));
 			return entries;
 		}
 
@@ -43,10 +43,6 @@ namespace FriendSea
 			}
 			return result;
 		}
-
-		string GetDisplayName(System.Type type) =>
-			(type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute)?.DisplayName ??
-			type.FullName.Replace(".", "/");
 
 		string GetGroupName(string path) =>
 			path.Contains('/') ?

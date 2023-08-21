@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using System.ComponentModel;
 
 namespace FriendSea
 {
@@ -34,7 +35,11 @@ namespace FriendSea
             }
         }
 
-        public struct WrapEnumerable<T> : IEnumerable<T>
+		public static string GetDisplayName(this System.Type type) =>
+			(type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute)?.DisplayName ??
+			type.FullName.Replace(".", "/");
+
+		public struct WrapEnumerable<T> : IEnumerable<T>
 		{
             IEnumerator<T> enumerator;
 

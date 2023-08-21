@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace FriendSea.StateMachine
 {
+	[DisplayName("WaitFrames")]
 	public class FrameTransition : State.Transition.ICondition
 	{
 		[SerializeField]

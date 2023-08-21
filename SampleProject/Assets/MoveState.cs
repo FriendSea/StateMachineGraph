@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine;
 
+[DisplayName("Transform/Move")]
 public class MoveBehaviour : State.IBehaviour
 {
 	[SerializeField]
