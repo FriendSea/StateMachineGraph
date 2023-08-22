@@ -12,20 +12,21 @@ namespace StateMachineSourceGenerator
 	[Generator]
 	public class StateMachineSourceGenerator : ISourceGenerator
 	{
-		private const string AttributeText =
-@"
-using System;
-namespace FriendSea.StateMachine
-{
-	[AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-	sealed class InjectContextAttribute : Attribute
-	{
-		public InjectContextAttribute()
-		{
-		}
-	}
-}
-";
+		private const string AttributeText = 
+			"""
+			using System;
+			namespace FriendSea.StateMachine {
+				[AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+				sealed class InjectContextAttribute : Attribute {
+					public InjectContextAttribute(){}
+				}
+			}
+
+			""";
+
+		static string GetFullName(ISymbol symbol) => string.IsNullOrEmpty(symbol?.ContainingNamespace?.Name) ?
+			symbol.Name :
+			$"{GetFullName(symbol.ContainingNamespace)}.{symbol.Name}";
 
 		public void Execute(GeneratorExecutionContext context)
 		{
@@ -48,24 +49,26 @@ namespace FriendSea.StateMachine
 						var fieldSymbol = sym as IFieldSymbol;
 						if (fieldSymbol == null) continue;
 						if (!fieldSymbol.GetAttributes().Any(s => s.AttributeClass.Name == "InjectContextAttribute")) continue;
-						fields.Add(fieldSymbol.Name, fieldSymbol.Type.Name);
+						fields.Add(fieldSymbol.Name, GetFullName(fieldSymbol.Type));
 					}
 
 					if (fields.Count == 0) continue;
 
-					var decl = $@"
-partial class {symbol.Name} {{
-	public override void OnSetup(IContextContainer obj, int frameCount) {{ 
-		{string.Join("\n", fields.Select(s => $"{s.Key} = obj.Get<{s.Value}>();"))}
-	}}
-}}
-";
+					var decl = 
+						$$"""
+						partial class {{symbol.Name}} {
+							public override void OnSetup(IContextContainer obj, int frameCount) {
+								{{string.Join("\n", fields.Select(s => $"{s.Key} = obj.Get<{s.Value}>();"))}}
+							}
+						}
+						""";
 					if (!string.IsNullOrEmpty(symbol.ContainingNamespace?.Name))
-						decl = $@"
-namespace {symbol.ContainingNamespace?.Name} {{
-{decl}
-}}
-";
+						decl = 
+							$$"""
+							namespace {{GetFullName(symbol.ContainingNamespace)}} {
+							{{decl}}
+							}
+							""";
 
 					code += decl;
 				}

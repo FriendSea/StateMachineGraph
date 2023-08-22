@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <BaseOutputPath>..\..\FriendSea\StateMachine\Generator</BaseOutputPath>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
