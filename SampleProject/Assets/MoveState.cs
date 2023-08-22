@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine;
 
-public class MoveBehaviour : BehaviourBase
+public partial class MoveBehaviour : BehaviourBase
 {
 	[SerializeField]
 	Vector3 velocity;
+
+	[InjectContext]
+	Transform transform;
 
 	public override void OnEnter(IContextContainer obj, int frameCount)
 	{
@@ -17,6 +20,6 @@ public class MoveBehaviour : BehaviourBase
 
 	public override void OnUpdate(IContextContainer obj, int frameCount)
 	{
-		obj.Get<Transform>().position += velocity * Time.fixedDeltaTime;
+		transform.position += velocity * Time.fixedDeltaTime;
 	}
 }

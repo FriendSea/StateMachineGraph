@@ -57,7 +57,8 @@ namespace StateMachineSourceGenerator
 					var decl = 
 						$$"""
 						partial class {{symbol.Name}} {
-							public override void OnSetup(IContextContainer obj, int frameCount) {
+							protected override void OnSetup(IContextContainer obj, int frameCount) {
+								base.OnSetup(obj, frameCount);
 								{{string.Join("\n", fields.Select(s => $"{s.Key} = obj.Get<{s.Value}>();"))}}
 							}
 						}
@@ -69,7 +70,6 @@ namespace StateMachineSourceGenerator
 							{{decl}}
 							}
 							""";
-
 					code += decl;
 				}
 
