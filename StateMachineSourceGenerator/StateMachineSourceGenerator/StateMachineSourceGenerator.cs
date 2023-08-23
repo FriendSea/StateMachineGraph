@@ -34,13 +34,20 @@ namespace StateMachineSourceGenerator
 			{
 				var classDecs = (context.SyntaxReceiver as SyntexContextReciever).ClassDecs;
 
-				var code = AttributeText;
+				var code = 
+					$$"""
+					/*
+					Auto Generated : {{DateTime.Now}}
+					*/
+
+					""";
+				code += AttributeText;
 				foreach(var dec in classDecs)
 				{
 					var sementicModel = context.Compilation.GetSemanticModel(dec.SyntaxTree);
 					var symbol = sementicModel.GetDeclaredSymbol(dec);
 
-					if (symbol.BaseType.Name != "BehaviourBase") continue;
+					if (GetFullName(symbol.BaseType) != "FriendSea.StateMachine.BehaviourBase") continue;
 
 					var fields = new Dictionary<string, string>();
 
@@ -72,9 +79,6 @@ namespace StateMachineSourceGenerator
 							""";
 					code += decl;
 				}
-
-
-
 				context.AddSource(
 					hintName: "InjectContextAttribute.g.cs",
 					sourceText: SourceText.From(code, Encoding.UTF8));
