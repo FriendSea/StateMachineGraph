@@ -10,8 +10,12 @@ namespace FriendSea.StateMachine
 	[ScriptedImporter(0, "friendseastatemachine")]
 	public class StateMachineImporter : ScriptedImporter
 	{
+		internal static event System.Action<string> OnImport;
+
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
+			OnImport?.Invoke(AssetDatabase.AssetPathToGUID(assetPath));
+
 			var data = new GraphViewData();
 			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
 			data.InjectRootForParse();

@@ -145,10 +145,20 @@ namespace FriendSea.StateMachine
 		{
 			RefleshGraphView();
 			EditorApplication.playModeStateChanged += PlayModeStateChanged;
+			StateMachineImporter.OnImport += OnImport;
 		}
 
-		private void OnDisable() =>
+		private void OnImport(string obj)
+		{
+			if (obj != guid) return;
+			LoadAsset(AssetDatabase.GUIDToAssetPath(guid));
+		}
+
+		private void OnDisable()
+		{
 			EditorApplication.playModeStateChanged -= PlayModeStateChanged;
+			StateMachineImporter.OnImport -= OnImport;
+		}
 
 		event System.Action onDirty;
 		private void OnValidate() =>
