@@ -5,26 +5,26 @@ using UnityEngine;
 namespace FriendSea.StateMachine
 {
     public class InjectableObjectBase {
-		protected virtual void OnSetup(IContextContainer obj, int frameCount) { }
+		protected virtual void OnSetup(IContextContainer ctx) { }
 	}
 
 	public abstract class BehaviourBase : InjectableObjectBase, State.IBehaviour
 	{
 		void State.IBehaviour.OnEnter(IContextContainer obj, int frameCount)
 		{
-			OnSetup(obj, frameCount);
+			OnSetup(obj);
 			OnEnter(obj, frameCount);
 		}
 
 		void State.IBehaviour.OnExit(IContextContainer obj, int frameCount)
 		{
-			OnSetup(obj, frameCount);
+			OnSetup(obj);
 			OnExit(obj, frameCount);
 		}
 
 		void State.IBehaviour.OnUpdate(IContextContainer obj, int frameCount)
 		{
-			OnSetup(obj, frameCount);
+			OnSetup(obj);
 			OnUpdate(obj, frameCount);
 		}
 

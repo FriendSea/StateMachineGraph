@@ -36,9 +36,7 @@ namespace StateMachineSourceGenerator
 
 				var code = 
 					$$"""
-					/*
-					Auto Generated : {{DateTime.Now}}
-					*/
+					/* Auto Generated : {{DateTime.Now}} */
 
 					""";
 				code += AttributeText;
@@ -64,9 +62,9 @@ namespace StateMachineSourceGenerator
 					var decl = 
 						$$"""
 						partial class {{symbol.Name}} {
-							protected override void OnSetup(IContextContainer obj, int frameCount) {
-								base.OnSetup(obj, frameCount);
-								{{string.Join("\n", fields.Select(s => $"{s.Key} = obj.Get<{s.Value}>();"))}}
+							protected override void OnSetup(IContextContainer ctx) {
+								base.OnSetup(ctx);
+								{{string.Join("\n", fields.Select(s => $"{s.Key} = ctx.Get<{s.Value}>();"))}}
 							}
 						}
 						""";
