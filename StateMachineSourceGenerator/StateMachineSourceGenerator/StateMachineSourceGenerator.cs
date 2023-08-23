@@ -28,6 +28,13 @@ namespace StateMachineSourceGenerator
 			symbol.Name :
 			$"{GetFullName(symbol.ContainingNamespace)}.{symbol.Name}";
 
+		static bool IsInjectable(ITypeSymbol symbol)
+		{
+			if (GetFullName(symbol.BaseType) == "FriendSea.StateMachine.InjectableObjectBase") return true;
+			if(symbol.BaseType == null) return false;
+			return IsInjectable(symbol.BaseType);
+		}
+
 		public void Execute(GeneratorExecutionContext context)
 		{
 			try
@@ -45,7 +52,7 @@ namespace StateMachineSourceGenerator
 					var sementicModel = context.Compilation.GetSemanticModel(dec.SyntaxTree);
 					var symbol = sementicModel.GetDeclaredSymbol(dec);
 
-					if (GetFullName(symbol.BaseType) != "FriendSea.StateMachine.BehaviourBase") continue;
+					if (!IsInjectable(symbol)) continue;
 
 					var fields = new Dictionary<string, string>();
 
