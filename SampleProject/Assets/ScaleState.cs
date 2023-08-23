@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine;
 
-public class ScaleBehaviour : State.IBehaviour
+public partial class ScaleBehaviour : BehaviourBase
 {
-	public void OnEnter(IContextContainer obj, int frameCount)
+	[InjectContext]
+	Transform transform;
+
+	protected override void OnEnter(IContextContainer obj, int frameCount)
 	{
 		Debug.Log($"Entered Scale State.");
 	}
 
-	public void OnExit(IContextContainer obj, int frameCount) { }
+	protected override void OnExit(IContextContainer obj, int frameCount) { }
 
-	public void OnUpdate(IContextContainer obj, int frameCount)
+	protected override void OnUpdate(IContextContainer obj, int frameCount)
 	{
-		obj.Get<Transform>().localScale = Vector3.one * (1f + (frameCount % 30) / 100f);
+		transform.localScale = Vector3.one * (1f + (frameCount % 30) / 100f);
 	}
 }
