@@ -85,7 +85,7 @@ namespace FriendSea.StateMachine
 			titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
 			saveButton = rootVisualElement.Q<Button>("SaveButton");
-			saveButton.SetEnabled(EditorUtility.IsDirty(this));
+			saveButton.SetEnabled(IsDirty);
 			saveButton.clicked += SaveAsset;
 			onDirty = () =>
 			{
@@ -160,11 +160,32 @@ namespace FriendSea.StateMachine
 			StateMachineImporter.OnImport -= OnImport;
 		}
 
+		private void OnDestroy()
+		{
+			if (!IsDirty) return;
+			var result = EditorUtility.DisplayDialogComplex(
+				"StateMachine not saved",
+				$"{Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)"} is not saved.",
+				"Save and close",
+				"Cancel",
+				"Discard change");
+			if (result == 0)
+				SaveAsset();
+			if (result == 1)
+			{
+				var window = Instantiate(this);
+				window.Show();
+				window.Focus();
+			}
+		}
+
+		bool IsDirty => EditorUtility.IsDirty(this);
+
 		event System.Action onDirty;
 		private void OnValidate() =>
 			EditorApplication.delayCall += () =>
 			{
-				if (!EditorUtility.IsDirty(this)) return;
+				if (!IsDirty) return;
 				onDirty?.Invoke();
 			};
 	}
