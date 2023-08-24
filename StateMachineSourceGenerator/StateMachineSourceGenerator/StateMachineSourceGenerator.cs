@@ -64,8 +64,6 @@ namespace StateMachineSourceGenerator
 						fields.Add(fieldSymbol.Name, GetFullName(fieldSymbol.Type));
 					}
 
-					if (fields.Count == 0) continue;
-
 					var decl = 
 						$$"""
 						partial class {{symbol.Name}} {
@@ -73,6 +71,12 @@ namespace StateMachineSourceGenerator
 								base.OnSetup(ctx);
 								{{string.Join("\n", fields.Select(s => $"{s.Key} = ctx.Get<{s.Value}>();"))}}
 							}
+
+						#if UNITY_EDITOR
+						#pragma warning disable CS0414
+							static string sourcePathForEditor = @"{{dec.SyntaxTree.FilePath}}";
+							static int sourceLineForEditor = {{dec.GetLocation().GetLineSpan().StartLinePosition.Line}};
+						#endif
 						}
 						""";
 					if (!string.IsNullOrEmpty(symbol.ContainingNamespace?.Name))
