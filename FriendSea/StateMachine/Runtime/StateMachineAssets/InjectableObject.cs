@@ -10,32 +10,32 @@ namespace FriendSea.StateMachine
 
 	public abstract class BehaviourBase : InjectableObjectBase, State.IBehaviour
 	{
-		void State.IBehaviour.OnEnter(IContextContainer obj, int frameCount)
+		void State.IBehaviour.OnEnter(IContextContainer obj)
 		{
 			OnSetup(obj);
-			OnEnter(obj, frameCount);
+			OnEnter(obj);
 		}
-		void State.IBehaviour.OnExit(IContextContainer obj, int frameCount)
+		void State.IBehaviour.OnExit(IContextContainer obj)
 		{
 			OnSetup(obj);
-			OnExit(obj, frameCount);
+			OnExit(obj);
 		}
-		void State.IBehaviour.OnUpdate(IContextContainer obj, int frameCount)
+		void State.IBehaviour.OnUpdate(IContextContainer obj)
 		{
 			OnSetup(obj);
-			OnUpdate(obj, frameCount);
+			OnUpdate(obj);
 		}
-		protected abstract void OnEnter(IContextContainer obj, int frameCount);
-		protected abstract void OnExit(IContextContainer obj, int frameCount);
-		protected abstract void OnUpdate(IContextContainer obj, int frameCount);
+		protected abstract void OnEnter(IContextContainer obj);
+		protected abstract void OnExit(IContextContainer obj);
+		protected abstract void OnUpdate(IContextContainer obj);
 	}
 	public abstract class ConditionBase : InjectableObjectBase, State.Transition.ICondition
 	{
-		bool State.Transition.ICondition.IsValid(IContextContainer obj, int frameCount)
+		bool State.Transition.ICondition.IsValid(IContextContainer obj)
 		{
 			OnSetup(obj);
-			return IsValid(obj, frameCount);
+			return IsValid(obj);
 		}
-		protected abstract bool IsValid(IContextContainer obj, int frameCount);
+		protected abstract bool IsValid(IContextContainer obj);
 	}
 }

@@ -20,6 +20,10 @@ namespace FriendSea.StateMachine
 		}
 
 		Dictionary<object, int> values = new Dictionary<object, int>();
+
+		public int FrameCount { get; set; }
+		public float Time { get; set; }
+
 		public int GetValue(object target)
 		{
 			if (!values.ContainsKey(target))
@@ -50,7 +54,7 @@ namespace FriendSea.StateMachine
 		void FixedUpdate()
 		{
 			if (Paused) return;
-			stateMachine.Update();
+			stateMachine.Update(Time.fixedDeltaTime);
 		}
 
 		public void ForceState(NodeAsset state) =>

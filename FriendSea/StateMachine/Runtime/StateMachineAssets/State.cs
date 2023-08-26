@@ -8,7 +8,7 @@ namespace FriendSea.StateMachine
 	[DisplayName("Hidden/Always")]
 	public class ImmediateTransition : State.Transition.ICondition
 	{
-		public bool IsValid(IContextContainer obj, int frameCount) => true;
+		public bool IsValid(IContextContainer obj) => true;
 	}
 
 	public interface IGameObjectState : IState<IContextContainer> { }
@@ -18,9 +18,9 @@ namespace FriendSea.StateMachine
 	{
 		public interface IBehaviour
 		{
-			void OnEnter(IContextContainer obj, int frameCount);
-			void OnUpdate(IContextContainer obj, int frameCount);
-			void OnExit(IContextContainer obj, int frameCount);
+			void OnEnter(IContextContainer obj);
+			void OnUpdate(IContextContainer obj);
+			void OnExit(IContextContainer obj);
 		}
 
 		public interface IStateReference : IStateReference<IContextContainer> { }
@@ -31,7 +31,7 @@ namespace FriendSea.StateMachine
 			[SerializeField]
 			internal NodeAsset nodeAsset;
 
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount) => nodeAsset.GetState(obj, frameCount);
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj) => nodeAsset.GetState(obj);
 		}
 
 		[System.Serializable]
@@ -39,7 +39,7 @@ namespace FriendSea.StateMachine
 		{
 			[SerializeReference]
 			public IStateReference[] targets;
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
 			{
 				// 遷移先がない、nullに遷移
 				if (targets.Length <= 0) return (null, true);
@@ -48,7 +48,7 @@ namespace FriendSea.StateMachine
 				obj.SetValue(this, (currentIndex + 1) % targets.Length);
 
 				// 現在のインデックスの遷移先
-				var result = targets[currentIndex].GetState(obj, frameCount);
+				var result = targets[currentIndex].GetState(obj);
 				if (result.isValid) 
 					return (result.state, true);
 				else
@@ -61,13 +61,13 @@ namespace FriendSea.StateMachine
 		{
 			[SerializeReference]
 			public IStateReference[] targets;
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
 			{
 				// 遷移先がない、nullに遷移
 				if (targets.Length <= 0) return (null, true);
 
 				// ランダム遷移
-				return targets[UnityEngine.Random.Range(0, targets.Length)].GetState(obj, frameCount);
+				return targets[UnityEngine.Random.Range(0, targets.Length)].GetState(obj);
 			}
 		}
 
@@ -86,11 +86,11 @@ namespace FriendSea.StateMachine
 			[SerializeReference]
 			public IStateReference[] targets;
 
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
 			{
 				foreach (var target in targets)
 				{
-					var result = target.GetState(obj, frameCount);
+					var result = target.GetState(obj);
 					if (result.isValid) return (result.state, activeLabels.Contains(label));
 				}
 				return (null, activeLabels.Contains(label));
@@ -105,7 +105,7 @@ namespace FriendSea.StateMachine
 		{
 			public interface ICondition
 			{
-				bool IsValid(IContextContainer obj, int frameCount);
+				bool IsValid(IContextContainer obj);
 			}
 
 			[SerializeReference]
@@ -113,19 +113,19 @@ namespace FriendSea.StateMachine
 			[SerializeReference]
 			public IStateReference[] targets;
 
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
+			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
 			{
 				// 遷移なし
 				if (condition == null || targets == null) return (null, false);
 				// 条件にマッチしてない。遷移しない。
-				if (!condition.IsValid(obj, frameCount)) return (null, false);
+				if (!condition.IsValid(obj)) return (null, false);
 				// マッチしたが遷移先がない、nullに遷移
 				if (targets.Length <= 0) return (null, true);
 
 				// 接続先の最初の有効なものに遷移
 				foreach(var target in targets)
 				{
-					var result = target.GetState(obj, frameCount);
+					var result = target.GetState(obj);
 					if (result.isValid) return (result.state, true);
 				}
 				// 何も有効じゃなかった。遷移しない。
@@ -163,28 +163,32 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal ResitentStateRefernce residentStates;
 
-		public IState<IContextContainer> NextState(IContextContainer obj, int frameCount)
+		public IState<IContextContainer> NextState(IContextContainer obj)
 		{
-			var result = transition.GetState(obj, frameCount);
+			var result = transition.GetState(obj);
 			return result.isValid ?
 				result.state :
 				this;
 		}
 
-		public void OnEnter(IContextContainer obj, int frameCount)
+		public void OnEnter(IContextContainer obj)
 		{
+			obj.FrameCount = 0;
+			obj.Time = 0f;
 			foreach (var b in behaviours)
-				b.OnEnter(obj, frameCount);
+				b.OnEnter(obj);
 		}
 
-		public void OnExit(IContextContainer obj, int frameCount) {
+		public void OnExit(IContextContainer obj) {
 			foreach (var b in behaviours)
-				b.OnExit(obj, frameCount);
+				b.OnExit(obj);
 		}
 
-		public void OnUpdate(IContextContainer obj, int frameCount) {
+		public void OnUpdate(IContextContainer obj, float deltaTime) {
 			foreach (var b in behaviours)
-				b.OnUpdate(obj, frameCount);
+				b.OnUpdate(obj);
+			obj.FrameCount++;
+			obj.Time += deltaTime;
 		}
 
 		public IEnumerable<IState<IContextContainer>> ResidentStates => residentStates;

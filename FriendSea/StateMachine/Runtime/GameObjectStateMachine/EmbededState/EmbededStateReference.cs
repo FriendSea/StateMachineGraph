@@ -13,13 +13,13 @@ namespace FriendSea.StateMachine
 
 		static List<State.IStateReference> sharedList = new List<State.IStateReference>();
 
-		public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount)
+		public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
 		{
 			CurrentLabel = label;
 			obj.Get<GameObject>().GetComponentsInChildren(true, sharedList);
 			foreach(var reference in sharedList)
 			{
-				var result = reference.GetState(obj, frameCount);
+				var result = reference.GetState(obj);
 				if (result.isValid)
 					return result;
 			}

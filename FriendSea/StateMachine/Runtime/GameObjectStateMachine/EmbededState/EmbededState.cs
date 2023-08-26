@@ -11,7 +11,7 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		State state;
 
-		public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj, int frameCount) =>
+		public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj) =>
 			(state, EmbededStateReference.CurrentLabel == label);
 	}
 }

@@ -11,14 +11,14 @@ public partial class MoveBehaviour : BehaviourBase
 	[InjectContext]
 	Transform transform;
 
-	protected override void OnEnter(IContextContainer obj, int frameCount)
+	protected override void OnEnter(IContextContainer obj)
 	{
 		Debug.Log($"Entered Move State.");
 	}
 
-	protected override void OnExit(IContextContainer obj, int frameCount) { }
+	protected override void OnExit(IContextContainer obj) { }
 
-	protected override void OnUpdate(IContextContainer obj, int frameCount)
+	protected override void OnUpdate(IContextContainer obj)
 	{
 		transform.position += velocity * Time.fixedDeltaTime;
 	}

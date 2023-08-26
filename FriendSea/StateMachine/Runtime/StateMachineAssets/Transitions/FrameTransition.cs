@@ -10,6 +10,6 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		int length;
 
-		public bool IsValid(IContextContainer obj, int frameCount) => frameCount >= length;
+		public bool IsValid(IContextContainer obj) => obj.FrameCount >= length;
 	}
 }
