@@ -4,33 +4,20 @@ using UnityEngine;
 
 namespace FriendSea.StateMachine
 {
-	public class GameObjectContextContainer : IContextContainer
+	public class GameObjectContextContainer : ContextContainerBase
 	{
 		GameObject obj;
 
 		public GameObjectContextContainer(GameObject obj) => this.obj = obj;
 
-		Dictionary<System.Type, Component> cache = new Dictionary<System.Type, Component>();
-		public T Get<T>() where T : class
+		public override T Get<T>() where T : class
 		{
 			if (typeof(T) == typeof(GameObject)) return obj as T;
-			if (!cache.ContainsKey(typeof(T)))
-				cache.Add(typeof(T), obj.GetComponentInChildren<T>(true) as Component);
-			return cache[typeof(T)] as T;
+			if(typeof(Component).IsAssignableFrom(typeof(T)))
+				if(!contextObjects.ContainsKey(typeof(T)))
+					contextObjects.Add(typeof(T), obj.GetComponentInChildren<T>(true));
+			return base.Get<T>();
 		}
-
-		Dictionary<object, int> values = new Dictionary<object, int>();
-
-		public int FrameCount { get; set; }
-		public float Time { get; set; }
-
-		public int GetValue(object target)
-		{
-			if (!values.ContainsKey(target))
-				values.Add(target, 0);
-			return values[target];
-		}
-		public int SetValue(object target, int value) => values[target] = value;
 	}
 
 	public class GameobjectStateMachine : MonoBehaviour

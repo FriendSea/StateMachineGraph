@@ -67,7 +67,7 @@ namespace StateMachineSourceGenerator
 					var decl = 
 						$$"""
 						partial class {{symbol.Name}} {
-							protected override void OnSetup(IContextContainer ctx) {
+							protected override void OnSetup(FriendSea.StateMachine.IContextContainer ctx) {
 								base.OnSetup(ctx);
 								{{string.Join("\n", fields.Select(s => $"{s.Key} = ctx.Get<{s.Value}>();"))}}
 							}

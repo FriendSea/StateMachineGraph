@@ -37,6 +37,17 @@ namespace FriendSea.StateMachine
 		[System.Serializable]
 		public class Sequence : IStateReference
 		{
+			class Context {
+				Dictionary<object, int> values = new Dictionary<object, int>();
+				public int GetValue(object target)
+				{
+					if (!values.ContainsKey(target))
+						values.Add(target, 0);
+					return values[target];
+				}
+				public int SetValue(object target, int value) => values[target] = value;
+			}
+
 			[SerializeReference]
 			public IStateReference[] targets;
 			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
@@ -44,15 +55,15 @@ namespace FriendSea.StateMachine
 				// 遷移先がない、nullに遷移
 				if (targets.Length <= 0) return (null, true);
 
-				var currentIndex = obj.GetValue(this);
-				obj.SetValue(this, (currentIndex + 1) % targets.Length);
+				var indexContext = obj.GetOrCreate<Context>();
+				var currentIndex = indexContext.GetValue(this);
+				indexContext.SetValue(this, (currentIndex + 1) % targets.Length);
 
 				// 現在のインデックスの遷移先
 				var result = targets[currentIndex].GetState(obj);
-				if (result.isValid) 
-					return (result.state, true);
-				else
-					return (null, true);
+				return result.isValid ?
+					(result.state, true) :
+					(null, true);
 			}
 		}
 
@@ -137,7 +148,7 @@ namespace FriendSea.StateMachine
 		internal Transition transition;
 
 		[System.Serializable]
-		public struct ResitentStateRefernce : IEnumerable<State>
+		internal struct ResitentStateRefernce : IEnumerable<State>
 		{
 			[SerializeField]
 			internal StateMachineAsset stateMachine;
