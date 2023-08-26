@@ -17,6 +17,6 @@ public partial class ScaleBehaviour : BehaviourBase
 
 	protected override void OnUpdate(IContextContainer obj)
 	{
-		transform.localScale = Vector3.one * (1f + (obj.FrameCount % 30) / 100f);
+		transform.localScale = Vector3.one * (1f + (obj.FrameCount % 99999) / 100f);
 	}
 }

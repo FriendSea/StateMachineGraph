@@ -13,7 +13,7 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal State[] residentStates;
 
-		public IState<IContextContainer> GetResidentState(string guid)
+		public State GetResidentState(string guid)
 		{
 			foreach(var state in residentStates)
 				if (state.Id == guid) return state;

@@ -137,20 +137,20 @@ namespace FriendSea.StateMachine
 		internal Transition transition;
 
 		[System.Serializable]
-		public struct ResitentStateRefernce : IEnumerable<IState<IContextContainer>>
+		public struct ResitentStateRefernce : IEnumerable<State>
 		{
 			[SerializeField]
 			internal StateMachineAsset stateMachine;
 			[SerializeField]
 			internal string[] guids;
 			[System.NonSerialized]
-			List<IState<IContextContainer>> cachedList;
+			List<State> cachedList;
 
-			public IEnumerator<IState<IContextContainer>> GetEnumerator()
+			public IEnumerator<State> GetEnumerator()
 			{
 				if (cachedList == null)
 				{
-					cachedList = new List<IState<IContextContainer>>();
+					cachedList = new List<State>();
 					foreach (var guid in guids)
 						cachedList.Add(stateMachine.GetResidentState(guid));
 				}
@@ -166,9 +166,15 @@ namespace FriendSea.StateMachine
 		public IState<IContextContainer> NextState(IContextContainer obj)
 		{
 			var result = transition.GetState(obj);
-			return result.isValid ?
-				result.state :
-				this;
+			if (result.isValid)
+				return result.state;
+			foreach (var resident in residentStates)
+			{
+				var residentResult = resident.transition.GetState(obj);
+				if (residentResult.isValid)
+					return residentResult.state;
+			}
+			return this;
 		}
 
 		public void OnEnter(IContextContainer obj)
@@ -177,21 +183,30 @@ namespace FriendSea.StateMachine
 			obj.Time = 0f;
 			foreach (var b in behaviours)
 				b.OnEnter(obj);
+			foreach (var resident in residentStates)
+				resident.OnEnter(obj);
 		}
 
 		public void OnExit(IContextContainer obj) {
 			foreach (var b in behaviours)
 				b.OnExit(obj);
+			foreach (var resident in residentStates)
+				resident.OnExit(obj);
+		}
+
+		void UpdateWithoutTime(IContextContainer obj)
+		{
+			foreach (var b in behaviours)
+				b.OnUpdate(obj);
+			foreach (var resident in residentStates)
+				resident.UpdateWithoutTime(obj);
 		}
 
 		public void OnUpdate(IContextContainer obj, float deltaTime) {
-			foreach (var b in behaviours)
-				b.OnUpdate(obj);
+			UpdateWithoutTime(obj);
 			obj.FrameCount++;
 			obj.Time += deltaTime;
 		}
-
-		public IEnumerable<IState<IContextContainer>> ResidentStates => residentStates;
 
 		[SerializeField]
 		internal string id;
