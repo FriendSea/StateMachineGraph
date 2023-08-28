@@ -8,19 +8,19 @@ namespace FriendSea.StateMachine
 		protected virtual void OnSetup(IContextContainer ctx) { }
 	}
 
-	public abstract class BehaviourBase : InjectableObjectBase, State.IBehaviour
+	public abstract class BehaviourBase : InjectableObjectBase, IBehaviour
 	{
-		void State.IBehaviour.OnEnter(IContextContainer obj)
+		void IBehaviour.OnEnter(IContextContainer obj)
 		{
 			OnSetup(obj);
 			OnEnter(obj);
 		}
-		void State.IBehaviour.OnExit(IContextContainer obj)
+		void IBehaviour.OnExit(IContextContainer obj)
 		{
 			OnSetup(obj);
 			OnExit(obj);
 		}
-		void State.IBehaviour.OnUpdate(IContextContainer obj)
+		void IBehaviour.OnUpdate(IContextContainer obj)
 		{
 			OnSetup(obj);
 			OnUpdate(obj);

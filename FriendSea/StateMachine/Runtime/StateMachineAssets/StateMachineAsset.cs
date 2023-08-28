@@ -11,9 +11,9 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal State.Transition fallbackState;
 		[SerializeField]
-		internal State.ResidentState[] residentStates;
+		internal ResidentState[] residentStates;
 
-		public State.ResidentState GetResidentState(string guid)
+		public ResidentState GetResidentState(string guid)
 		{
 			foreach(var state in residentStates)
 				if (state.id == guid) return state;

@@ -40,7 +40,7 @@ namespace FriendSea.StateMachine
 				ctx.AddObjectToAsset(node.id.id, state);
 				state.data = new State() { 
 					behaviours = (node.data as StateNode).behaviours,
-					residentStates = new State.ResitentStateRefernce() { 
+					residentStates = new ResitentStateRefernce() { 
 						stateMachine = main,
 						guids = node.GetContainingGroup().GetChildNodes().Where(e => e.data is ResidentStateNode).Select(e => e.id.id).Concat(globalResidents).ToArray(),
 					},
@@ -71,7 +71,7 @@ namespace FriendSea.StateMachine
 				.Where(e => e is GraphViewData.Node)
 				.Where(e => (e as GraphViewData.Node).data is ResidentStateNode)
 				.Select(e => e as GraphViewData.Node)
-				.Select(e => new State.ResidentState() { 
+				.Select(e => new ResidentState() { 
 					behaviours = (e.data as ResidentStateNode).behaviours,
 					transition = new State.Transition()
 					{
