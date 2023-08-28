@@ -12,12 +12,6 @@ namespace FriendSea.StateMachine {
 		public IStateReference<T> FallbackState { get; private set; }
 		T target;
 
-		struct StateFramePair
-		{
-			public int frameCount;
-			public IState<T> state;
-		}
-
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
 		{
 			CurrentState = entryState.GetState(null).state ?? fallbackState.GetState(null).state;

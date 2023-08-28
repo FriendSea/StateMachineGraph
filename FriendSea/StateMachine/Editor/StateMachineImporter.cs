@@ -71,7 +71,7 @@ namespace FriendSea.StateMachine
 				.Where(e => e is GraphViewData.Node)
 				.Where(e => (e as GraphViewData.Node).data is ResidentStateNode)
 				.Select(e => e as GraphViewData.Node)
-				.Select(e => new State() { 
+				.Select(e => new State.ResidentState() { 
 					behaviours = (e.data as ResidentStateNode).behaviours,
 					transition = new State.Transition()
 					{

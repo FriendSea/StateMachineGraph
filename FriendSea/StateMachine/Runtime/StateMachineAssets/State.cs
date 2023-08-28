@@ -148,20 +148,20 @@ namespace FriendSea.StateMachine
 		internal Transition transition;
 
 		[System.Serializable]
-		internal struct ResitentStateRefernce : IEnumerable<State>
+		internal struct ResitentStateRefernce : IEnumerable<ResidentState>
 		{
 			[SerializeField]
 			internal StateMachineAsset stateMachine;
 			[SerializeField]
 			internal string[] guids;
 			[System.NonSerialized]
-			List<State> cachedList;
+			List<ResidentState> cachedList;
 
-			public IEnumerator<State> GetEnumerator()
+			public IEnumerator<ResidentState> GetEnumerator()
 			{
 				if (cachedList == null)
 				{
-					cachedList = new List<State>();
+					cachedList = new List<ResidentState>();
 					foreach (var guid in guids)
 						cachedList.Add(stateMachine.GetResidentState(guid));
 				}
@@ -173,6 +173,59 @@ namespace FriendSea.StateMachine
 
 		[SerializeField]
 		internal ResitentStateRefernce residentStates;
+
+		[System.Serializable]
+		public class ResidentState
+		{
+			[SerializeReference]
+			internal IBehaviour[] behaviours = null;
+			[SerializeField]
+			internal Transition transition;
+			[SerializeField]
+			internal string id;
+			public void OnEnter(IContextContainer ctx)
+			{
+				foreach (var b in behaviours)
+					b.OnEnter(ctx);
+			}
+			public void OnExit(IContextContainer ctx)
+			{
+				foreach (var b in behaviours)
+					b.OnExit(ctx);
+			}
+			public void OnUpdate(IContextContainer ctx)
+			{
+				foreach (var b in behaviours)
+					b.OnUpdate(ctx);
+			}
+		}
+		class ResidentStateContext
+		{
+			List<ResidentState> ResidentStates { get; } = new List<ResidentState>();
+
+			public void ChangeResidents(IContextContainer ctx, IEnumerable<ResidentState> newResitdents)
+			{
+				for (int i = ResidentStates.Count - 1; i >= 0; i--)
+				{
+					if (newResitdents.Contains(ResidentStates[i])) continue;
+					ResidentStates[i].OnExit(ctx);
+					ResidentStates.RemoveAt(i);
+				}
+
+				foreach (var s in newResitdents)
+				{
+					if (ResidentStates.Contains(s)) continue;
+					ResidentStates.Add(s);
+					s.OnEnter(ctx);
+				}
+			}
+
+			public void UpdateResidents(IContextContainer ctx)
+			{
+				foreach (var state in ResidentStates)
+					state.OnUpdate(ctx);
+			}
+		}
 
 		public IState<IContextContainer> NextState(IContextContainer obj)
 		{
@@ -192,29 +245,20 @@ namespace FriendSea.StateMachine
 		{
 			obj.FrameCount = 0;
 			obj.Time = 0f;
+			obj.GetOrCreate<ResidentStateContext>().ChangeResidents(obj, residentStates);
 			foreach (var b in behaviours)
 				b.OnEnter(obj);
-			foreach (var resident in residentStates)
-				resident.OnEnter(obj);
 		}
 
 		public void OnExit(IContextContainer obj) {
 			foreach (var b in behaviours)
 				b.OnExit(obj);
-			foreach (var resident in residentStates)
-				resident.OnExit(obj);
-		}
-
-		void UpdateWithoutTime(IContextContainer obj)
-		{
-			foreach (var b in behaviours)
-				b.OnUpdate(obj);
-			foreach (var resident in residentStates)
-				resident.UpdateWithoutTime(obj);
 		}
 
 		public void OnUpdate(IContextContainer obj, float deltaTime) {
-			UpdateWithoutTime(obj);
+			foreach (var b in behaviours)
+				b.OnUpdate(obj);
+			obj.GetOrCreate<ResidentStateContext>().UpdateResidents(obj);
 			obj.FrameCount++;
 			obj.Time += deltaTime;
 		}
