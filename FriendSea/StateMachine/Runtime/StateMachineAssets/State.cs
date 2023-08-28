@@ -249,6 +249,16 @@ namespace FriendSea.StateMachine
 					c.FrameCount++;
 				}
 			}
+			public (IState<IContextContainer> state, bool isValid) GetTransition(IContextContainer ctx)
+			{
+				foreach (var state in ResidentStates)
+				{
+					var result = state.transition.GetState(contexts[state]);
+					if (result.isValid)
+						return result;
+				}
+				return (null, false);
+			}
 		}
 
 		public IState<IContextContainer> NextState(IContextContainer obj)
@@ -256,12 +266,11 @@ namespace FriendSea.StateMachine
 			var result = transition.GetState(obj);
 			if (result.isValid)
 				return result.state;
-			foreach (var resident in residentStates)
-			{
-				var residentResult = resident.transition.GetState(obj);
-				if (residentResult.isValid)
-					return residentResult.state;
-			}
+
+			var residentsTransition = obj.GetOrCreate<ResidentStateContext>().GetTransition(obj);
+			if (residentsTransition.isValid)
+				return residentsTransition.state;
+
 			return this;
 		}
 
