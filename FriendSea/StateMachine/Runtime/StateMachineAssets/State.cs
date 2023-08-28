@@ -201,14 +201,33 @@ namespace FriendSea.StateMachine
 		}
 		class ResidentStateContext
 		{
+			class ResidentStateContextContainer : IContextContainer
+			{
+				public ResidentStateContextContainer(IContextContainer ctx) => original = ctx;
+				IContextContainer original;
+				public int FrameCount { get; set; }
+				public float Time { get; set; }
+				public void Add<T>(T obj) where T : class => original.Add(obj);
+				public T Get<T>() where T : class => original.Get<T>();
+			}
 			List<ResidentState> ResidentStates { get; } = new List<ResidentState>();
+			Dictionary<ResidentState, ResidentStateContextContainer> contexts = new Dictionary<ResidentState, ResidentStateContextContainer>();
+
+			ResidentStateContextContainer SetupContext(IContextContainer ctx, ResidentState resident)
+			{
+				if (!contexts.ContainsKey(resident))
+					contexts.Add(resident, new ResidentStateContextContainer(ctx));
+				contexts[resident].FrameCount = 0;
+				contexts[resident].Time = 0;
+				return contexts[resident];
+			}
 
 			public void ChangeResidents(IContextContainer ctx, IEnumerable<ResidentState> newResitdents)
 			{
 				for (int i = ResidentStates.Count - 1; i >= 0; i--)
 				{
 					if (newResitdents.Contains(ResidentStates[i])) continue;
-					ResidentStates[i].OnExit(ctx);
+					ResidentStates[i].OnExit(contexts[ResidentStates[i]]);
 					ResidentStates.RemoveAt(i);
 				}
 
@@ -216,14 +235,19 @@ namespace FriendSea.StateMachine
 				{
 					if (ResidentStates.Contains(s)) continue;
 					ResidentStates.Add(s);
-					s.OnEnter(ctx);
+					s.OnEnter(SetupContext(ctx, s));
 				}
 			}
 
-			public void UpdateResidents(IContextContainer ctx)
+			public void UpdateResidents(IContextContainer ctx, float deltaTime)
 			{
 				foreach (var state in ResidentStates)
-					state.OnUpdate(ctx);
+					state.OnUpdate(contexts[state]);
+				foreach (var c in contexts.Values)
+				{
+					c.Time += deltaTime;
+					c.FrameCount++;
+				}
 			}
 		}
 
@@ -258,7 +282,7 @@ namespace FriendSea.StateMachine
 		public void OnUpdate(IContextContainer obj, float deltaTime) {
 			foreach (var b in behaviours)
 				b.OnUpdate(obj);
-			obj.GetOrCreate<ResidentStateContext>().UpdateResidents(obj);
+			obj.GetOrCreate<ResidentStateContext>().UpdateResidents(obj, deltaTime);
 			obj.FrameCount++;
 			obj.Time += deltaTime;
 		}
