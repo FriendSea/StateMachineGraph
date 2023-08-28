@@ -7,9 +7,9 @@ namespace FriendSea.StateMachine
 	public class StateMachineAsset : ScriptableObject
 	{
 		[SerializeField]
-		internal State.Transition entryState;
+		internal Transition entryState;
 		[SerializeField]
-		internal State.Transition fallbackState;
+		internal Transition fallbackState;
 		[SerializeField]
 		internal ResidentState[] residentStates;
 

@@ -5,12 +5,6 @@ using System.Linq;
 
 namespace FriendSea.StateMachine
 {
-	[DisplayName("Hidden/Always")]
-	public class ImmediateTransition : State.Transition.ICondition
-	{
-		public bool IsValid(IContextContainer obj) => true;
-	}
-
 	public interface IBehaviour
 	{
 		void OnEnter(IContextContainer obj);
@@ -18,16 +12,14 @@ namespace FriendSea.StateMachine
 		void OnExit(IContextContainer obj);
 	}
 
-	public interface IGameObjectState : IState<IContextContainer> { }
+	public interface ISerializableState : IState<IContextContainer> { }
+	public interface ISerializableStateReference : IStateReference<IContextContainer> { }
 
 	[System.Serializable]
-	public class State : IGameObjectState
+	public class State : ISerializableState
 	{
-
-		public interface IStateReference : IStateReference<IContextContainer> { }
-
 		[System.Serializable]
-		public struct StateReference : IStateReference
+		public struct StateReference : ISerializableStateReference
 		{
 			[SerializeField]
 			internal NodeAsset nodeAsset;
@@ -35,115 +27,8 @@ namespace FriendSea.StateMachine
 			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj) => nodeAsset.GetState(obj);
 		}
 
-		[System.Serializable]
-		public class Sequence : IStateReference
-		{
-			class Context {
-				Dictionary<object, int> values = new Dictionary<object, int>();
-				public int GetValue(object target)
-				{
-					if (!values.ContainsKey(target))
-						values.Add(target, 0);
-					return values[target];
-				}
-				public int SetValue(object target, int value) => values[target] = value;
-			}
-
-			[SerializeReference]
-			public IStateReference[] targets;
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
-			{
-				// 遷移先がない、nullに遷移
-				if (targets.Length <= 0) return (null, true);
-
-				var indexContext = obj.GetOrCreate<Context>();
-				var currentIndex = indexContext.GetValue(this);
-				indexContext.SetValue(this, (currentIndex + 1) % targets.Length);
-
-				// 現在のインデックスの遷移先
-				var result = targets[currentIndex].GetState(obj);
-				return result.isValid ?
-					(result.state, true) :
-					(null, true);
-			}
-		}
-
-		[System.Serializable]
-		public class Random : IStateReference
-		{
-			[SerializeReference]
-			public IStateReference[] targets;
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
-			{
-				// 遷移先がない、nullに遷移
-				if (targets.Length <= 0) return (null, true);
-
-				// ランダム遷移
-				return targets[UnityEngine.Random.Range(0, targets.Length)].GetState(obj);
-			}
-		}
-
-		public class Trigger : IStateReference
-		{
-			static List<TriggerLabel> activeLabels = new List<TriggerLabel>();
-			public static void IssueTransiton<T>(StateMachine<T> stateMachine, TriggerLabel label) where T : class
-			{
-				activeLabels.Add(label);
-				stateMachine.DoTransition();
-				activeLabels.Remove(label);
-			}
-
-			[SerializeField]
-			internal TriggerLabel label;
-			[SerializeReference]
-			public IStateReference[] targets;
-
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
-			{
-				foreach (var target in targets)
-				{
-					var result = target.GetState(obj);
-					if (result.isValid) return (result.state, activeLabels.Contains(label));
-				}
-				return (null, activeLabels.Contains(label));
-			}
-		}
-
 		[SerializeReference]
 		internal IBehaviour[] behaviours = null;
-
-		[System.Serializable]
-		public struct Transition : IStateReference
-		{
-			public interface ICondition
-			{
-				bool IsValid(IContextContainer obj);
-			}
-
-			[SerializeReference]
-			public ICondition condition;
-			[SerializeReference]
-			public IStateReference[] targets;
-
-			public (IState<IContextContainer> state, bool isValid) GetState(IContextContainer obj)
-			{
-				// 遷移なし
-				if (condition == null || targets == null) return (null, false);
-				// 条件にマッチしてない。遷移しない。
-				if (!condition.IsValid(obj)) return (null, false);
-				// マッチしたが遷移先がない、nullに遷移
-				if (targets.Length <= 0) return (null, true);
-
-				// 接続先の最初の有効なものに遷移
-				foreach(var target in targets)
-				{
-					var result = target.GetState(obj);
-					if (result.isValid) return (result.state, true);
-				}
-				// 何も有効じゃなかった。遷移しない。
-				return (null, false);
-			}
-		}
 
 		[SerializeField]
 		internal Transition transition;

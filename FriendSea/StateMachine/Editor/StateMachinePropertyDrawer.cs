@@ -10,8 +10,8 @@ namespace FriendSea.StateMachine
 	[CustomPropertyDrawer(typeof(IBehaviour), true)]
 	class StateBehaviourDrawer : SubclassDrawerDrawer<IBehaviour> { }
 
-	[CustomPropertyDrawer(typeof(State.Transition.ICondition), true)]
-	class StateTransitionDrawer : SubclassDrawerDrawer<State.Transition.ICondition> { }
+	[CustomPropertyDrawer(typeof(Transition.ICondition), true)]
+	class StateTransitionDrawer : SubclassDrawerDrawer<Transition.ICondition> { }
 
 	class SubclassDrawerDrawer<T> : PropertyDrawer
 	{

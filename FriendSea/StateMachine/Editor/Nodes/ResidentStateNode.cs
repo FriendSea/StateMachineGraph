@@ -14,7 +14,7 @@ namespace FriendSea.StateMachine
 		[SerializeReference]
 		internal IBehaviour[] behaviours;
 
-		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			throw new NotImplementedException("ResidentState should not has inputs.");
 	}
 

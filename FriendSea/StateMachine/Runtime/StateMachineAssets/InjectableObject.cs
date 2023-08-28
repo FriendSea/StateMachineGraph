@@ -29,9 +29,9 @@ namespace FriendSea.StateMachine
 		protected abstract void OnExit(IContextContainer obj);
 		protected abstract void OnUpdate(IContextContainer obj);
 	}
-	public abstract class ConditionBase : InjectableObjectBase, State.Transition.ICondition
+	public abstract class ConditionBase : InjectableObjectBase, Transition.ICondition
 	{
-		bool State.Transition.ICondition.IsValid(IContextContainer obj)
+		bool Transition.ICondition.IsValid(IContextContainer obj)
 		{
 			OnSetup(obj);
 			return IsValid(obj);

@@ -11,7 +11,7 @@ namespace FriendSea.StateMachine
 		[SerializeReference]
 		internal IBehaviour[] behaviours = null;
 		[SerializeField]
-		internal State.Transition transition;
+		internal Transition transition;
 		[SerializeField]
 		internal string id;
 		public void OnEnter(IContextContainer ctx)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace FriendSea.StateMachine {
-	public class NodeAsset : ScriptableObject, State.IStateReference
+	public class NodeAsset : ScriptableObject, ISerializableStateReference
 	{
 		[SerializeField]
 		internal State data;

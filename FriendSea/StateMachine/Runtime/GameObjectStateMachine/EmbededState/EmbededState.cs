@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FriendSea.StateMachine
 {
-	public class EmbededState : MonoBehaviour, State.IStateReference
+	public class EmbededState : MonoBehaviour, ISerializableStateReference
 	{
 		[SerializeField]
 		EmbededStateLabel label;
