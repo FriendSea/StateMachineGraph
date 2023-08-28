@@ -10,8 +10,8 @@ namespace FriendSea.StateMachine
 	[DisplayName("Controls/Sequence")]
 	public class SequenceNode : IStateMachineNode
 	{
-		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			new State.Sequence()
+		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			new Sequence()
 			{
 				targets = node.GetConnectedNodes()
 						.OrderBy(n => n.position.y)

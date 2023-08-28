@@ -8,15 +8,15 @@ public partial class ScaleBehaviour : BehaviourBase
 	[InjectContext]
 	Transform transform;
 
-	protected override void OnEnter(IContextContainer obj, int frameCount)
+	protected override void OnEnter(IContextContainer obj)
 	{
 		Debug.Log($"Entered Scale State.");
 	}
 
-	protected override void OnExit(IContextContainer obj, int frameCount) { }
+	protected override void OnExit(IContextContainer obj) { }
 
-	protected override void OnUpdate(IContextContainer obj, int frameCount)
+	protected override void OnUpdate(IContextContainer obj)
 	{
-		transform.localScale = Vector3.one * (1f + (frameCount % 30) / 100f);
+		transform.localScale = Vector3.one * (1f + (obj.FrameCount % 99999) / 100f);
 	}
 }

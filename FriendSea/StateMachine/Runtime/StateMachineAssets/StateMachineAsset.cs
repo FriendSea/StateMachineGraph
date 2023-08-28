@@ -7,16 +7,16 @@ namespace FriendSea.StateMachine
 	public class StateMachineAsset : ScriptableObject
 	{
 		[SerializeField]
-		internal State.Transition entryState;
+		internal Transition entryState;
 		[SerializeField]
-		internal State.Transition fallbackState;
+		internal Transition fallbackState;
 		[SerializeField]
-		internal State[] residentStates;
+		internal ResidentState[] residentStates;
 
-		public IState<IContextContainer> GetResidentState(string guid)
+		public ResidentState GetResidentState(string guid)
 		{
 			foreach(var state in residentStates)
-				if (state.Id == guid) return state;
+				if (state.id == guid) return state;
 			return null;
 		}
 

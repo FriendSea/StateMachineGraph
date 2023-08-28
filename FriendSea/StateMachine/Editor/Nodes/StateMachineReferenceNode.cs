@@ -15,7 +15,7 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal StateMachineAsset asset;
 
-		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			(node.data as StateMachineReferenceNode).asset?.entryState;
 	}
 
@@ -30,7 +30,7 @@ namespace FriendSea.StateMachine
 
 			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
 			inport.userData = "enter";
-			inport.portType = typeof(State.IStateReference);
+			inport.portType = typeof(ISerializableStateReference);
 			inport.portColor = Color.white;
 			inport.portName = "";
 			node.inputContainer.Add(inport);

@@ -12,10 +12,10 @@ namespace FriendSea.StateMachine
 	public class TransitionNode : IStateMachineNode
 	{
 		[SerializeReference]
-		internal State.Transition.ICondition transition;
+		internal Transition.ICondition transition;
 
-		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			new State.Transition()
+		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+			new Transition()
 			{
 				condition = (node.data as TransitionNode).transition,
 				targets = node.GetConnectedNodes()

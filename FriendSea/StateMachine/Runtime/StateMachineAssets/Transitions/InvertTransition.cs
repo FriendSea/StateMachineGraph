@@ -5,14 +5,14 @@ using UnityEngine;
 namespace FriendSea.StateMachine
 {
 	[DisplayName("Invert")]
-	public class InvertTransition : State.Transition.ICondition
+	public class InvertTransition : Transition.ICondition
 	{
 		[SerializeReference]
-		internal State.Transition.ICondition transition;
+		internal Transition.ICondition transition;
 
-		public bool IsValid(IContextContainer obj, int frameCount)
+		public bool IsValid(IContextContainer obj)
 		{
-			return !transition.IsValid(obj, frameCount);
+			return !transition.IsValid(obj);
 		}
 	}
 }

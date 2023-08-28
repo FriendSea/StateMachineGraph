@@ -9,7 +9,7 @@ using UnityEditor.UIElements;
 namespace FriendSea.StateMachine
 {
 	public interface IStateMachineNode {
-		State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset);
+		ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset);
 	}
 
 	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
@@ -19,7 +19,7 @@ namespace FriendSea.StateMachine
 		{
 			var inport = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(object));
 			inport.userData = "enter";
-			inport.portType = typeof(State.IStateReference);
+			inport.portType = typeof(ISerializableStateReference);
 			inport.portColor = Color.white;
 			inport.portName = "";
 			node.inputContainer.Add(inport);
@@ -28,7 +28,7 @@ namespace FriendSea.StateMachine
 		{
 			var outport = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(object));
 			outport.userData = "transition";
-			outport.portType = typeof(State.IStateReference);
+			outport.portType = typeof(ISerializableStateReference);
 			outport.portColor = Color.white;
 			outport.portName = "";
 			node.outputContainer.Add(outport);

@@ -40,7 +40,7 @@ namespace FriendSea.StateMachine
 				ctx.AddObjectToAsset(node.id.id, state);
 				state.data = new State() { 
 					behaviours = (node.data as StateNode).behaviours,
-					residentStates = new State.ResitentStateRefernce() { 
+					residentStates = new ResitentStateRefernce() { 
 						stateMachine = main,
 						guids = node.GetContainingGroup().GetChildNodes().Where(e => e.data is ResidentStateNode).Select(e => e.id.id).Concat(globalResidents).ToArray(),
 					},
@@ -52,7 +52,7 @@ namespace FriendSea.StateMachine
 			// construct edges
 
 			main.entryState =
-				new State.Transition()
+				new Transition()
 				{
 					condition = new ImmediateTransition(),
 					targets = entryNode.GetConnectedNodes()
@@ -60,7 +60,7 @@ namespace FriendSea.StateMachine
 						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
 			main.fallbackState =
-				new State.Transition()
+				new Transition()
 				{
 					condition = new ImmediateTransition(),
 					targets = fallbackNode.GetConnectedNodes()
@@ -71,9 +71,9 @@ namespace FriendSea.StateMachine
 				.Where(e => e is GraphViewData.Node)
 				.Where(e => (e as GraphViewData.Node).data is ResidentStateNode)
 				.Select(e => e as GraphViewData.Node)
-				.Select(e => new State() { 
+				.Select(e => new ResidentState() { 
 					behaviours = (e.data as ResidentStateNode).behaviours,
-					transition = new State.Transition()
+					transition = new Transition()
 					{
 						condition = e.HasConnectedEdge() ? new ImmediateTransition() : null,
 						targets = e.GetConnectedNodes()
@@ -87,7 +87,7 @@ namespace FriendSea.StateMachine
 			{
 				var node = data.GetElement<GraphViewData.Node>(pair.Key);
 				pair.Value.data.transition =
-					new State.Transition()
+					new Transition()
 					{
 						condition = node.HasConnectedEdge() ? new ImmediateTransition() : null,
 						targets = node.GetConnectedNodes()
@@ -109,7 +109,7 @@ namespace FriendSea.StateMachine
 			}
 		}
 
-		public static State.IStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+		public static ISerializableStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			(node.data as IStateMachineNode).GenerateReferenceForImport(data, node, id2asset);
 
 		[MenuItem("Assets/Create/🔶➡🔶 fStateMachine Asset")]

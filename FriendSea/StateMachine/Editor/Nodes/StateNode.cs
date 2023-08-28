@@ -16,9 +16,9 @@ namespace FriendSea.StateMachine
 		[SerializeField, HideInInspector]
 		internal string name;
 		[SerializeReference]
-		internal State.IBehaviour[] behaviours;
+		internal IBehaviour[] behaviours;
 
-		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			new State.StateReference() { nodeAsset = id2asset[node.id.id] };
 	}
 

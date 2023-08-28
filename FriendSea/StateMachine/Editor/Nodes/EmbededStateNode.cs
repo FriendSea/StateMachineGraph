@@ -14,7 +14,7 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		EmbededStateLabel label;
 
-		public State.IStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
+		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			new EmbededStateReference(){ label = label };
 
 		public class TriggerNodeInitializer : StateMachineNodeInitializerBase

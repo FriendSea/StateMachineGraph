@@ -5,11 +5,11 @@ using UnityEngine;
 namespace FriendSea.StateMachine
 {
 	[DisplayName("WaitFrames")]
-	public class FrameTransition : State.Transition.ICondition
+	public class FrameTransition : Transition.ICondition
 	{
 		[SerializeField]
 		int length;
 
-		public bool IsValid(IContextContainer obj, int frameCount) => frameCount >= length;
+		public bool IsValid(IContextContainer obj) => obj.FrameCount >= length;
 	}
 }
