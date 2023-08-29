@@ -28,13 +28,19 @@ namespace FriendSea.StateMachine
 
 			var indexContext = obj.GetOrCreate<Context>();
 			var currentIndex = indexContext.GetValue(this);
-			indexContext.SetValue(this, (currentIndex + 1) % targets.Length);
 
 			// 現在のインデックスの遷移先
-			var result = targets[currentIndex].GetState(obj);
-			return result.isValid ?
-				(result.state, true) :
-				(null, true);
+			for (; currentIndex < targets.Length; currentIndex++)
+			{
+				var result = targets[currentIndex].GetState(obj);
+				if (!result.isValid) break;
+				if (result.state == null) continue;
+				indexContext.SetValue(this, currentIndex + 1);
+				obj.Get<StateMachine<IContextContainer>>().PushReturnState(this);
+				return (result.state, true);
+			}
+			indexContext.SetValue(this, 0);
+			return (null, true);
 		}
 	}
 }
