@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Linq;
+using FriendSea.StateMachine.Controls;
 
 namespace FriendSea.StateMachine
 {

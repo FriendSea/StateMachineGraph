@@ -10,7 +10,7 @@ namespace FriendSea.StateMachine
 	public class RandomNode : IStateMachineNode
 	{
 		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			new Random()
+			new Controls.Random()
 			{
 				targets = node.GetConnectedNodes()
 						.OrderBy(n => n.position.y)

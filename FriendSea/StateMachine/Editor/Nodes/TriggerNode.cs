@@ -15,7 +15,7 @@ namespace FriendSea.StateMachine
 		TriggerLabel label;
 
 		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			new Trigger() {
+			new Controls.Trigger() {
 				label = label,
 				targets = node.GetConnectedNodes()
 						.OrderBy(n => n.position.y)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FriendSea.StateMachine
+namespace FriendSea.StateMachine.Controls
 {
 	public class Trigger : ISerializableStateReference
 	{

@@ -52,17 +52,17 @@ namespace FriendSea.StateMachine
 			// construct edges
 
 			main.entryState =
-				new Transition()
+				new Controls.Transition()
 				{
-					condition = new ImmediateTransition(),
+					condition = new Controls.ImmediateTransition(),
 					targets = entryNode.GetConnectedNodes()
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
 			main.fallbackState =
-				new Transition()
+				new Controls.Transition()
 				{
-					condition = new ImmediateTransition(),
+					condition = new Controls.ImmediateTransition(),
 					targets = fallbackNode.GetConnectedNodes()
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
@@ -73,9 +73,9 @@ namespace FriendSea.StateMachine
 				.Select(e => e as GraphViewData.Node)
 				.Select(e => new ResidentState() { 
 					behaviours = (e.data as ResidentStateNode).behaviours,
-					transition = new Transition()
+					transition = new Controls.Transition()
 					{
-						condition = e.HasConnectedEdge() ? new ImmediateTransition() : null,
+						condition = e.HasConnectedEdge() ? new Controls.ImmediateTransition() : null,
 						targets = e.GetConnectedNodes()
 							.OrderBy(n => n.position.y)
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
@@ -87,9 +87,9 @@ namespace FriendSea.StateMachine
 			{
 				var node = data.GetElement<GraphViewData.Node>(pair.Key);
 				pair.Value.data.transition =
-					new Transition()
+					new Controls.Transition()
 					{
-						condition = node.HasConnectedEdge() ? new ImmediateTransition() : null,
+						condition = node.HasConnectedEdge() ? new Controls.ImmediateTransition() : null,
 						targets = node.GetConnectedNodes()
 							.OrderBy(n => n.position.y)
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
