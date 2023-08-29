@@ -5,12 +5,12 @@ using FriendSea.StateMachine.Controls;
 
 namespace FriendSea.StateMachine
 {
-	[DisplayName("Wait/Frames")]
-	public class FrameTransition : Transition.ICondition
+	[DisplayName("Wait/Time")]
+	public class TimeTransition : Transition.ICondition
 	{
 		[SerializeField]
-		int length;
+		float length;
 
-		public bool IsValid(IContextContainer obj) => obj.FrameCount >= length;
+		public bool IsValid(IContextContainer obj) => obj.Time >= length;
 	}
 }
