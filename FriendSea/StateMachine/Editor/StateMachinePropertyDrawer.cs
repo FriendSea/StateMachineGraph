@@ -41,10 +41,14 @@ namespace FriendSea.StateMachine
 			dropPos.height = EditorGUIUtility.singleLineHeight;
 			var currentIndex = types.IndexOf(property.managedReferenceValue?.GetType());
 			var newIndex = EditorGUI.Popup(dropPos, currentIndex, typeNames);
-			if (newIndex != currentIndex)
+			if (currentIndex == -1)
 			{
-				property.managedReferenceValue = System.Activator.CreateInstance(types[newIndex]);
+				GUI.Label(dropPos, EditorGUIUtility.IconContent("Warning"));
+				dropPos.x += EditorGUIUtility.singleLineHeight;
+				GUI.Label(dropPos, "<Null>");
 			}
+			if (newIndex != currentIndex)
+				property.managedReferenceValue = System.Activator.CreateInstance(types[newIndex]);
 
 			dropPos.x += dropPos.width;
 			dropPos.width = EditorGUIUtility.singleLineHeight;
