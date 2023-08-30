@@ -60,7 +60,31 @@ namespace FriendSea.StateMachine
 		{
 			guid = AssetDatabase.AssetPathToGUID(assetPath);
 			data = new GraphViewData();
-			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
+			var json = File.ReadAllText(assetPath);
+
+			EditorJsonUtility.FromJsonOverwrite(json, data);
+			if (data.elements.Any(d => d == null))
+			{
+				var matches = System.Text.RegularExpressions.Regex.Matches(json, "\"type\": ?\\{\\n.+\"class\": ?\"(.+)\",\\n.+\"ns\": ?\"(.*)\",\\n.+\"asm\": \"(.+)\"\\n");
+				foreach(var m in matches)
+				{
+					var matchString = (m as System.Text.RegularExpressions.Match).Groups[0].Value;
+					var typeName = (m as System.Text.RegularExpressions.Match).Groups[1].Value;
+					var nameSpace = (m as System.Text.RegularExpressions.Match).Groups[2].Value;
+					if (!string.IsNullOrEmpty(nameSpace))
+						typeName = $"{nameSpace}.{typeName}";
+					var assemblyName = (m as System.Text.RegularExpressions.Match).Groups[3].Value;
+
+					var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(asm => asm.GetName().Name == assemblyName);
+					var type = assembly.GetType(typeName);
+					if (type != null) continue;
+
+					json = json.Replace(matchString, "\"type\": {\n\"class\": \"\",\n\"ns\": \"\",\n\"asm\": \"\"\n");
+				}
+				EditorJsonUtility.FromJsonOverwrite(json, data);
+			}
+
+
 			EditorUtility.ClearDirty(this);
 			RefleshGraphView();
 		}
