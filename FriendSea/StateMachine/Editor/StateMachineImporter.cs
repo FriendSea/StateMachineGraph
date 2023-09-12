@@ -17,7 +17,14 @@ namespace FriendSea.StateMachine
 			OnImport?.Invoke(AssetDatabase.AssetPathToGUID(assetPath));
 
 			var data = new GraphViewData();
-			EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(assetPath), data);
+			var json = File.ReadAllText(assetPath);
+			EditorJsonUtility.FromJsonOverwrite(json, data);
+			if (data.elements.Any(d => d == null))
+			{
+				Debug.LogWarning($"There is missing type references in {Path.GetFileNameWithoutExtension(ctx.assetPath)} (StateMachineAsset).");
+				json = SerializesJsonUtils.NullifyMissingReferences(json);
+				EditorJsonUtility.FromJsonOverwrite(json, data);
+			}
 			data.InjectRootForParse();
 
 			// create asset

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace FriendSea
 {
@@ -45,5 +46,53 @@ namespace FriendSea
 
         public static IEnumerable<SerializedProperty> ArrayAsEnumerable(this SerializedProperty property) =>
             property.EnumerateArray().WrapAsEnumerable();
+    }
+
+    public static class SerializesJsonUtils
+    {
+		public record TypeInfo
+		{
+			public string assemblyName;
+			public string namespaceName;
+			public string typeName;
+		}
+
+		public static IEnumerable<TypeInfo> GetMissingTypes(string json)
+		{
+			var matches = Regex.Matches(json, "\"type\": ?\\{\\n.+\"class\": ?\"(.+)\",\\n.+\"ns\": ?\"(.*)\",\\n.+\"asm\": \"(.+)\"\\n");
+			foreach (var m in matches)
+			{
+				var matchString = (m as Match).Groups[0].Value;
+				var typeName = (m as Match).Groups[1].Value;
+				var nameSpace = (m as Match).Groups[2].Value;
+				var assemblyName = (m as Match).Groups[3].Value;
+
+				var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(asm => asm.GetName().Name == assemblyName);
+				var type = assembly.GetType(string.IsNullOrEmpty(nameSpace) ? typeName : $"{nameSpace}.{typeName}");
+				if (type != null) continue;
+
+				yield return new TypeInfo() {
+					assemblyName = assemblyName,
+					namespaceName = nameSpace,
+					typeName = typeName,
+				};
+			}
+		}
+
+		public static string ChangeReferenceType(string json, TypeInfo info, Type newType)
+		{
+			return Regex.Replace(json,
+				$"\"type\": ?\\{{\\n.+\"class\": ?\"{info.typeName}\",\\n.+\"ns\": ?\"{info.namespaceName}\",\\n.+\"asm\": \"{info.assemblyName}\"\\n",
+				$"\"type\": {{\n\"class\": \"{newType?.Name}\",\n\"ns\": \"{newType?.Namespace}\",\n\"asm\": \"{newType?.Assembly?.FullName}\"\n",
+				RegexOptions.Multiline);
+		}
+
+        public static string NullifyMissingReferences(string json)
+        {
+			var missings = GetMissingTypes(json);
+			foreach (var t in missings)
+				json = ChangeReferenceType(json, t, null);
+			return json;
+		}
     }
 }
