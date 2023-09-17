@@ -7,7 +7,7 @@ namespace FriendSea.StateMachine
 {
 	[System.Serializable]
 	[DisplayName("States/Resident State")]
-	public class ResidentStateNode : IStateMachineNode
+	class ResidentStateNode : IStateMachineNode
 	{
 		[SerializeField, HideInInspector]
 		internal string name;
@@ -18,7 +18,7 @@ namespace FriendSea.StateMachine
 			throw new NotImplementedException("ResidentState should not has inputs.");
 	}
 
-	public class ResidentStateNodeInitializer : StateMachineNodeInitializerBase
+	class ResidentStateNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(ResidentStateNode);
 		public override void Initialize(GraphNode node)

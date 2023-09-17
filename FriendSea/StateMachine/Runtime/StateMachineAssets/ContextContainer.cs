@@ -26,7 +26,7 @@ namespace FriendSea.StateMachine
 			contextObjects.Add(typeof(T), obj);
 	}
 
-	static class ContextContainerExtensions
+	public static class ContextContainerExtensions
 	{
 		public static T GetOrCreate<T>(this IContextContainer ctx) where T : class, new()
 		{

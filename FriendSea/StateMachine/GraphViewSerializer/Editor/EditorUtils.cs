@@ -24,7 +24,7 @@ namespace FriendSea
 			(type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute)?.DisplayName ??
 			type.FullName.Replace(".", "/");
 
-		public struct WrapEnumerable<T> : IEnumerable<T>
+		internal struct WrapEnumerable<T> : IEnumerable<T>
 		{
             IEnumerator<T> enumerator;
 
@@ -36,15 +36,15 @@ namespace FriendSea
             public IEnumerator<T> GetEnumerator() => enumerator;
 			IEnumerator IEnumerable.GetEnumerator() => enumerator;
 		}
-        public static WrapEnumerable<T> WrapAsEnumerable<T>(this IEnumerator<T> enumerator) => new WrapEnumerable<T>(enumerator);
+        internal static WrapEnumerable<T> WrapAsEnumerable<T>(this IEnumerator<T> enumerator) => new WrapEnumerable<T>(enumerator);
 
-        public static IEnumerator<SerializedProperty> EnumerateArray(this SerializedProperty property)
+        internal static IEnumerator<SerializedProperty> EnumerateArray(this SerializedProperty property)
 		{
             for (int i = 0; i < property.arraySize; i++)
                 yield return property.GetArrayElementAtIndex(i);
 		}
 
-        public static IEnumerable<SerializedProperty> ArrayAsEnumerable(this SerializedProperty property) =>
+        internal static IEnumerable<SerializedProperty> ArrayAsEnumerable(this SerializedProperty property) =>
             property.EnumerateArray().WrapAsEnumerable();
     }
 

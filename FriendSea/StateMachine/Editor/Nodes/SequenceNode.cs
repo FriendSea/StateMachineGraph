@@ -8,7 +8,7 @@ namespace FriendSea.StateMachine
 {
 	[System.Serializable]
 	[DisplayName("Controls/Sequence")]
-	public class SequenceNode : IStateMachineNode
+	class SequenceNode : IStateMachineNode
 	{
 		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			new Controls.Sequence()
@@ -19,7 +19,7 @@ namespace FriendSea.StateMachine
 			};
 	}
 
-	public class SequenceNodeInitializer : StateMachineNodeInitializerBase
+	class SequenceNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(SequenceNode);
 		public override void Initialize(GraphNode node)

@@ -10,7 +10,7 @@ namespace FriendSea.StateMachine
 {
 	[System.Serializable]
 	[DisplayName("States/StateMachine Reference")]
-	public class StateMachineReferenceNode : IStateMachineNode
+	class StateMachineReferenceNode : IStateMachineNode
 	{
 		[SerializeField]
 		internal StateMachineAsset asset;
@@ -19,7 +19,7 @@ namespace FriendSea.StateMachine
 			(node.data as StateMachineReferenceNode).asset?.entryState;
 	}
 
-	public class StateMachineReferenceNodeInitializer : GraphNode.IInitializer
+	class StateMachineReferenceNodeInitializer : GraphNode.IInitializer
 	{
 		public Type TargetType => typeof(StateMachineReferenceNode);
 		public void Initialize(GraphNode node)

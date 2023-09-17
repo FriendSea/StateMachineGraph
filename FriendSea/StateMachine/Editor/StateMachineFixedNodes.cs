@@ -6,14 +6,14 @@ using UnityEditor.Experimental.GraphView;
 
 namespace FriendSea.StateMachine
 {
-	public class EntryNode
+	class EntryNode
 	{
 	}
-	public class FallbackNode
+	class FallbackNode
 	{
 	}
 
-	public class EntryNodeInitializer : GraphNode.IInitializer
+	class EntryNodeInitializer : GraphNode.IInitializer
 	{
 		public Type TargetType => typeof(EntryNode);
 
@@ -33,7 +33,7 @@ namespace FriendSea.StateMachine
 		}
 	}
 
-	public class FallbackNodeInitializer : GraphNode.IInitializer
+	class FallbackNodeInitializer : GraphNode.IInitializer
 	{
 		public Type TargetType => typeof(FallbackNode);
 

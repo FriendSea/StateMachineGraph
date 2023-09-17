@@ -9,7 +9,7 @@ namespace FriendSea.StateMachine
 {
 	[System.Serializable]
 	[DisplayName("Controls/Trigger")]
-	public class TriggerNode : IStateMachineNode
+	class TriggerNode : IStateMachineNode
 	{
 		[SerializeField]
 		TriggerLabel label;

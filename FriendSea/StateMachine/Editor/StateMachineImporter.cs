@@ -8,7 +8,7 @@ using System.IO;
 namespace FriendSea.StateMachine
 {
 	[ScriptedImporter(0, "friendseastatemachine")]
-	public class StateMachineImporter : ScriptedImporter
+	class StateMachineImporter : ScriptedImporter
 	{
 		internal static event System.Action<string> OnImport;
 

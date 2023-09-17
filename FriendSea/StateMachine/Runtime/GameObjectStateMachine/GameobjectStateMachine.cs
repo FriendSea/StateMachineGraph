@@ -23,7 +23,7 @@ namespace FriendSea.StateMachine
 
 	public class GameobjectStateMachine : MonoBehaviour
     {
-		public event System.Action<GameobjectStateMachine> OnDestroyCalled;
+		internal event System.Action<GameobjectStateMachine> OnDestroyCalled;
 		private void OnDestroy() => OnDestroyCalled?.Invoke(this);
 
 		public bool Paused { get; set; } = false;

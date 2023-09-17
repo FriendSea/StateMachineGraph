@@ -11,7 +11,7 @@ using UnityEditor.UIElements;
 
 namespace FriendSea.StateMachine
 {
-	public class StateMachineGraphWindow : EditorWindow
+	class StateMachineGraphWindow : EditorWindow
 	{
 		public static void Open(string assetPath)
 		{

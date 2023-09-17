@@ -6,7 +6,7 @@ using UnityEditor;
 namespace FriendSea.StateMachine
 {
 	[CustomEditor(typeof(StateMachineImporter))]
-	public class StateMachineImporterEditor : Editor
+	class StateMachineImporterEditor : Editor
 	{
 		public override void OnInspectorGUI()
 		{

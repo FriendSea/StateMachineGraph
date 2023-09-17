@@ -7,7 +7,7 @@ namespace FriendSea.StateMachine
 {
 	[System.Serializable]
 	[DisplayName("Controls/Random")]
-	public class RandomNode : IStateMachineNode
+	class RandomNode : IStateMachineNode
 	{
 		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			new Controls.Random()
@@ -18,7 +18,7 @@ namespace FriendSea.StateMachine
 			};
 	}
 
-	public class RandomNodeInitializer : StateMachineNodeInitializerBase
+	class RandomNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(RandomNode);
 		public override void Initialize(GraphNode node)

@@ -10,7 +10,7 @@ namespace FriendSea.StateMachine
 {
 	[System.Serializable]
 	[DisplayName("Transition")]
-	public class TransitionNode : IStateMachineNode
+	class TransitionNode : IStateMachineNode
 	{
 		[SerializeReference]
 		internal Transition.ICondition transition;
@@ -25,7 +25,7 @@ namespace FriendSea.StateMachine
 			};
 	}
 
-	public class TransitionNodeInitializer : StateMachineNodeInitializerBase
+	class TransitionNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(TransitionNode);
 		public override void Initialize(GraphNode node)

@@ -38,7 +38,7 @@ namespace FriendSea.StateMachine.Controls
 	}
 
 	[DisplayName("Hidden/Always")]
-	public class ImmediateTransition : Transition.ICondition
+	class ImmediateTransition : Transition.ICondition
 	{
 		public bool IsValid(IContextContainer obj) => true;
 	}

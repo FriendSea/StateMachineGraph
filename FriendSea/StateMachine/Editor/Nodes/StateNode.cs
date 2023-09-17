@@ -11,7 +11,7 @@ namespace FriendSea.StateMachine
 {
 	[System.Serializable]
 	[DisplayName("State")]
-	public class StateNode : IStateMachineNode
+	class StateNode : IStateMachineNode
 	{
 		[SerializeField, HideInInspector]
 		internal string name;
@@ -22,7 +22,7 @@ namespace FriendSea.StateMachine
 			new State.StateReference() { nodeAsset = id2asset[node.id.id] };
 	}
 
-	public class StateNodeInitializer : StateMachineNodeInitializerBase
+	class StateNodeInitializer : StateMachineNodeInitializerBase
 	{
 		public override Type TargetType => typeof(StateNode);
 		public override void Initialize(GraphNode node)
