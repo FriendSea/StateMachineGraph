@@ -33,6 +33,7 @@ namespace FriendSea.GraphViewSerializer
 			public Vector2 position;
 		}
 
+		[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea", sourceClassName: "GraphViewData/Node")]
 		[System.Serializable]
 		public class Node : PositionableElementData
 		{
@@ -40,6 +41,7 @@ namespace FriendSea.GraphViewSerializer
 			public object data;
 		}
 
+		[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea", sourceClassName: "GraphViewData/Edge")]
 		[System.Serializable]
 		public class Edge : ElementData
 		{
@@ -59,6 +61,7 @@ namespace FriendSea.GraphViewSerializer
 			}
 		}
 
+		[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea", sourceClassName: "GraphViewData/Group")]
 		[System.Serializable]
 		public class Group : ElementData
 		{
@@ -74,6 +77,7 @@ namespace FriendSea.GraphViewSerializer
 			}
 		}
 
+		[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea", sourceClassName: "GraphViewData/StickyNote")]
 		public class StickyNote : PositionableElementData
 		{
 			[SerializeField]
