@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System.ComponentModel;
 
-namespace FriendSea
+namespace FriendSea.GraphViewSerializer
 {
 	public class SerializableGraphViewSearchMenuProvider : ScriptableObject, ISearchWindowProvider
 	{

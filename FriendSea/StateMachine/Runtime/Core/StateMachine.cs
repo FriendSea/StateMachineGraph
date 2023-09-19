@@ -6,7 +6,7 @@ namespace FriendSea.StateMachine {
 	{
 		internal static event System.Action<StateMachine<T>> OnInstanceCreated;
 
-		internal event System.Action<IState<T>> OnStateChanged;
+		public event System.Action<IState<T>> OnStateChanged;
 		
 		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }

@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using System.IO;
-using UnityEditor.Experimental.GraphView;
 using System.Linq;
-using System;
-using UnityEditor.UIElements;
+using FriendSea.GraphViewSerializer;
 
 namespace FriendSea.StateMachine
 {
@@ -52,7 +50,7 @@ namespace FriendSea.StateMachine
 		private void PlayModeStateChanged(PlayModeStateChange change)
 		{
 			rootVisualElement.Q<ListView>().visible = EditorApplication.isPlaying;
-			if (change == PlayModeStateChange.ExitingEditMode && StateMavhineGraphSettings.SaveOnPlay)
+			if (change == PlayModeStateChange.ExitingEditMode && StateMachineGraphSettings.SaveOnPlay)
 				SaveAsset();
 		}
 
@@ -108,11 +106,11 @@ namespace FriendSea.StateMachine
 
 			var settingButton = rootVisualElement.Q<Button>("SettingsButton");
 			settingButton.clicked += () =>
-				UnityEditor.PopupWindow.Show(settingButton.worldBound, new StateMavhineGraphSettings(graphView.RefleshView));
+				UnityEditor.PopupWindow.Show(settingButton.worldBound, new StateMachineGraphSettings(graphView.RefleshView));
 
 			var saveOnPlay = rootVisualElement.Q<Toggle>("SaveOnPlay");
-			saveOnPlay.value = StateMavhineGraphSettings.SaveOnPlay;
-			saveOnPlay.RegisterValueChangedCallback(e => StateMavhineGraphSettings.SaveOnPlay = e.newValue);
+			saveOnPlay.value = StateMachineGraphSettings.SaveOnPlay;
+			saveOnPlay.RegisterValueChangedCallback(e => StateMachineGraphSettings.SaveOnPlay = e.newValue);
 
 			var listView = rootVisualElement.Q<ListView>();
 			listView.visible = EditorApplication.isPlaying;

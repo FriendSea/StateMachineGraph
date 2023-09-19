@@ -6,6 +6,7 @@ using System;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditorInternal;
+using FriendSea.GraphViewSerializer;
 
 namespace FriendSea.StateMachine
 {
@@ -32,7 +33,7 @@ namespace FriendSea.StateMachine
 			SetupInputPort(node);
 			SetupOutputPort(node);
 			InitializeInternal(node);
-			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(StateNode));
+			node.mainContainer.style.backgroundColor = StateMachineGraphSettings.GetColor(typeof(StateNode));
 		}
 	}
 
@@ -79,13 +80,13 @@ namespace FriendSea.StateMachine
 			var conditionHeight = position.height - height;
 			position.height = height;
 
-			EditorGUI.DrawRect(position, StateMavhineGraphSettings.GetColor(typeof(StateNode)));
+			EditorGUI.DrawRect(position, StateMachineGraphSettings.GetColor(typeof(StateNode)));
 			base.OnGUI(ShrinkRect(position, 5f), property, label);
 
 			position.y += height;
 			position.height = conditionHeight;
 
-			EditorGUI.DrawRect(position, StateMavhineGraphSettings.GetColor(typeof(TransitionNode)));
+			EditorGUI.DrawRect(position, StateMachineGraphSettings.GetColor(typeof(TransitionNode)));
 			EditorGUI.PropertyField(ShrinkRect(position, 5f), property.FindPropertyRelative("transition.condition"));
 		}
 

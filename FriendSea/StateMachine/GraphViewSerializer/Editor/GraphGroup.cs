@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using System.Linq;
 
-namespace FriendSea
+namespace FriendSea.GraphViewSerializer
 {
 	[SerializableGraphView.TargetData(typeof(GraphViewData.Group))]
 	public class GraphGroup : Group, SerializableGraphView.ISerializableElement, SerializableGraphView.IPositionableElement
@@ -14,7 +14,7 @@ namespace FriendSea
 		public SerializedProperty parentProperty { get; private set; }
 		public string id { get; private set; }
 
-		// ƒR[ƒ‹ƒoƒbƒN“à‚ÅƒAƒZƒbƒg‚ğXV‚·‚é‚©‚Ìƒtƒ‰ƒO‚É‚È‚é
+		// ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½ï¿½ï¿½ÅƒAï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½é‚©ï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½É‚È‚ï¿½
 		bool initialized;
 
 		public void Initialize(SerializedProperty property, SerializableGraphView graphView)

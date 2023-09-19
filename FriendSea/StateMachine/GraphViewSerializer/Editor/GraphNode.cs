@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using System.Linq;
 
-namespace FriendSea
+namespace FriendSea.GraphViewSerializer
 {
 	[SerializableGraphView.TargetData(typeof(GraphViewData.Node), -100)]
 	public class GraphNode : Node, SerializableGraphView.ISerializableElement, SerializableGraphView.IPositionableElement

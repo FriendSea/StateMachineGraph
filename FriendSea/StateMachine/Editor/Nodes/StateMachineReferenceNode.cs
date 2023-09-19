@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine.UIElements;
+using FriendSea.GraphViewSerializer;
 
 namespace FriendSea.StateMachine
 {
@@ -57,7 +58,7 @@ namespace FriendSea.StateMachine
 
 			node.topContainer.Insert(1, node.titleContainer);
 
-			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(StateMachineReferenceNode));
+			node.mainContainer.style.backgroundColor = StateMachineGraphSettings.GetColor(typeof(StateMachineReferenceNode));
 		}
 	}
 }

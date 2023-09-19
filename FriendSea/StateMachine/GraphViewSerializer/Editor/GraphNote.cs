@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace FriendSea
+namespace FriendSea.GraphViewSerializer
 {
 	[SerializableGraphView.TargetData(typeof(GraphViewData.StickyNote))]
 	public class GraphNote : UnityEditor.Experimental.GraphView.StickyNote, SerializableGraphView.ISerializableElement, SerializableGraphView.IPositionableElement

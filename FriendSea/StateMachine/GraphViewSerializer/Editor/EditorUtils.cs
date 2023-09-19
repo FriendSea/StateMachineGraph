@@ -8,7 +8,7 @@ using UnityEditor;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
-namespace FriendSea
+namespace FriendSea.GraphViewSerializer
 {
     public static class EditorUtils
     {

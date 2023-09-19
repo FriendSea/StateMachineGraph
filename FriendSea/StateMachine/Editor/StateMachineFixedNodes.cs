@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor.Experimental.GraphView;
+using FriendSea.GraphViewSerializer;
 
 namespace FriendSea.StateMachine
 {

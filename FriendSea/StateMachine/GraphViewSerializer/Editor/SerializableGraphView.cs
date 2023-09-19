@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using UnityEditor.UIElements;
 
-namespace FriendSea
+namespace FriendSea.GraphViewSerializer
 {
 	public static class SerializableElementExtensions
 	{

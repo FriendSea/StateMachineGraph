@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using FriendSea.GraphViewSerializer;
 
 namespace FriendSea.StateMachine
 {
@@ -28,7 +29,7 @@ namespace FriendSea.StateMachine
 			SetupInputPort(node);
 			SetupOutputPort(node);
 			InitializeInternal(node);
-			node.mainContainer.style.backgroundColor = StateMavhineGraphSettings.GetColor(typeof(RandomNode));
+			node.mainContainer.style.backgroundColor = StateMachineGraphSettings.GetColor(typeof(RandomNode));
 			node.extensionContainer.Clear();
 		}
 	}

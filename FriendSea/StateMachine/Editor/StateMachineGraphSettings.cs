@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using FriendSea.GraphViewSerializer;
 
 namespace FriendSea.StateMachine
 {
-	internal class StateMavhineGraphSettings : PopupWindowContent
+	internal class StateMachineGraphSettings : PopupWindowContent
 	{
 		const string saveOnPlayKey = "friendseastatemachinesaveonplay";
 
@@ -34,7 +35,7 @@ namespace FriendSea.StateMachine
 			EditorUserSettings.SetConfigValue($"{NodeColorKey}_{type.Name}", "#" + ColorUtility.ToHtmlStringRGBA(color));
 
 		event System.Action onClose;
-		public StateMavhineGraphSettings(System.Action onClose) => this.onClose = onClose;
+		public StateMachineGraphSettings(System.Action onClose) => this.onClose = onClose;
 
 		public override void OnGUI(Rect rect)
 		{

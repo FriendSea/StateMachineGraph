@@ -5,7 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace FriendSea
+namespace FriendSea.GraphViewSerializer
 {
 	[SerializableGraphView.TargetData(typeof(GraphViewData.Edge), 100)]
 	public class GraphEdge : Edge, SerializableGraphView.ISerializableElement
