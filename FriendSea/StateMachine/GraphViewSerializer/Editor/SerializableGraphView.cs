@@ -271,6 +271,7 @@ namespace FriendSea.GraphViewSerializer
 				{
 					var node = (ISerializableElement)System.Activator.CreateInstance(pair.Value);
 					AddElement(node as GraphElement);
+					(node as GraphElement).capabilities = 0;
 					node.Initialize(prop, this);
 				}
 			}

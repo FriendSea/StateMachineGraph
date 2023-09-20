@@ -74,8 +74,6 @@ namespace FriendSea.GraphViewSerializer
 
 		public void SetupRenamableTitle(string relativeProperyPath)
 		{
-			capabilities |= Capabilities.Renamable;
-
 			var titleLabel = this.Q("title-label") as Label;
 			var t = this.GetProperty().FindPropertyRelative(relativeProperyPath).stringValue;
 			title = string.IsNullOrEmpty(t) ? "State" : t;
@@ -83,6 +81,9 @@ namespace FriendSea.GraphViewSerializer
 			var titleTextField = new TextField { isDelayed = true };
 			titleTextField.style.display = DisplayStyle.None;
 			titleLabel.parent.Insert(0, titleTextField);
+
+			if (capabilities == 0) return;
+			capabilities |= Capabilities.Renamable;
 
 			titleLabel.RegisterCallback<MouseDownEvent>(e => {
 				if (e.clickCount != 2) return;

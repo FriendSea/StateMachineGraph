@@ -14,7 +14,6 @@ namespace FriendSea.GraphViewSerializer
 		public SerializedProperty parentProperty { get; private set; }
 		public string id { get; private set; }
 
-		// �R�[���o�b�N���ŃA�Z�b�g���X�V���邩�̃t���O�ɂȂ�
 		bool initialized;
 
 		public void Initialize(SerializedProperty property, SerializableGraphView graphView)

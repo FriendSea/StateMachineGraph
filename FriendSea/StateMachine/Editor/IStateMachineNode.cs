@@ -38,7 +38,9 @@ namespace FriendSea.StateMachine
 		{
 			// add fields
 			node.extensionContainer.style.overflow = Overflow.Hidden;
-			node.extensionContainer.Add(new PropertyField(node.GetProperty().FindPropertyRelative("data")));
+			var prop = new PropertyField(node.GetProperty().FindPropertyRelative("data"));
+			prop.SetEnabled(node.capabilities != 0);
+			node.extensionContainer.Add(prop);
 
 			// force expanded
 			node.titleButtonContainer.Clear();
