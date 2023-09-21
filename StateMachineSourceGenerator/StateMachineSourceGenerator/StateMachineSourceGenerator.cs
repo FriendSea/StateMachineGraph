@@ -30,8 +30,8 @@ namespace StateMachineSourceGenerator
 
 		static bool IsInjectable(ITypeSymbol symbol)
 		{
-			if (GetFullName(symbol.BaseType) == "FriendSea.StateMachine.InjectableObjectBase") return true;
 			if(symbol.BaseType == null) return false;
+			if (GetFullName(symbol.BaseType) == "FriendSea.StateMachine.InjectableObjectBase") return true;
 			return IsInjectable(symbol.BaseType);
 		}
 
