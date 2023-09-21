@@ -17,8 +17,8 @@
         }
     ],
     "viewPosition": {
-        "x": 141.5,
-        "y": 51.0,
+        "x": 141.0,
+        "y": 127.0,
         "z": 0.0
     },
     "viewScale": {
@@ -81,8 +81,8 @@
                         "id": "164fdbcf-f7bb-4ba0-8de6-bca294bd6107"
                     },
                     "position": {
-                        "x": 210.0,
-                        "y": 20.0
+                        "x": 200.0,
+                        "y": 10.0
                     },
                     "data": {
                         "rid": 1007
@@ -161,6 +161,9 @@
                     "behaviours": [
                         {
                             "rid": 1008
+                        },
+                        {
+                            "rid": 1009
                         }
                     ]
                 }
@@ -173,12 +176,13 @@
                     "asm": "Assembly-CSharp"
                 },
                 "data": {
+                    "factor": 1.0,
                     "input": {
                         "m_UseReference": false,
                         "m_Action": {
                             "m_Name": "Input",
                             "m_Type": 0,
-                            "m_ExpectedControlType": "",
+                            "m_ExpectedControlType": "Axis",
                             "m_Id": "ebd4c243-0b49-4ed7-820a-6f1cd8fb140b",
                             "m_Processors": "",
                             "m_Interactions": "",
@@ -240,6 +244,17 @@
                             "instanceID": 0
                         }
                     }
+                }
+            },
+            {
+                "rid": 1009,
+                "type": {
+                    "class": "MultiplyVelocity",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "factor": 0.8999999761581421
                 }
             }
         ]
