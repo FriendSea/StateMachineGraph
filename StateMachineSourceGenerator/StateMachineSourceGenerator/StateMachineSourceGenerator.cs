@@ -52,7 +52,7 @@ namespace StateMachineSourceGenerator
 					var sementicModel = context.Compilation.GetSemanticModel(dec.SyntaxTree);
 					var symbol = sementicModel.GetDeclaredSymbol(dec);
 
-					if (!IsInjectable(symbol)) continue;
+					if (!IsInjectable(symbol) || symbol.IsAbstract) continue;
 
 					var fields = new Dictionary<string, string>();
 
