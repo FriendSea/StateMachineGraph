@@ -1,0 +1,247 @@
+{
+    "elements": [
+        {
+            "rid": 1000
+        },
+        {
+            "rid": 1001
+        },
+        {
+            "rid": 1002
+        },
+        {
+            "rid": 1003
+        },
+        {
+            "rid": 1004
+        }
+    ],
+    "viewPosition": {
+        "x": 141.5,
+        "y": 51.0,
+        "z": 0.0
+    },
+    "viewScale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+    },
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "066adc68-93c6-4572-ab09-0fa6ca9633e8"
+                    },
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "data": {
+                        "rid": 1005
+                    }
+                }
+            },
+            {
+                "rid": 1001,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "49d7b409-2edf-48ad-8cef-7a9c54497730"
+                    },
+                    "position": {
+                        "x": 0.0,
+                        "y": 100.0
+                    },
+                    "data": {
+                        "rid": 1006
+                    }
+                }
+            },
+            {
+                "rid": 1002,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "164fdbcf-f7bb-4ba0-8de6-bca294bd6107"
+                    },
+                    "position": {
+                        "x": 210.0,
+                        "y": 20.0
+                    },
+                    "data": {
+                        "rid": 1007
+                    }
+                }
+            },
+            {
+                "rid": 1003,
+                "type": {
+                    "class": "GraphViewData/Edge",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "212cd4fd-bd04-4de2-a881-78fb8f018ffb"
+                    },
+                    "outputNode": {
+                        "id": "066adc68-93c6-4572-ab09-0fa6ca9633e8"
+                    },
+                    "outputPort": "transitions",
+                    "inputNode": {
+                        "id": "164fdbcf-f7bb-4ba0-8de6-bca294bd6107"
+                    },
+                    "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1004,
+                "type": {
+                    "class": "GraphViewData/Edge",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "333dde49-5714-4e6d-aa86-be732fa29989"
+                    },
+                    "outputNode": {
+                        "id": "49d7b409-2edf-48ad-8cef-7a9c54497730"
+                    },
+                    "outputPort": "transitions",
+                    "inputNode": {
+                        "id": "164fdbcf-f7bb-4ba0-8de6-bca294bd6107"
+                    },
+                    "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1005,
+                "type": {
+                    "class": "EntryNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1006,
+                "type": {
+                    "class": "FallbackNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1007,
+                "type": {
+                    "class": "StateNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "name": "",
+                    "behaviours": [
+                        {
+                            "rid": 1008
+                        }
+                    ]
+                }
+            },
+            {
+                "rid": 1008,
+                "type": {
+                    "class": "AccelByInput",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "input": {
+                        "m_UseReference": false,
+                        "m_Action": {
+                            "m_Name": "Input",
+                            "m_Type": 0,
+                            "m_ExpectedControlType": "",
+                            "m_Id": "ebd4c243-0b49-4ed7-820a-6f1cd8fb140b",
+                            "m_Processors": "",
+                            "m_Interactions": "",
+                            "m_SingletonActionBindings": [
+                                {
+                                    "m_Name": "2D Vector",
+                                    "m_Id": "6f6340d3-21ca-4600-b717-31d443cb6cdd",
+                                    "m_Path": "2DVector",
+                                    "m_Interactions": "",
+                                    "m_Processors": "",
+                                    "m_Groups": "",
+                                    "m_Action": "Input",
+                                    "m_Flags": 4
+                                },
+                                {
+                                    "m_Name": "up",
+                                    "m_Id": "54c13941-ee4d-4db6-9693-21b0511039ee",
+                                    "m_Path": "<Keyboard>/upArrow",
+                                    "m_Interactions": "",
+                                    "m_Processors": "",
+                                    "m_Groups": "",
+                                    "m_Action": "Input",
+                                    "m_Flags": 8
+                                },
+                                {
+                                    "m_Name": "down",
+                                    "m_Id": "cbe49a09-1a65-47ee-a369-48e9d411e215",
+                                    "m_Path": "<Keyboard>/downArrow",
+                                    "m_Interactions": "",
+                                    "m_Processors": "",
+                                    "m_Groups": "",
+                                    "m_Action": "Input",
+                                    "m_Flags": 8
+                                },
+                                {
+                                    "m_Name": "left",
+                                    "m_Id": "7f645b51-bc4f-4b47-901b-ec3609717930",
+                                    "m_Path": "<Keyboard>/leftArrow",
+                                    "m_Interactions": "",
+                                    "m_Processors": "",
+                                    "m_Groups": "",
+                                    "m_Action": "Input",
+                                    "m_Flags": 8
+                                },
+                                {
+                                    "m_Name": "right",
+                                    "m_Id": "c395343a-dcf6-4131-ac69-9691882028c7",
+                                    "m_Path": "<Keyboard>/rightArrow",
+                                    "m_Interactions": "",
+                                    "m_Processors": "",
+                                    "m_Groups": "",
+                                    "m_Action": "Input",
+                                    "m_Flags": 8
+                                }
+                            ],
+                            "m_Flags": 0
+                        },
+                        "m_Reference": {
+                            "instanceID": 0
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
