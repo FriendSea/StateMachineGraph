@@ -15,9 +15,9 @@ namespace FriendSea.StateMachine {
 
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
 		{
-			CurrentState = entryState.GetState(null).state ?? fallbackState.GetState(null).state;
-			FallbackState = fallbackState;
 			this.target = target;
+			CurrentState = entryState.GetState(target).state ?? fallbackState.GetState(target).state;
+			FallbackState = fallbackState;
 
 			CurrentState.OnEnter(target);
 

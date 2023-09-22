@@ -19,6 +19,8 @@ public class Movement : MonoBehaviour
 	[field:SerializeField]
 	public Vector3 Velocity { get; set; }
 
+	public bool IsGrounded { get; private set; }
+
 	private void Update()
 	{
 		UpdatePosition(Time.deltaTime);
@@ -41,6 +43,10 @@ public class Movement : MonoBehaviour
 		}
 
 		transform.position += modDelta;
+
+		IsGrounded = Physics.Raycast(transform.position, -transform.up, Mathf.Max(-collisionPoint0.y, -collisionPoint1.y) + collisionRadius + 0.001f);
+
+		Debug.Log(IsGrounded);
 	}
 
 	private void OnDrawGizmos()
