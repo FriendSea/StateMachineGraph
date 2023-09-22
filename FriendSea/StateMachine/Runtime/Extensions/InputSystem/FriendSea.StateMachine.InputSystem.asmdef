@@ -1,0 +1,17 @@
+{
+    "name": "FriendSea.StateMachine.InputSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dee98eb248c1445f9bb34162ded46b04",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

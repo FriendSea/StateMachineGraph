@@ -38,15 +38,12 @@ public class Movement : MonoBehaviour
 		{
 			if (Mathf.Approximately(hits[i].distance, 0f)) continue;
 			var intersectLength = delta.magnitude * 2f - hits[i].distance;
-			Debug.Log(hits[i].normal);
 			modDelta += hits[i].normal * Vector3.Dot(hits[i].normal, -delta.normalized) * intersectLength;
 		}
 
 		transform.position += modDelta;
 
 		IsGrounded = Physics.Raycast(transform.position, -transform.up, Mathf.Max(-collisionPoint0.y, -collisionPoint1.y) + collisionRadius + 0.001f);
-
-		Debug.Log(IsGrounded);
 	}
 
 	private void OnDrawGizmos()

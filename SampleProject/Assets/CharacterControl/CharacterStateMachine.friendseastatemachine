@@ -74,13 +74,13 @@
         }
     ],
     "viewPosition": {
-        "x": -975.5,
-        "y": 124.5,
+        "x": -1003.0,
+        "y": 127.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.8695651888847351,
-        "y": 0.8695651888847351,
+        "x": 1.0,
+        "y": 1.0,
         "z": 1.0
     },
     "references": {
@@ -698,7 +698,7 @@
                     "asm": "FriendSea.StateMachine.Editor"
                 },
                 "data": {
-                    "name": "Air",
+                    "name": "Jump",
                     "behaviours": [
                         {
                             "rid": 1044
@@ -935,7 +935,7 @@
                 "type": {
                     "class": "InputPressedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
-                    "asm": "Assembly-CSharp"
+                    "asm": "FriendSea.StateMachine.InputSystem"
                 },
                 "data": {
                     "action": {
@@ -944,13 +944,13 @@
                             "m_Name": "Action",
                             "m_Type": 0,
                             "m_ExpectedControlType": "",
-                            "m_Id": "2d95af91-b2c1-410c-a70e-8c38e0a91634",
+                            "m_Id": "cc770683-309d-4e7b-9d4c-5720dca88f1b",
                             "m_Processors": "",
                             "m_Interactions": "",
                             "m_SingletonActionBindings": [
                                 {
                                     "m_Name": "",
-                                    "m_Id": "66563c0e-2185-4a6e-839c-a31818363487",
+                                    "m_Id": "84dccdfa-31f2-44c2-8b93-16a4d2a87aff",
                                     "m_Path": "<Keyboard>/z",
                                     "m_Interactions": "",
                                     "m_Processors": "",
@@ -1093,7 +1093,7 @@
                 "type": {
                     "class": "InputPressedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
-                    "asm": "Assembly-CSharp"
+                    "asm": "FriendSea.StateMachine.InputSystem"
                 },
                 "data": {
                     "action": {
@@ -1102,13 +1102,13 @@
                             "m_Name": "Action",
                             "m_Type": 0,
                             "m_ExpectedControlType": "",
-                            "m_Id": "bd5a502f-70e6-4952-8930-99638f175e11",
+                            "m_Id": "e65f57d8-78fb-44eb-89cb-03292e8a0154",
                             "m_Processors": "",
                             "m_Interactions": "",
                             "m_SingletonActionBindings": [
                                 {
                                     "m_Name": "",
-                                    "m_Id": "09269a48-8593-4f47-900c-67fdc43e02cc",
+                                    "m_Id": "810f500f-5399-4701-ad69-4862982d241c",
                                     "m_Path": "<Keyboard>/z",
                                     "m_Interactions": "",
                                     "m_Processors": "",
