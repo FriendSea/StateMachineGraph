@@ -17,8 +17,8 @@
         }
     ],
     "viewPosition": {
-        "x": 141.0,
-        "y": 127.0,
+        "x": 151.5,
+        "y": 11.0,
         "z": 0.0
     },
     "viewScale": {
@@ -81,8 +81,8 @@
                         "id": "164fdbcf-f7bb-4ba0-8de6-bca294bd6107"
                     },
                     "position": {
-                        "x": 200.0,
-                        "y": 10.0
+                        "x": 190.0,
+                        "y": 40.0
                     },
                     "data": {
                         "rid": 1007
@@ -157,7 +157,7 @@
                     "asm": "FriendSea.StateMachine.Editor"
                 },
                 "data": {
-                    "name": "",
+                    "name": "DefaultState",
                     "behaviours": [
                         {
                             "rid": 1008
