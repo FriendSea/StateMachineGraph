@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+#if STATEMACHINE_USE_INPUTSYSTEM
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -47,3 +47,5 @@ namespace FriendSea.StateMachine.Conditions
 		}
 	}
 }
+
+# endif
