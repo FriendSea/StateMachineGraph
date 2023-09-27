@@ -14,8 +14,8 @@ namespace FriendSea.StateMachine
 		public override T Get<T>() where T : class
 		{
 			if (typeof(T) == typeof(GameObject)) return obj as T;
-			if(typeof(Component).IsAssignableFrom(typeof(T)))
-				if(!contextObjects.ContainsKey(typeof(T)))
+			if (typeof(Component).IsAssignableFrom(typeof(T)) || typeof(T).IsInterface)
+				if (!contextObjects.ContainsKey(typeof(T)))
 					contextObjects.Add(typeof(T), obj.GetComponentInChildren<T>(true));
 			return base.Get<T>();
 		}

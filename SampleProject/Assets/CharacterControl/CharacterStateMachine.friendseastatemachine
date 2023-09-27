@@ -74,13 +74,13 @@
         }
     ],
     "viewPosition": {
-        "x": -1003.0,
-        "y": 127.0,
+        "x": -7.0,
+        "y": 144.5,
         "z": 0.0
     },
     "viewScale": {
-        "x": 1.0,
-        "y": 1.0,
+        "x": 0.4323275685310364,
+        "y": 0.4323275685310364,
         "z": 1.0
     },
     "references": {
@@ -741,57 +741,28 @@
             {
                 "rid": 1035,
                 "type": {
-                    "class": "HorizontalInputAccel",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "AddMovementHorizontalVelocityFromInput",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine.InputSystem"
                 },
                 "data": {
                     "factor": 1.0,
                     "input": {
-                        "m_UseReference": false,
+                        "m_UseReference": true,
                         "m_Action": {
                             "m_Name": "Input",
                             "m_Type": 0,
                             "m_ExpectedControlType": "",
-                            "m_Id": "c1a73066-bef3-47df-a5af-8001f5cd35d5",
+                            "m_Id": "c808ff8d-b755-431e-9241-39207d8466eb",
                             "m_Processors": "",
                             "m_Interactions": "",
-                            "m_SingletonActionBindings": [
-                                {
-                                    "m_Name": "1D Axis",
-                                    "m_Id": "17dff050-0e57-4395-be96-eae8bd2bf476",
-                                    "m_Path": "1DAxis",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 4
-                                },
-                                {
-                                    "m_Name": "negative",
-                                    "m_Id": "48e4175d-dcb8-4b98-8fe5-b50db2bac702",
-                                    "m_Path": "<Keyboard>/leftArrow",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 8
-                                },
-                                {
-                                    "m_Name": "positive",
-                                    "m_Id": "b9d04eff-9dbc-48e9-9e8e-3b00e0a4ac6d",
-                                    "m_Path": "<Keyboard>/rightArrow",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 8
-                                }
-                            ],
+                            "m_SingletonActionBindings": [],
                             "m_Flags": 0
                         },
                         "m_Reference": {
-                            "instanceID": 0
+                            "fileID": -6308023727577701817,
+                            "guid": "6c94929398158421da6af4d4fd4ac3ba",
+                            "type": 3
                         }
                     }
                 }
@@ -799,9 +770,9 @@
             {
                 "rid": 1036,
                 "type": {
-                    "class": "MultiplyVelocity",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "MultiplyMovementVelocity",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
                 },
                 "data": {
                     "factor": {
@@ -814,57 +785,28 @@
             {
                 "rid": 1037,
                 "type": {
-                    "class": "HorizontalInputAccel",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "AddMovementHorizontalVelocityFromInput",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine.InputSystem"
                 },
                 "data": {
                     "factor": 1.0,
                     "input": {
-                        "m_UseReference": false,
+                        "m_UseReference": true,
                         "m_Action": {
                             "m_Name": "Input",
                             "m_Type": 0,
                             "m_ExpectedControlType": "",
-                            "m_Id": "c1a73066-bef3-47df-a5af-8001f5cd35d5",
+                            "m_Id": "85ec40b8-7b4e-4fe9-8718-9c1794a9fb15",
                             "m_Processors": "",
                             "m_Interactions": "",
-                            "m_SingletonActionBindings": [
-                                {
-                                    "m_Name": "1D Axis",
-                                    "m_Id": "17dff050-0e57-4395-be96-eae8bd2bf476",
-                                    "m_Path": "1DAxis",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 4
-                                },
-                                {
-                                    "m_Name": "negative",
-                                    "m_Id": "48e4175d-dcb8-4b98-8fe5-b50db2bac702",
-                                    "m_Path": "<Keyboard>/leftArrow",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 8
-                                },
-                                {
-                                    "m_Name": "positive",
-                                    "m_Id": "b9d04eff-9dbc-48e9-9e8e-3b00e0a4ac6d",
-                                    "m_Path": "<Keyboard>/rightArrow",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 8
-                                }
-                            ],
+                            "m_SingletonActionBindings": [],
                             "m_Flags": 0
                         },
                         "m_Reference": {
-                            "instanceID": 0
+                            "fileID": -6308023727577701817,
+                            "guid": "6c94929398158421da6af4d4fd4ac3ba",
+                            "type": 3
                         }
                     }
                 }
@@ -872,9 +814,9 @@
             {
                 "rid": 1038,
                 "type": {
-                    "class": "AddVelocity",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "AddMovementVelocity",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
                 },
                 "data": {
                     "amount": {
@@ -887,9 +829,9 @@
             {
                 "rid": 1039,
                 "type": {
-                    "class": "MultiplyVelocity",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "MultiplyMovementVelocity",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
                 },
                 "data": {
                     "factor": {
@@ -939,7 +881,7 @@
                 },
                 "data": {
                     "action": {
-                        "m_UseReference": false,
+                        "m_UseReference": true,
                         "m_Action": {
                             "m_Name": "Action",
                             "m_Type": 0,
@@ -962,7 +904,9 @@
                             "m_Flags": 0
                         },
                         "m_Reference": {
-                            "instanceID": 0
+                            "fileID": 8447508616684170230,
+                            "guid": "6c94929398158421da6af4d4fd4ac3ba",
+                            "type": 3
                         }
                     }
                 }
@@ -970,57 +914,28 @@
             {
                 "rid": 1044,
                 "type": {
-                    "class": "HorizontalInputAccel",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "AddMovementHorizontalVelocityFromInput",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine.InputSystem"
                 },
                 "data": {
                     "factor": 1.0,
                     "input": {
-                        "m_UseReference": false,
+                        "m_UseReference": true,
                         "m_Action": {
                             "m_Name": "Input",
                             "m_Type": 0,
                             "m_ExpectedControlType": "",
-                            "m_Id": "c1a73066-bef3-47df-a5af-8001f5cd35d5",
+                            "m_Id": "e9272bb6-4994-4841-8261-17e819eb672f",
                             "m_Processors": "",
                             "m_Interactions": "",
-                            "m_SingletonActionBindings": [
-                                {
-                                    "m_Name": "1D Axis",
-                                    "m_Id": "17dff050-0e57-4395-be96-eae8bd2bf476",
-                                    "m_Path": "1DAxis",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 4
-                                },
-                                {
-                                    "m_Name": "negative",
-                                    "m_Id": "48e4175d-dcb8-4b98-8fe5-b50db2bac702",
-                                    "m_Path": "<Keyboard>/leftArrow",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 8
-                                },
-                                {
-                                    "m_Name": "positive",
-                                    "m_Id": "b9d04eff-9dbc-48e9-9e8e-3b00e0a4ac6d",
-                                    "m_Path": "<Keyboard>/rightArrow",
-                                    "m_Interactions": "",
-                                    "m_Processors": "",
-                                    "m_Groups": "",
-                                    "m_Action": "Input",
-                                    "m_Flags": 8
-                                }
-                            ],
+                            "m_SingletonActionBindings": [],
                             "m_Flags": 0
                         },
                         "m_Reference": {
-                            "instanceID": 0
+                            "fileID": -6308023727577701817,
+                            "guid": "6c94929398158421da6af4d4fd4ac3ba",
+                            "type": 3
                         }
                     }
                 }
@@ -1028,9 +943,9 @@
             {
                 "rid": 1045,
                 "type": {
-                    "class": "MultiplyVelocity",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "MultiplyMovementVelocity",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
                 },
                 "data": {
                     "factor": {
@@ -1043,9 +958,9 @@
             {
                 "rid": 1046,
                 "type": {
-                    "class": "AddVelocity",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
+                    "class": "AddMovementVelocity",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
                 },
                 "data": {
                     "amount": {
@@ -1097,7 +1012,7 @@
                 },
                 "data": {
                     "action": {
-                        "m_UseReference": false,
+                        "m_UseReference": true,
                         "m_Action": {
                             "m_Name": "Action",
                             "m_Type": 0,
@@ -1120,7 +1035,9 @@
                             "m_Flags": 0
                         },
                         "m_Reference": {
-                            "instanceID": 0
+                            "fileID": 8447508616684170230,
+                            "guid": "6c94929398158421da6af4d4fd4ac3ba",
+                            "type": 3
                         }
                     }
                 }
