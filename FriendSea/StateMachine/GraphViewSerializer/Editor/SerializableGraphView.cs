@@ -99,6 +99,8 @@ namespace FriendSea.GraphViewSerializer
 						dataProperty.serializedObject.Update();
 						foreach (var element in change.elementsToRemove.Where(e => e is ISerializableElement).Select(e => e as ISerializableElement))
 						{
+							if ((!(element as GraphEdge)?.Deletable) ?? false) continue;
+
 							elementsProp.DeleteArrayElementAtIndex(element.GetCurrentIndex());
 							if (element is GraphNode)
 							{
