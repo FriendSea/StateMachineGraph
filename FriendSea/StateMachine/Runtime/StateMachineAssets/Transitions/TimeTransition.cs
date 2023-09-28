@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine.Controls;
 
-namespace FriendSea.StateMachine
+namespace FriendSea.StateMachine.Conditions
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea.StateMachine", sourceClassName: "TimeTransition")]
 	[DisplayName("Wait/Time")]
 	public class TimeTransition : Transition.ICondition
 	{

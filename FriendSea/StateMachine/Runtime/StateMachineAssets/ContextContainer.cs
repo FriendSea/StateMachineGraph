@@ -23,7 +23,7 @@ namespace FriendSea.StateMachine
 				contextObjects[typeof(T)] as T :
 				null;
 		public virtual void Add<T>(T obj) where T : class =>
-			contextObjects.Add(typeof(T), obj);
+			contextObjects[typeof(T)] = obj;
 	}
 
 	public static class ContextContainerExtensions
