@@ -13,12 +13,8 @@ namespace FriendSea.GraphViewSerializer
 		public SerializedProperty parentProperty { get; private set; }
 		public string id { get; private set; }
 
-		internal bool Deletable{ get; private set; }
-
 		public void Initialize(SerializedProperty property, SerializableGraphView graphView)
 		{
-			Deletable = capabilities != 0;
-
 			var path = property.propertyPath.Split('.');
 			parentProperty = property.serializedObject.FindProperty(path[0]);
 			for (int i = 1; i < path.Length - 1; i++)
@@ -29,6 +25,8 @@ namespace FriendSea.GraphViewSerializer
 			input = graphView.GetNode(property.FindPropertyRelative("inputNode").FindPropertyRelative("id").stringValue).GetInputPort(property.FindPropertyRelative("inputPort").stringValue);
 			output.Connect(this);
 			input.Connect(this);
+
+			SetEnabled(capabilities != 0);
 		}
 	}
 }
