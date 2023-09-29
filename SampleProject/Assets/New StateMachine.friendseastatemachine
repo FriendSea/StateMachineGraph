@@ -83,6 +83,7 @@
         "y": 0.32690176367759707,
         "z": 1.0
     },
+    "baseAssetGuid": "",
     "references": {
         "version": 2,
         "RefIds": [
@@ -584,7 +585,7 @@
                     },
                     "content": "webves\n",
                     "size": {
-                        "x": 367.5,
+                        "x": 178.0,
                         "y": 100.0
                     }
                 }
@@ -769,7 +770,7 @@
                 "rid": 1037,
                 "type": {
                     "class": "FrameTransition",
-                    "ns": "FriendSea.StateMachine",
+                    "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
@@ -795,7 +796,7 @@
                 "rid": 1039,
                 "type": {
                     "class": "FrameTransition",
-                    "ns": "FriendSea.StateMachine",
+                    "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {

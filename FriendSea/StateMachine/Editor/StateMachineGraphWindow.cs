@@ -23,7 +23,7 @@ namespace FriendSea.StateMachine
 		}
 
 		[SerializeField]
-		GraphViewData data;
+		StateMachineGraphData data;
 		[SerializeField]
 		string guid;
 
@@ -57,15 +57,7 @@ namespace FriendSea.StateMachine
 		void LoadAsset(string assetPath)
 		{
 			guid = AssetDatabase.AssetPathToGUID(assetPath);
-			data = new GraphViewData();
-			var json = File.ReadAllText(assetPath);
-
-			EditorJsonUtility.FromJsonOverwrite(json, data);
-			if (data.elements.Any(d => d == null))
-			{
-				json = SerializesJsonUtils.NullifyMissingReferences(json);
-				EditorJsonUtility.FromJsonOverwrite(json, data);
-			}
+			data = StateMachineGraphData.FromJson(assetPath);
 
 			EditorUtility.ClearDirty(this);
 			RefleshGraphView();
