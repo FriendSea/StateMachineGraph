@@ -24,6 +24,8 @@ namespace FriendSea.StateMachine
 
 		[SerializeField]
 		StateMachineGraphData data;
+		[SerializeReference]
+		List<GraphViewData.ElementData> lockedElements;
 		[SerializeField]
 		string guid;
 
@@ -66,6 +68,7 @@ namespace FriendSea.StateMachine
 		void RefleshGraphView()
 		{
 			if (data == null) return;
+			lockedElements = data.GetBaseElements();
 
 			rootVisualElement.Clear();
 
@@ -75,7 +78,7 @@ namespace FriendSea.StateMachine
 
 			var so = new SerializedObject(this);
 
-			graphView = new SerializableGraphView(this, so.FindProperty("data"), typeof(IStateMachineNode));
+			graphView = new SerializableGraphView(this, so.FindProperty("data"), typeof(IStateMachineNode), so.FindProperty("lockedElements"));
 			rootVisualElement.Q("GraphArea").Add(graphView);
 			path = Path.ChangeExtension(path, "uss");
 			graphView.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(path));

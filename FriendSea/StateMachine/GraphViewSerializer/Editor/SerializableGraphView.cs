@@ -53,12 +53,14 @@ namespace FriendSea.GraphViewSerializer
 		}
 
 		SerializedProperty dataProperty;
+		SerializedProperty lockedElementsProperty;
 
-		public SerializableGraphView(EditorWindow editorWindow, SerializedProperty dataProperty, System.Type searchDataType)
+		public SerializableGraphView(EditorWindow editorWindow, SerializedProperty dataProperty, System.Type searchDataType, SerializedProperty lockedElementsProperty = null)
 		{
 			// initialize view
 
 			this.dataProperty = dataProperty;
+			this.lockedElementsProperty = lockedElementsProperty;
 
 			this.StretchToParentSize();
 			SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
@@ -215,7 +217,7 @@ namespace FriendSea.GraphViewSerializer
 					newProps.Add(prop);
 				}
 				dataProperty.serializedObject.ApplyModifiedProperties();
-				LoadElements(newProps);
+				LoadElements(newProps, true);
 			};
 
 			// register undo
@@ -223,7 +225,7 @@ namespace FriendSea.GraphViewSerializer
 			RegisterCallback<DetachFromPanelEvent>(e => Undo.undoRedoPerformed -= RefleshView);
 
 			// load elements
-			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
+			RefleshView();
 		}
 
 		public void FitToContainer()
@@ -252,12 +254,17 @@ namespace FriendSea.GraphViewSerializer
 		{
 			foreach (var element in graphElements.Where(e => e is ISerializableElement))
 				RemoveElement(element);
+			if (lockedElementsProperty != null)
+			{
+				lockedElementsProperty.serializedObject.Update();
+				LoadElements(lockedElementsProperty.ArrayAsEnumerable().ToList(), false);
+			}
 			dataProperty.serializedObject.Update();
 			var elementsProp = dataProperty.FindPropertyRelative("elements");
-			LoadElements(elementsProp.ArrayAsEnumerable().ToList());
+			LoadElements(elementsProp.ArrayAsEnumerable().ToList(), true);
 		}
 
-		void LoadElements(List<SerializedProperty> elementProps)
+		void LoadElements(List<SerializedProperty> elementProps, bool enabled)
 		{
 			var elementTypes = EditorUtils.GetSubClasses(typeof(ISerializableElement))
 				.Where(t => t.IsDefined(typeof(TargetDataAttribute), true))
@@ -271,7 +278,8 @@ namespace FriendSea.GraphViewSerializer
 				{
 					var node = (ISerializableElement)System.Activator.CreateInstance(pair.Value);
 					AddElement(node as GraphElement);
-					(node as GraphElement).capabilities = 0;
+					if (!enabled)
+						(node as GraphElement).capabilities = 0;
 					node.Initialize(prop, this);
 				}
 			}
