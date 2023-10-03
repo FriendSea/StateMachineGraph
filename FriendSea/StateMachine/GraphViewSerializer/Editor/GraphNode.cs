@@ -82,7 +82,6 @@ namespace FriendSea.GraphViewSerializer
 			titleTextField.style.display = DisplayStyle.None;
 			titleLabel.parent.Insert(0, titleTextField);
 
-			if (capabilities == 0) return;
 			capabilities |= Capabilities.Renamable;
 
 			titleLabel.RegisterCallback<MouseDownEvent>(e => {

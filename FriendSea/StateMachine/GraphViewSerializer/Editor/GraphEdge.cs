@@ -25,8 +25,6 @@ namespace FriendSea.GraphViewSerializer
 			input = graphView.GetNode(property.FindPropertyRelative("inputNode").FindPropertyRelative("id").stringValue).GetInputPort(property.FindPropertyRelative("inputPort").stringValue);
 			output.Connect(this);
 			input.Connect(this);
-
-			SetEnabled(capabilities != 0);
 		}
 	}
 }
