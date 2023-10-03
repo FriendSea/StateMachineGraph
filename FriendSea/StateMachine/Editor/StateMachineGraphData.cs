@@ -31,7 +31,17 @@ namespace FriendSea.StateMachine
 		public List<ElementData> GetBaseElements()
 		{
 			if (string.IsNullOrEmpty(baseAssetGuid)) return null;
-			return FromJson(AssetDatabase.GUIDToAssetPath(baseAssetGuid)).elements;
+			return FromJson(BaseAssetPath).elements;
 		}
+
+		public void UnpackBaseAsset()
+		{
+			var baseElements = GetBaseElements();
+			if (baseElements != null)
+				elements.AddRange(baseElements);
+			baseAssetGuid = null;
+		}
+
+		public string BaseAssetPath => AssetDatabase.GUIDToAssetPath(baseAssetGuid);
     }
 }

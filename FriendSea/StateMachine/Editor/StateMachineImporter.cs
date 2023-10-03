@@ -17,7 +17,7 @@ namespace FriendSea.StateMachine
 		{
 			OnImport?.Invoke(AssetDatabase.AssetPathToGUID(assetPath));
 
-			var data = new GraphViewData();
+			var data = new StateMachineGraphData();
 			var json = File.ReadAllText(assetPath);
 			EditorJsonUtility.FromJsonOverwrite(json, data);
 			if (data.elements.Any(d => d == null))
@@ -26,6 +26,9 @@ namespace FriendSea.StateMachine
 				json = SerializesJsonUtils.NullifyMissingReferences(json);
 				EditorJsonUtility.FromJsonOverwrite(json, data);
 			}
+			if (!string.IsNullOrEmpty(data.BaseAssetPath))
+				ctx.DependsOnSourceAsset(data.BaseAssetPath);
+			data.UnpackBaseAsset();
 			data.InjectRootForParse();
 
 			// create asset
