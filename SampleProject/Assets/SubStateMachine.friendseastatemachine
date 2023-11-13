@@ -35,15 +35,16 @@
         }
     ],
     "viewPosition": {
-        "x": 109.0,
-        "y": 250.0,
+        "x": 210.0,
+        "y": 248.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.6933333277702332,
-        "y": 0.6933333277702332,
+        "x": 0.25,
+        "y": 0.25,
         "z": 1.0
     },
+    "baseAssetGuid": "",
     "references": {
         "version": 2,
         "RefIds": [
@@ -51,7 +52,7 @@
                 "rid": 1000,
                 "type": {
                     "class": "GraphViewData/Node",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -71,7 +72,7 @@
                 "rid": 1001,
                 "type": {
                     "class": "GraphViewData/Node",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -91,7 +92,7 @@
                 "rid": 1002,
                 "type": {
                     "class": "GraphViewData/Node",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -111,7 +112,7 @@
                 "rid": 1003,
                 "type": {
                     "class": "GraphViewData/Edge",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -132,7 +133,7 @@
                 "rid": 1004,
                 "type": {
                     "class": "GraphViewData/Edge",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -153,7 +154,7 @@
                 "rid": 1005,
                 "type": {
                     "class": "GraphViewData/Node",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -173,7 +174,7 @@
                 "rid": 1006,
                 "type": {
                     "class": "GraphViewData/Edge",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -194,7 +195,7 @@
                 "rid": 1007,
                 "type": {
                     "class": "GraphViewData/Edge",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -215,7 +216,7 @@
                 "rid": 1008,
                 "type": {
                     "class": "GraphViewData/Node",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -235,7 +236,7 @@
                 "rid": 1009,
                 "type": {
                     "class": "GraphViewData/Node",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -255,7 +256,7 @@
                 "rid": 1010,
                 "type": {
                     "class": "GraphViewData/Edge",
-                    "ns": "FriendSea",
+                    "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
@@ -367,7 +368,7 @@
                 "rid": 1018,
                 "type": {
                     "class": "FrameTransition",
-                    "ns": "FriendSea.StateMachine",
+                    "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
@@ -393,7 +394,7 @@
                 "rid": 1020,
                 "type": {
                     "class": "FrameTransition",
-                    "ns": "FriendSea.StateMachine",
+                    "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
