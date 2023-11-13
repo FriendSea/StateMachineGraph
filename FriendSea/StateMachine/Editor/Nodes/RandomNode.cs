@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using FriendSea.GraphViewSerializer;
+using UnityEditor;
+using UnityEngine;
 
 namespace FriendSea.StateMachine
 {
@@ -24,6 +26,9 @@ namespace FriendSea.StateMachine
 		public override Type TargetType => typeof(RandomNode);
 		public override void Initialize(GraphNode node)
 		{
+			var image = new UnityEngine.UIElements.Image();
+			image.image = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.friendsea.statemachine/Editor/Icons/Random.png");
+			node.titleContainer.Insert(0, image);
 			node.title = "Random";
 			node.style.width = 150f;
 			SetupInputPort(node);

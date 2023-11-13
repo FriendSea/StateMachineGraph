@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using FriendSea.GraphViewSerializer;
+using UnityEditor;
 
 namespace FriendSea.StateMachine
 {
@@ -25,6 +26,9 @@ namespace FriendSea.StateMachine
 		public override Type TargetType => typeof(SequenceNode);
 		public override void Initialize(GraphNode node)
 		{
+			var image = new UnityEngine.UIElements.Image();
+			image.image = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.friendsea.statemachine/Editor/Icons/Sequence.png");
+			node.titleContainer.Insert(0, image);
 			node.title = "Sequence";
 			node.style.width = 150f;
 			SetupInputPort(node);

@@ -28,6 +28,9 @@ namespace FriendSea.StateMachine
 			public override Type TargetType => typeof(TriggerNode);
 			public override void Initialize(GraphNode node)
 			{
+				var image = new UnityEngine.UIElements.Image();
+				image.image = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.friendsea.statemachine/Editor/Icons/Trigger.png");
+				node.titleContainer.Insert(0, image);
 				node.title = "Trigger";
 				node.style.width = 150f;
 				SetupInputPort(node);
