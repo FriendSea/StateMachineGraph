@@ -254,7 +254,7 @@ namespace FriendSea.GraphViewSerializer
 		{
 			foreach (var element in graphElements.Where(e => e is ISerializableElement))
 				RemoveElement(element);
-			if (lockedElementsProperty != null)
+			if (lockedElementsProperty?.serializedObject != null)
 			{
 				lockedElementsProperty.serializedObject.Update();
 				LoadElements(lockedElementsProperty.ArrayAsEnumerable().ToList(), false);
