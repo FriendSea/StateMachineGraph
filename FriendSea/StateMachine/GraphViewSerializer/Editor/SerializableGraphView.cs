@@ -38,6 +38,12 @@ namespace FriendSea.GraphViewSerializer
 			}
 		}
 
+		public interface IDropHandler
+		{
+			System.Type TargetType { get; }
+			object CreateNodeData(UnityEngine.Object obj);
+		}
+
 		public interface ISerializableElement
 		{
 			// 配列の中身が増減するとインデックスは変わるので配列自体のプロパティパスとguidで持つ
@@ -223,6 +229,24 @@ namespace FriendSea.GraphViewSerializer
 			// register undo
 			Undo.undoRedoPerformed += RefleshView;
 			RegisterCallback<DetachFromPanelEvent>(e => Undo.undoRedoPerformed -= RefleshView);
+
+			// register drop
+			var handlers = TypeCache.GetTypesDerivedFrom<IDropHandler>()
+				.Where(t => !t.IsAbstract && !t.IsInterface)
+				.Select(t => System.Activator.CreateInstance(t) as IDropHandler)
+				.ToDictionary(h => h.TargetType, h => h);
+			RegisterCallback<DragUpdatedEvent>(e => {
+				var obj = DragAndDrop.objectReferences.FirstOrDefault();
+				DragAndDrop.visualMode = handlers.ContainsKey(obj.GetType()) ?
+					DragAndDropVisualMode.Copy : 
+					DragAndDropVisualMode.None;
+			});
+			RegisterCallback<DragPerformEvent>(e => {
+				var obj = DragAndDrop.objectReferences.FirstOrDefault();
+				if (!handlers.ContainsKey(obj.GetType())) return;
+				var position = viewTransform.matrix.inverse.MultiplyPoint(e.localMousePosition);
+				AddNode(handlers[obj.GetType()].CreateNodeData(obj), position);
+			});
 
 			// load elements
 			RefleshView();

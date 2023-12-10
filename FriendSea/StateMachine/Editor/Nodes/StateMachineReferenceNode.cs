@@ -20,6 +20,20 @@ namespace FriendSea.StateMachine
 			(node.data as StateMachineReferenceNode).asset?.entryState;
 	}
 
+	class StateMachineReferenceNodeDropHandler : SerializableGraphView.IDropHandler
+	{
+		public Type TargetType => typeof(StateMachineAsset);
+
+
+		public object CreateNodeData(UnityEngine.Object obj)
+		{
+			var asset = obj as StateMachineAsset;
+			return new StateMachineReferenceNode(){
+				asset = asset,
+			};
+		}
+	}
+
 	class StateMachineReferenceNodeInitializer : GraphNode.IInitializer
 	{
 		public Type TargetType => typeof(StateMachineReferenceNode);
