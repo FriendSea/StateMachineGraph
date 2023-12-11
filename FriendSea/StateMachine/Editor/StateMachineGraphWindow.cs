@@ -78,7 +78,7 @@ namespace FriendSea.StateMachine
 
 			var so = new SerializedObject(this);
 
-			graphView = new SerializableGraphView(this, so.FindProperty("data"), typeof(IStateMachineNode), so.FindProperty("lockedElements"));
+			graphView = new SerializableGraphView(this, so.FindProperty("data"), typeof(IStateMachineNode), typeof(IStateMachineDropHandler), so.FindProperty("lockedElements"));
 			rootVisualElement.Q("GraphArea").Add(graphView);
 			path = Path.ChangeExtension(path, "uss");
 			graphView.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(path));

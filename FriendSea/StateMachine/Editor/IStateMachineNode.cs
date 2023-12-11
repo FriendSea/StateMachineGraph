@@ -13,6 +13,8 @@ namespace FriendSea.StateMachine
 		ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset);
 	}
 
+	public interface IStateMachineDropHandler : SerializableGraphView.IDropHandler { }
+
 	public abstract class StateMachineNodeInitializerBase : GraphNode.IInitializer
 	{
 		public abstract Type TargetType { get; }

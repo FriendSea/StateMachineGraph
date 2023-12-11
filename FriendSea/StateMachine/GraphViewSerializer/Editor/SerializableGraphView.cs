@@ -61,7 +61,7 @@ namespace FriendSea.GraphViewSerializer
 		SerializedProperty dataProperty;
 		SerializedProperty lockedElementsProperty;
 
-		public SerializableGraphView(EditorWindow editorWindow, SerializedProperty dataProperty, System.Type searchDataType, SerializedProperty lockedElementsProperty = null)
+		public SerializableGraphView(EditorWindow editorWindow, SerializedProperty dataProperty, System.Type searchDataType, System.Type dropHandlerType = null, SerializedProperty lockedElementsProperty = null)
 		{
 			// initialize view
 
@@ -231,10 +231,12 @@ namespace FriendSea.GraphViewSerializer
 			RegisterCallback<DetachFromPanelEvent>(e => Undo.undoRedoPerformed -= RefleshView);
 
 			// register drop
-			var handlers = TypeCache.GetTypesDerivedFrom<IDropHandler>()
-				.Where(t => !t.IsAbstract && !t.IsInterface)
-				.Select(t => System.Activator.CreateInstance(t) as IDropHandler)
-				.ToDictionary(h => h.TargetType, h => h);
+			var handlers = dropHandlerType == null ?
+					new Dictionary<System.Type, IDropHandler>() :
+					TypeCache.GetTypesDerivedFrom(dropHandlerType)
+					.Where(t => !t.IsAbstract && !t.IsInterface)
+					.Select(t => System.Activator.CreateInstance(t) as IDropHandler)
+					.ToDictionary(h => h.TargetType, h => h);
 			RegisterCallback<DragUpdatedEvent>(e => {
 				var obj = DragAndDrop.objectReferences.FirstOrDefault();
 				DragAndDrop.visualMode = handlers.ContainsKey(obj.GetType()) ?
