@@ -34,12 +34,8 @@ namespace FriendSea.StateMachine
 		public StateMachine<IContextContainer> StateMachine => stateMachine;
         StateMachine<IContextContainer> stateMachine = null;
 
-		private void Awake()
-		{
-			var ctx = new GameObjectContextContainer(gameObject);
-			stateMachine = new StateMachine<IContextContainer>(asset.EntryState, asset.FallbackState, ctx);
-			ctx.Add(stateMachine);
-		}
+		private void Awake() =>
+			stateMachine = new StateMachine<IContextContainer>(asset.EntryState, asset.FallbackState, new GameObjectContextContainer(gameObject));
 
 		void FixedUpdate()
 		{
