@@ -36,7 +36,7 @@ namespace FriendSea.StateMachine.Controls
 				if (!result.isValid) break;
 				if (result.state == null) continue;
 				indexContext.SetValue(this, currentIndex + 1);
-				obj.Get<StateMachine<IContextContainer>>().PushReturnState(this);
+				obj.GetOrCreate<ReturnStack.Context>().PushReturnState(this);
 				return (result.state, true);
 			}
 			indexContext.SetValue(this, 0);

@@ -71,13 +71,16 @@ namespace FriendSea.StateMachine
 						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
 			main.fallbackState =
-				new Controls.Transition()
-				{
-					condition = new Controls.ImmediateTransition(),
-					targets = fallbackNode.GetConnectedNodes()
-						.OrderBy(n => n.position.y)
-						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
+				new Controls.ReturnStack() {
+					target = new Controls.Transition()
+					{
+						condition = new Controls.ImmediateTransition(),
+						targets = fallbackNode.GetConnectedNodes()
+							.OrderBy(n => n.position.y)
+							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
+					}
 				};
+				
 			main.residentStates = data.elements
 				.Where(e => e is GraphViewData.Node)
 				.Where(e => (e as GraphViewData.Node).data is ResidentStateNode)

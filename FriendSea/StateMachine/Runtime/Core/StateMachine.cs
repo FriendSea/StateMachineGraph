@@ -10,7 +10,6 @@ namespace FriendSea.StateMachine {
 		
 		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
-		Stack<IStateReference<T>> returnStack = new Stack<IStateReference<T>>();
 		T target;
 
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
@@ -39,7 +38,7 @@ namespace FriendSea.StateMachine {
 
 		public void ForceState(IState<T> state)
 		{
-			state = state ?? (returnStack.Count > 0 ? returnStack.Pop() : FallbackState).GetState(target).state ?? FallbackState.GetState(target).state;
+			state = state ?? FallbackState.GetState(target).state;
 
 			CurrentState.OnExit(target);
 			CurrentState = state;
@@ -50,9 +49,6 @@ namespace FriendSea.StateMachine {
 
 		public void ForceState(IStateReference<T> state) =>
 			ForceState(state.GetState(target).state);
-
-		public void PushReturnState(IStateReference<T> state) =>
-			returnStack.Push(state);
 	}
 
 	public interface IState<T> where T : class

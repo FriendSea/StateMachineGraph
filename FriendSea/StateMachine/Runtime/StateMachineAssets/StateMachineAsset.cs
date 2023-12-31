@@ -9,8 +9,8 @@ namespace FriendSea.StateMachine
 	{
 		[SerializeField]
 		internal Transition entryState;
-		[SerializeField]
-		internal Transition fallbackState;
+		[SerializeReference]
+		internal ISerializableStateReference fallbackState;
 		[SerializeField]
 		internal ResidentState[] residentStates;
 
