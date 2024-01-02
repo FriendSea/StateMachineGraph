@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMovement
+public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMovement, FriendSea.StateMachine.Conditions.IPlatformerObject
 {
 	[SerializeField]
 	Vector3 collisionPoint0;

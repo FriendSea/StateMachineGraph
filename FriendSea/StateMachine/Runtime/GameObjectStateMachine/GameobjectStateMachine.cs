@@ -8,7 +8,6 @@ namespace FriendSea.StateMachine
 	public class GameObjectContextContainer : ContextContainerBase
 	{
 		GameObject obj;
-
 		public GameObjectContextContainer(GameObject obj) => this.obj = obj;
 
 		public override T Get<T>() where T : class
