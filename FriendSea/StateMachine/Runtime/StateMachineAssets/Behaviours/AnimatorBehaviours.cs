@@ -43,8 +43,7 @@ namespace FriendSea.StateMachine.Behaviours
 	{
 		[SerializeField] SerializedAnimatorState state;
 		[SerializeField] float fadeTime;
-		[InjectContext]
-		Animator animator;
+		[InjectContext] Animator animator;
 
 		protected override void OnEnter(IContextContainer obj)
 		{
