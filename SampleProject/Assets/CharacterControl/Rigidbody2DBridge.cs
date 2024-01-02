@@ -40,10 +40,20 @@ public class Rigidbody2DBridge : MonoBehaviour, FriendSea.StateMachine.Behaviour
 		var from = transform.position + transform.up * groundHeight + transform.up * groundMargin;
 		var to = transform.position + transform.up * groundHeight - transform.up * groundMargin;
 		var count = Physics2D.Raycast(from, (to - from), new ContactFilter2D(), results, (to - from).magnitude);
-		for(int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++)
+		{
 			if (results[i].collider.gameObject == gameObject) continue;
 			return results[i].distance - groundMargin;
 		}
 		return float.NaN;
+	}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.green;
+		Gizmos.matrix = transform.localToWorldMatrix;
+		Gizmos.DrawWireCube(Vector3.up * groundHeight, new Vector3(1, 0, 1));
+		Gizmos.DrawLine(Vector3.up * (+groundMargin + groundHeight), Vector3.up * (-groundMargin + groundHeight));
+		Gizmos.matrix = Matrix4x4.identity;
 	}
 }
