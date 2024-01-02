@@ -25,8 +25,6 @@ namespace FriendSea.StateMachine
 		internal event System.Action<GameobjectStateMachine> OnDestroyCalled;
 		private void OnDestroy() => OnDestroyCalled?.Invoke(this);
 
-		public bool Paused { get; set; } = false;
-
         [SerializeField]
         StateMachineAsset asset;
 
@@ -38,7 +36,6 @@ namespace FriendSea.StateMachine
 
 		void FixedUpdate()
 		{
-			if (Paused) return;
 			stateMachine.Update(Time.fixedDeltaTime);
 		}
 

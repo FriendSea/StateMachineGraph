@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Rigidbody2DBridge : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMovement, FriendSea.StateMachine.Conditions.IPlatformerObject
+public class Rigidbody2DMovement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMovement, FriendSea.StateMachine.Conditions.IPlatformerObject
 {
 	[SerializeField]
 	float groundHeight = -1f;
@@ -21,7 +21,6 @@ public class Rigidbody2DBridge : MonoBehaviour, FriendSea.StateMachine.Behaviour
 		set => _velocity = value;
 	}
 
-	ContactPoint2D[] contacts = new ContactPoint2D[1];
 	private void FixedUpdate()
 	{
 		var delta = Target.position + (Vector2)Velocity * Time.fixedDeltaTime;
