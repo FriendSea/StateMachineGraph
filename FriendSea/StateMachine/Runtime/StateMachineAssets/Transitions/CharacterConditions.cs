@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace FriendSea.StateMachine.Conditions{
-
-    public interface IPlatformerObject
-    {
+	public interface IPlatformerObject
+	{
 		public bool IsGrounded { get; }
 	}
 

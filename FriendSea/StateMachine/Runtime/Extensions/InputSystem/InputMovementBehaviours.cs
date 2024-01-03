@@ -1,3 +1,5 @@
+#if STATEMACHINE_USE_INPUTSYSTEM
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -75,3 +77,5 @@ namespace FriendSea.StateMachine.Behaviours
 		}
 	}
 }
+
+#endif

@@ -80,13 +80,13 @@
         }
     ],
     "viewPosition": {
-        "x": 17.33333396911621,
-        "y": 36.66666793823242,
+        "x": -26.66666603088379,
+        "y": 74.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.4323275685310364,
-        "y": 0.4323275685310364,
+        "x": 0.49717673659324648,
+        "y": 0.49717673659324648,
         "z": 1.0
     },
     "baseAssetGuid": "",
@@ -832,6 +832,9 @@
                     "behaviours": [
                         {
                             "rid": 1055
+                        },
+                        {
+                            "rid": 1056
                         }
                     ]
                 }
@@ -994,7 +997,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1056
+                        "rid": 1057
                     }
                 }
             },
@@ -1130,7 +1133,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1057
+                        "rid": 1058
                     }
                 }
             },
@@ -1166,6 +1169,34 @@
             {
                 "rid": 1056,
                 "type": {
+                    "class": "SetInputDirection",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine.InputSystem"
+                },
+                "data": {
+                    "input": {
+                        "m_UseReference": true,
+                        "m_Action": {
+                            "m_Name": "Input",
+                            "m_Type": 0,
+                            "m_ExpectedControlType": "",
+                            "m_Id": "9bc26bc2-c332-4719-bb38-41564115272f",
+                            "m_Processors": "",
+                            "m_Interactions": "",
+                            "m_SingletonActionBindings": [],
+                            "m_Flags": 0
+                        },
+                        "m_Reference": {
+                            "fileID": -6308023727577701817,
+                            "guid": "6c94929398158421da6af4d4fd4ac3ba",
+                            "type": 3
+                        }
+                    }
+                }
+            },
+            {
+                "rid": 1057,
+                "type": {
                     "class": "GroundedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "FriendSea.StateMachine"
@@ -1173,7 +1204,7 @@
                 "data": {}
             },
             {
-                "rid": 1057,
+                "rid": 1058,
                 "type": {
                     "class": "InputPressedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",

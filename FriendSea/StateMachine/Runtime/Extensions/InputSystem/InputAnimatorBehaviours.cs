@@ -1,3 +1,5 @@
+#if STATEMACHINE_USE_INPUTSYSTEM
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,3 +21,5 @@ namespace FriendSea.StateMachine.Behaviours
 			animator.SetFloat(name, input.action.ReadValue<float>());
 	}
 }
+
+#endif
