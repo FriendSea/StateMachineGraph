@@ -5,38 +5,38 @@ using UnityEngine;
 namespace FriendSea.StateMachine.Behaviours
 {
 	[DisplayName("GameObject/SetActive")]
-	public class GameObjectSetActive : IBehaviour
+	public partial class GameObjectSetActive : BehaviourBase
 	{
 		[SerializeField] bool active;
-		public void OnEnter(IContextContainer obj) => obj.Get<GameObject>().SetActive(active);
-		public void OnExit(IContextContainer obj) { }
-		public void OnUpdate(IContextContainer obj) { }
+		protected override void OnEnter(IContextContainer obj) => obj.Get<GameObject>().SetActive(active);
+		protected override void OnExit(IContextContainer obj) { }
+		protected override void OnUpdate(IContextContainer obj) { }
 	}
 
 	[DisplayName("GameObject/SetLayer")]
-	public class GameObjectSetLayer : IBehaviour
+	public partial class GameObjectSetLayer : BehaviourBase
 	{
 		[SerializeField] int layer;
-		public void OnEnter(IContextContainer obj) => obj.Get<GameObject>().layer = layer;
-		public void OnExit(IContextContainer obj) { }
-		public void OnUpdate(IContextContainer obj) { }
+		protected override void OnEnter(IContextContainer obj) => obj.Get<GameObject>().layer = layer;
+		protected override void OnExit(IContextContainer obj) { }
+		protected override void OnUpdate(IContextContainer obj) { }
 	}
 
 	[DisplayName("GameObject/Destroy")]
-	public class GameObjectDestroy : IBehaviour
+	public partial class GameObjectDestroy : BehaviourBase
 	{
 		[SerializeField] int layer;
-		public void OnEnter(IContextContainer obj) => Object.Destroy(obj.Get<GameObject>());
-		public void OnExit(IContextContainer obj) { }
-		public void OnUpdate(IContextContainer obj) { }
+		protected override void OnEnter(IContextContainer obj) => Object.Destroy(obj.Get<GameObject>());
+		protected override void OnExit(IContextContainer obj) { }
+		protected override void OnUpdate(IContextContainer obj) { }
 	}
 
 	[DisplayName("GameObject/Instantiate")]
-	public class GameObjectInstantiate : IBehaviour
+	public partial class GameObjectInstantiate : BehaviourBase
 	{
 		[SerializeField] GameObject original;
-		public void OnEnter(IContextContainer obj) => Object.Instantiate(original);
-		public void OnExit(IContextContainer obj) { }
-		public void OnUpdate(IContextContainer obj) { }
+		protected override void OnEnter(IContextContainer obj) => Object.Instantiate(original);
+		protected override void OnExit(IContextContainer obj) { }
+		protected override void OnUpdate(IContextContainer obj) { }
 	}
 }

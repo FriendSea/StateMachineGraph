@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using System.Linq;
 using FriendSea.GraphViewSerializer;
+using System.IO;
 
 namespace FriendSea.StateMachine
 {
@@ -103,6 +104,7 @@ namespace FriendSea.StateMachine
 		{
 			var lines = clipBoard.Split("\n");
 			if (lines.Length < 3) return null;
+			if (!File.Exists(lines[0]))return null;
 			var type = System.Reflection.Assembly.Load(lines[0])?.GetType(lines[1]);
 			if (type == null) return null;
 			return JsonUtility.FromJson(lines[2], type);
