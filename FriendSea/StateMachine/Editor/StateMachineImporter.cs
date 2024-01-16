@@ -126,20 +126,24 @@ namespace FriendSea.StateMachine
 		public static ISerializableStateReference GenerateTransition(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
 			(node.data as IStateMachineNode).GenerateReferenceForImport(data, node, id2asset);
 
-		[MenuItem("Assets/Create/🔶➡🔶 StateMachine Asset")]
-		static void CreateFile()
-		{
-			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", EditorJsonUtility.ToJson(new GraphViewData() {
+		internal static string GetDefaultText() =>
+			EditorJsonUtility.ToJson(new GraphViewData()
+			{
 				elements = new List<GraphViewData.ElementData>()
 				{
 					new GraphViewData.Node(){id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new EntryNode()},
 					new GraphViewData.Node(){id = new GraphViewData.Id(System.Guid.NewGuid().ToString()), data = new FallbackNode(), position = new Vector2(0, 100)},
 				}
-			}));
+			});
+
+		[MenuItem("Assets/Create/🔶➡🔶 StateMachine Asset")]
+		static void CreateFile()
+		{
+			ProjectWindowUtil.CreateAssetWithContent("New StateMachine.friendseastatemachine", GetDefaultText());
 			AssetDatabase.Refresh();
 		}
 
-		[MenuItem("Assets/Create/StateMachine Asset Veriant")]
+		[MenuItem("Assets/Create/🔶➡🔶 StateMachine Asset Veriant")]
 		static void CreateVariantFile()
 		{
 			ProjectWindowUtil.CreateAssetWithContent("New StateMachine Variant.friendseastatemachine", EditorJsonUtility.ToJson(new StateMachineGraphData()
@@ -149,7 +153,7 @@ namespace FriendSea.StateMachine
 			AssetDatabase.Refresh();
 		}
 
-		[MenuItem("Assets/Create/StateMachine Asset Veriant", validate = true)]
+		[MenuItem("Assets/Create/🔶➡🔶 StateMachine Asset Veriant", validate = true)]
 		static bool ValidateCreateVariantFile() => Selection.activeObject is StateMachineAsset;
 	}
 }

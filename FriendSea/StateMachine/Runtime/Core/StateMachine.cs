@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace FriendSea.StateMachine {
 	public class StateMachine<T> where T : class
 	{
