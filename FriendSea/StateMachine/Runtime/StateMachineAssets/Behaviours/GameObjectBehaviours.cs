@@ -37,12 +37,10 @@ namespace FriendSea.StateMachine.Behaviours
 		[SerializeField] GameObject original;
 		[SerializeField]
 		Vector3 position;
-		[SerializeField]
-		Quaternion rotation;
 
 		protected override void OnEnter(IContextContainer obj) {
 			var pos = position;
-			var rot = rotation;
+			var rot = Quaternion.identity;
 			var transform = obj.Get<Transform>();
 			if (transform != null)
 			{
