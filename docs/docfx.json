@@ -1,0 +1,46 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../Friendsea/StateMachine/",
+          "files": [
+            "**/*.cs"
+          ]
+        }
+      ],
+      "dest": "api",
+      "allowCompilationErrors":true
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "Friendly States",
+      "_appTitle": "Friendly States",
+      "_enableSearch": true,
+      "pdf": false
+    }
+  }
+}
