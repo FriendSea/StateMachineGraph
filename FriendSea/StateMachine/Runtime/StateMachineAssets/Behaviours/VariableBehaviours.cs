@@ -32,6 +32,21 @@ namespace FriendSea.StateMachine.Behaviours {
 		public void OnUpdate(IContextContainer obj){}
 	}
 
+	[DisplayName("Variables/Add")]
+	class AddVariableValue : IBehaviour
+	{
+		[SerializeField, VariableId]
+		Int64 variable;
+		[SerializeField]
+		int value;
+
+		public void OnEnter(IContextContainer obj) =>
+			obj.GetOrCreate<VariablesContext>()[variable] += value;
+
+		public void OnExit(IContextContainer obj) { }
+		public void OnUpdate(IContextContainer obj) { }
+	}
+
 	[AttributeUsage(System.AttributeTargets.Field, AllowMultiple = true)]
 	class VariableIdAttribute : PropertyAttribute {}
 
