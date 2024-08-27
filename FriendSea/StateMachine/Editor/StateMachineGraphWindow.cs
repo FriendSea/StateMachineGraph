@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System.IO;
 using System.Linq;
@@ -129,6 +130,18 @@ namespace FriendSea.StateMachine
 				instance.OnDestroyCalled -= StateMachineGraphWindow_OnDestroyCalled;
 				listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
 			}
+
+			var variablesProp = so.FindProperty("data.variables");
+			var variablesView = rootVisualElement.Q<ListView>("variables");
+			variablesView.makeItem = () =>
+			{
+				var root = new BindableElement();
+				root.Add(new TextField() { bindingPath = "name" });
+				return root;
+			};
+			variablesView.bindItem = (e, i) => (e as BindableElement).BindProperty(variablesProp.GetArrayElementAtIndex(i));
+			variablesView.bindingPath = variablesProp.propertyPath;
+			variablesView.Bind(variablesProp.serializedObject);
 		}
 
 		void SaveAsset()
