@@ -7,11 +7,11 @@ namespace FriendSea.StateMachine {
 		
 		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
-		T target;
+		public T Target { get; private set; }
 
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
 		{
-			this.target = target;
+			this.Target = target;
 			CurrentState = entryState.GetState(target).state ?? fallbackState.GetState(target).state;
 			FallbackState = fallbackState;
 
@@ -22,7 +22,7 @@ namespace FriendSea.StateMachine {
 
 		public void DoTransition()
 		{
-			var newstate = CurrentState.NextState(target);
+			var newstate = CurrentState.NextState(Target);
 			if (newstate != CurrentState)
 				ForceState(newstate);
 		}
@@ -30,22 +30,22 @@ namespace FriendSea.StateMachine {
 		public void Update(float deltaTime)
 		{
 			DoTransition();
-			CurrentState.OnUpdate(target, deltaTime);
+			CurrentState.OnUpdate(Target, deltaTime);
 		}
 
 		public void ForceState(IState<T> state)
 		{
-			state = state ?? FallbackState.GetState(target).state;
+			state = state ?? FallbackState.GetState(Target).state;
 
-			CurrentState.OnExit(target);
+			CurrentState.OnExit(Target);
 			CurrentState = state;
-			CurrentState.OnEnter(target);
+			CurrentState.OnEnter(Target);
 
 			OnStateChanged?.Invoke(CurrentState);
 		}
 
 		public void ForceState(IStateReference<T> state) =>
-			ForceState(state.GetState(target).state);
+			ForceState(state.GetState(Target).state);
 	}
 
 	public interface IState<T> where T : class
