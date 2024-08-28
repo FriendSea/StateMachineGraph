@@ -140,6 +140,14 @@ namespace FriendSea.StateMachine
 
 			var variablesProp = so.FindProperty("data.variables");
 			var variablesView = rootVisualElement.Q<ListView>("variables");
+			variablesView.itemsAdded += added => {
+				foreach (var i in added)
+				{
+					variablesProp.GetArrayElementAtIndex(i).FindPropertyRelative("id").longValue = Random.Range(int.MinValue, int.MaxValue);
+					variablesProp.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue = "new variable";
+				}
+				variablesProp.serializedObject.ApplyModifiedProperties();
+			};
 			variablesView.makeItem = () =>
 			{
 				var root = new BindableElement();

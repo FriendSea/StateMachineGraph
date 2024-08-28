@@ -60,7 +60,7 @@ namespace FriendSea.StateMachine.Behaviours {
 			var array = property.serializedObject.FindProperty("data.variables");
 			for(int i=0;i < array.arraySize;i++){
 				var prop = array.GetArrayElementAtIndex(i);
-				ids.Add(prop.FindPropertyRelative("id").intValue);
+				ids.Add(prop.FindPropertyRelative("id").longValue);
 				names.Add(prop.FindPropertyRelative("name").stringValue);
 			}
 			var newIndex = EditorGUI.Popup(position, label.text, ids.IndexOf(property.longValue), names.ToArray());
