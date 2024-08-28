@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+using System;
 
 namespace FriendSea.StateMachine
 {
@@ -14,7 +15,7 @@ namespace FriendSea.StateMachine
 		[System.Serializable]
 		public class IdNamePair
 		{
-			public int id;
+			public Int64 id;
 			public string name;
 		}
 

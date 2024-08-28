@@ -164,8 +164,7 @@
     "variables": [
         {
             "id": 350630078,
-            "name": "JumpCount",
-            "value": 0
+            "name": "JumpCount"
         }
     ],
     "baseAssetGuid": "",
