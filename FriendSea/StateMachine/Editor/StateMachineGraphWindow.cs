@@ -155,7 +155,10 @@ namespace FriendSea.StateMachine
 				root.Add(new IntegerField() { isReadOnly = true});
 				return root;
 			};
-			variablesView.bindItem = (e, i) => (e as BindableElement).BindProperty(variablesProp.GetArrayElementAtIndex(i));
+			variablesView.bindItem = (e, i) => {
+				if (i >= variablesProp.arraySize) return;
+				(e as BindableElement).BindProperty(variablesProp.GetArrayElementAtIndex(i));
+			}; 
 			variablesView.bindingPath = variablesProp.propertyPath;
 			variablesView.Bind(variablesProp.serializedObject);
 		}
