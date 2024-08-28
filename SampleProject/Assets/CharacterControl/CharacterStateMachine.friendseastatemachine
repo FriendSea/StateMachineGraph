@@ -152,8 +152,8 @@
         }
     ],
     "viewPosition": {
-        "x": -624.0,
-        "y": -245.0,
+        "x": -708.0,
+        "y": -154.0,
         "z": 0.0
     },
     "viewScale": {
@@ -164,7 +164,8 @@
     "variables": [
         {
             "id": 350630078,
-            "name": "JumpCount"
+            "name": "JumpCount",
+            "value": 0
         }
     ],
     "baseAssetGuid": "",
@@ -735,7 +736,7 @@
                     },
                     "position": {
                         "x": 1480.0,
-                        "y": 350.0
+                        "y": 240.0
                     },
                     "data": {
                         "rid": 1061

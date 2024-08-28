@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using System.IO;
 using System.Linq;
 using FriendSea.GraphViewSerializer;
+using FriendSea.StateMachine.Behaviours;
 
 namespace FriendSea.StateMachine
 {
@@ -47,8 +48,14 @@ namespace FriendSea.StateMachine
 			}
 		}
 
-		private void OnStateChanged(IState<IContextContainer> obj) =>
+		private void OnStateChanged(IState<IContextContainer> obj)
+		{
+			if (_selected == null) return;
 			graphView.UpdateActiveNode(node => AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id == obj?.Id);
+			var varibaleFields = rootVisualElement.Q<ListView>("variables").Query<IntegerField>().ToList();
+			for (int i = 0; i < varibaleFields.Count; i++)
+				varibaleFields[i].value = _selected.Target.GetOrCreate<VariablesContext>()[data.variables[i].id];
+		}
 
 		private void PlayModeStateChanged(PlayModeStateChange change)
 		{
@@ -137,6 +144,7 @@ namespace FriendSea.StateMachine
 			{
 				var root = new BindableElement();
 				root.Add(new TextField() { bindingPath = "name" });
+				root.Add(new IntegerField() { isReadOnly = true});
 				return root;
 			};
 			variablesView.bindItem = (e, i) => (e as BindableElement).BindProperty(variablesProp.GetArrayElementAtIndex(i));
