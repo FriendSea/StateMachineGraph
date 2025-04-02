@@ -128,15 +128,21 @@
         }
     ],
     "viewPosition": {
-        "x": -607.0,
-        "y": -38.0,
+        "x": 0.0,
+        "y": 163.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 1.0,
-        "y": 1.0,
+        "x": 0.3901408910751343,
+        "y": 0.3901408910751343,
         "z": 1.0
     },
+    "variables": [
+        {
+            "id": 350630078,
+            "name": "JumpCount"
+        }
+    ],
     "baseAssetGuid": "",
     "references": {
         "version": 2,
