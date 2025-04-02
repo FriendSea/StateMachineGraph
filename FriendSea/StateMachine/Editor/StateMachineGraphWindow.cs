@@ -120,7 +120,7 @@ namespace FriendSea.StateMachine
 			listView.makeItem = () => new Label();
 			listView.bindItem = (label, index) => (label as Label).text = (listView.itemsSource[index] as GameobjectStateMachine).gameObject.name;
 			listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
-			listView.onSelectionChange += objects =>
+			listView.selectionChanged += objects =>
 				Selected = ((GameobjectStateMachine)objects.FirstOrDefault())?.StateMachine;
 			StateMachine<IContextContainer>.OnInstanceCreated += instance =>
 			{
