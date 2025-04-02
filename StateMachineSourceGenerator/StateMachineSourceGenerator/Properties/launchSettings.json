@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "プロファイル 1": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\StateMachineSourceGeneratorTest\\StateMachineSourceGeneratorTest.csproj"
+    }
+  }
+}
