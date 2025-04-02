@@ -46,6 +46,42 @@ namespace FriendSea.StateMachine.Conditions
 			return action.action.WasReleasedThisFrame();
 		}
 	}
+
+	[DisplayName("Input/VectorX")]
+	partial class InputVectorXTransition : Controls.Transition.ICondition
+	{
+		[SerializeField]
+		InputActionProperty action;
+		[SerializeField]
+		float threshold;
+
+		public bool IsValid(IContextContainer obj)
+		{
+			if (!action.action.enabled)
+				action.action.Enable();
+			return threshold > 0f ?
+				action.action.ReadValue<Vector2>().x >= threshold :
+				action.action.ReadValue<Vector2>().x <= threshold;
+		}
+	}
+
+	[DisplayName("Input/VectorY")]
+	partial class InputVectorYTransition : Controls.Transition.ICondition
+	{
+		[SerializeField]
+		InputActionProperty action;
+		[SerializeField]
+		float threshold;
+
+		public bool IsValid(IContextContainer obj)
+		{
+			if (!action.action.enabled)
+				action.action.Enable();
+			return threshold > 0f ?
+				action.action.ReadValue<Vector2>().y >= threshold :
+				action.action.ReadValue<Vector2>().y <= threshold;
+		}
+	}
 }
 
-# endif
+#endif
