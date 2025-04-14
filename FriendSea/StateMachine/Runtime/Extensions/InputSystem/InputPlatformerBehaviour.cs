@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 namespace FriendSea.StateMachine.Behaviours
 {
 	[DisplayName("Platformer/Input/SetDirection")]
-	public partial class SetInputDirection : BehaviourBase
+	public partial class SetInputDirection : IBehaviour
 	{
 		[SerializeField]
 		InputActionProperty input;
@@ -16,13 +16,13 @@ namespace FriendSea.StateMachine.Behaviours
 		[InjectContext]
 		IDirectionable directionable;
 
-		protected override void OnEnter(IContextContainer obj) {
+		public void OnEnter(IContextContainer obj) {
 			input.action.Enable();
 		}
 
-		protected override void OnExit(IContextContainer obj) { }
+		public void OnExit(IContextContainer obj) { }
 
-		protected override void OnUpdate(IContextContainer obj)
+		public void OnUpdate(IContextContainer obj)
 		{
 			var val = Mathf.RoundToInt(input.action.ReadValue<float>());
 			if (val != 0)

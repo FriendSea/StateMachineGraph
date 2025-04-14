@@ -55,17 +55,26 @@ namespace FriendSea.StateMachine
 			obj.Time = 0f;
 			obj.GetOrCreate<ResidentStateContext>().ChangeResidents(obj, residentStates);
 			foreach (var b in behaviours)
+			{
+				(b as IInjectable)?.OnSetup(obj);
 				b.OnEnter(obj);
+			}
 		}
 
 		public void OnExit(IContextContainer obj) {
 			foreach (var b in behaviours)
+			{
+				(b as IInjectable)?.OnSetup(obj);
 				b.OnExit(obj);
+			}
 		}
 
 		public void OnUpdate(IContextContainer obj, float deltaTime) {
 			foreach (var b in behaviours)
-				b.OnUpdate(obj);
+			{
+                (b as IInjectable)?.OnSetup(obj);
+                b.OnUpdate(obj);
+			}
 			obj.GetOrCreate<ResidentStateContext>().UpdateResidents(obj, deltaTime);
 			obj.FrameCount++;
 			obj.Time += deltaTime;

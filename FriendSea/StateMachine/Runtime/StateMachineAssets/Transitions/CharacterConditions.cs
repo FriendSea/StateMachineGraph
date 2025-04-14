@@ -1,4 +1,5 @@
 using FriendSea.StateMachine.Behaviours;
+using FriendSea.StateMachine.Controls;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,11 +11,11 @@ namespace FriendSea.StateMachine.Conditions{
 	}
 
 	[DisplayName("Platformer/IsGrounded")]
-	partial class GroundedTransition : ConditionBase
+	partial class GroundedTransition : Transition.ICondition
 	{
 		[InjectContext]
 		IPlatformerObject movement;
 
-		protected override bool IsValid(IContextContainer obj) => movement.IsGrounded;
+		public bool IsValid(IContextContainer obj) => movement.IsGrounded;
 	}
 }

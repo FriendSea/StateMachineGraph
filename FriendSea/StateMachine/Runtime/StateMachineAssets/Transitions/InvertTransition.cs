@@ -7,7 +7,7 @@ namespace FriendSea.StateMachine.Conditions
 {
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea.StateMachine", sourceClassName: "InvertTransition")]
 	[DisplayName("Invert")]
-	public class InvertTransition : Transition.ICondition
+    public class InvertTransition : Transition.ICondition, IInjectable
 	{
 		[SerializeReference]
 		internal Transition.ICondition transition;
@@ -16,5 +16,10 @@ namespace FriendSea.StateMachine.Conditions
 		{
 			return !transition.IsValid(obj);
 		}
-	}
+
+        public void OnSetup(IContextContainer ctx)
+        {
+            (transition as IInjectable)?.OnSetup(ctx);
+        }
+    }
 }

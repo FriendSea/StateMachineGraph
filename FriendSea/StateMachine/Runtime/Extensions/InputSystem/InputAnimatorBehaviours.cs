@@ -8,16 +8,16 @@ using UnityEngine.InputSystem;
 namespace FriendSea.StateMachine.Behaviours
 {
 	[DisplayName("Animator/Input/SetParameter")]
-	public partial class SetInputAnimatorParameter : BehaviourBase
+	public partial class SetInputAnimatorParameter : IBehaviour
 	{
 		[SerializeField] string name;
 		[SerializeField] InputActionProperty input;
 		[InjectContext] Animator animator;
 
-		protected override void OnEnter(IContextContainer obj) =>
+		public void OnEnter(IContextContainer obj) =>
 			input.action.Enable();
-		protected override void OnExit(IContextContainer obj) { }
-		protected override void OnUpdate(IContextContainer obj) =>
+		public void OnExit(IContextContainer obj) { }
+		public void OnUpdate(IContextContainer obj) =>
 			animator.SetFloat(name, input.action.ReadValue<float>());
 	}
 }

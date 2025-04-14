@@ -1,21 +1,30 @@
 ﻿// See https://aka.ms/new-console-template for more information
+
+using FriendSea.StateMachine;
+
 namespace Hoge.Fuga
 {
-    partial class TestClass : FriendSea.StateMachine.IInjectable
+    partial class TestClass
     {
-        [FriendSea.StateMachine.InjectContext]
+        [InjectContext]
         int hoge;
 
-        [FriendSea.StateMachine.InjectContext]
+        [InjectContext]
         int fuga;
+    }
+
+    partial class TestClass2
+    {
+        [InjectContext]
+        IContextContainer fuga;
     }
 }
 
 namespace FriendSea.StateMachine
 {
-    interface IContextContainer { }
+    public interface IContextContainer { }
 
-    interface IInjectable
+    public interface IInjectable
     {
         void OnSetup(FriendSea.StateMachine.IContextContainer ctx);
     }

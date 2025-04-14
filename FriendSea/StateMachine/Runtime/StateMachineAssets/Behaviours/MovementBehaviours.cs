@@ -10,36 +10,36 @@ namespace FriendSea.StateMachine.Behaviours
 	}
 
 	[DisplayName("Movements/AddVelocity")]
-	partial class AddMovementVelocity : BehaviourBase
-	{
+	partial class AddMovementVelocity : IBehaviour
+    {
 		[SerializeField]
 		Vector3 amount;
 		[InjectContext]
 		IMovement movement;
 
-		protected override void OnEnter(IContextContainer obj) { }
+		public void OnEnter(IContextContainer obj) { }
 
-		protected override void OnExit(IContextContainer obj) { }
+		public void OnExit(IContextContainer obj) { }
 
-		protected override void OnUpdate(IContextContainer obj)
+		public void OnUpdate(IContextContainer obj)
 		{
 			movement.Velocity += amount;
 		}
 	}
 
 	[DisplayName("Movements/MultiplyVelocity")]
-	partial class MultiplyMovementVelocity : BehaviourBase
+	partial class MultiplyMovementVelocity : IBehaviour
 	{
 		[SerializeField]
 		Vector3 factor;
 		[InjectContext]
 		IMovement movement;
 
-		protected override void OnEnter(IContextContainer obj) { }
+		public void OnEnter(IContextContainer obj) { }
 
-		protected override void OnExit(IContextContainer obj) { }
+		public void OnExit(IContextContainer obj) { }
 
-		protected override void OnUpdate(IContextContainer obj)
+		public void OnUpdate(IContextContainer obj)
 		{
 			movement.Velocity = Vector3.Scale(movement.Velocity, factor);
 		}

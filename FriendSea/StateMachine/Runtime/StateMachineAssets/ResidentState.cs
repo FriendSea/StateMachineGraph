@@ -18,17 +18,26 @@ namespace FriendSea.StateMachine
 		public void OnEnter(IContextContainer ctx)
 		{
 			foreach (var b in behaviours)
-				b.OnEnter(ctx);
+			{
+                (b as IInjectable)?.OnSetup(ctx);
+                b.OnEnter(ctx);
+			}
 		}
 		public void OnExit(IContextContainer ctx)
 		{
 			foreach (var b in behaviours)
-				b.OnExit(ctx);
+			{
+                (b as IInjectable)?.OnSetup(ctx);
+                b.OnExit(ctx);
+			}
 		}
 		public void OnUpdate(IContextContainer ctx)
 		{
 			foreach (var b in behaviours)
-				b.OnUpdate(ctx);
+			{
+                (b as IInjectable)?.OnSetup(ctx);
+                b.OnUpdate(ctx);
+			}
 		}
 	}
 	class ResidentStateContext
@@ -59,7 +68,8 @@ namespace FriendSea.StateMachine
 			for (int i = ResidentStates.Count - 1; i >= 0; i--)
 			{
 				if (newResitdents.Contains(ResidentStates[i])) continue;
-				ResidentStates[i].OnExit(contexts[ResidentStates[i]]);
+				(ResidentStates[i] as IInjectable)?.OnSetup(ctx);
+                ResidentStates[i].OnExit(contexts[ResidentStates[i]]);
 				ResidentStates.RemoveAt(i);
 			}
 
@@ -67,7 +77,8 @@ namespace FriendSea.StateMachine
 			{
 				if (ResidentStates.Contains(s)) continue;
 				ResidentStates.Add(s);
-				s.OnEnter(SetupContext(ctx, s));
+                (s as IInjectable)?.OnSetup(ctx);
+                s.OnEnter(SetupContext(ctx, s));
 			}
 		}
 

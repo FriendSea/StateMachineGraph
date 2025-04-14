@@ -39,19 +39,19 @@ namespace FriendSea.StateMachine.Behaviours
 	}
 
 	[DisplayName("Animator/SetState")]
-	public partial class SetAnimatorState : BehaviourBase
+	public partial class SetAnimatorState : IBehaviour
 	{
 		[SerializeField] SerializedAnimatorState state;
 		[SerializeField] float fadeTime;
 		[InjectContext] Animator animator;
 
-		protected override void OnEnter(IContextContainer obj)
+		public void OnEnter(IContextContainer obj)
 		{
 			animator.CrossFade(state.stateHash, fadeTime);
 		}
 
-		protected override void OnExit(IContextContainer obj) { }
+		public void OnExit(IContextContainer obj) { }
 
-		protected override void OnUpdate(IContextContainer obj) { }
+		public void OnUpdate(IContextContainer obj) { }
 	}
 }

@@ -1,20 +1,12 @@
-﻿using System;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
-using Microsoft.CodeAnalysis.CSharp;
-using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis;
 using System.Linq;
+using System.Collections.Immutable;
 
 namespace StateMachineSourceGenerator
 {
 	[Generator]
 	public class StateMachineSourceGenerator : IIncrementalGenerator
 	{
-		static string GetFullName(ISymbol symbol) => string.IsNullOrEmpty(symbol?.ContainingNamespace?.Name) ?
-			symbol.Name :
-			$"{GetFullName(symbol.ContainingNamespace)}.{symbol.Name}";
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
 			context.RegisterPostInitializationOutput(static context =>
@@ -30,28 +22,31 @@ namespace StateMachineSourceGenerator
 					""");
 			});
 
-			var provider = context.SyntaxProvider.CreateSyntaxProvider(static (node, token) =>
-			{
-				return node is ClassDeclarationSyntax;
-			},
-			static (context, token) => context);
+			var source = context.SyntaxProvider.ForAttributeWithMetadataName(
+					"FriendSea.StateMachine.InjectContextAttribute",
+					static (node, token) => true,
+					static (context, _) => (IFieldSymbol)context.TargetSymbol
+                ).Collect()
+				.SelectMany((methods, _) =>
+				{
+					return methods
+						.GroupBy(m => m.ContainingType, SymbolEqualityComparer.Default)
+						.Select(group => (Type: group.Key, Fields: group.ToImmutableArray()))
+						.ToImmutableArray();
+				});
 
-			context.RegisterSourceOutput(provider, (productionContext, syntaxContext) => {
-				var symbol = Microsoft.CodeAnalysis.CSharp.CSharpExtensions.GetDeclaredSymbol(syntaxContext.SemanticModel, syntaxContext.Node as ClassDeclarationSyntax);
-				if(!symbol.AllInterfaces.Any(i => GetFullName(i) == "FriendSea.StateMachine.IInjectable")) return;
-				var members = symbol.GetMembers().OfType<IFieldSymbol>();
-				if (members.Count() == 0) return;
+            context.RegisterSourceOutput(source, (productionContext, syntaxContext) =>
+			{	
 				var code = $$"""
-				{{(symbol.ContainingNamespace.IsGlobalNamespace ? "" : $"namespace {GetFullName(symbol.ContainingNamespace)} {{")}}
-				partial class {{symbol.Name}} {
+				{{(syntaxContext.Type.ContainingNamespace.IsGlobalNamespace ? "" : $"namespace {syntaxContext.Type.ContainingNamespace.ToDisplayString()} {{")}}
+				partial class {{syntaxContext.Type.Name}} : FriendSea.StateMachine.IInjectable {
 					public void OnSetup(FriendSea.StateMachine.IContextContainer ctx){
-						base.OnSetup(ctx);
-						{{string.Join("\n", members.Select(s => $"{s.Name} = ctx.Get<{GetFullName(s.Type)}>();"))}}
+						{{string.Join("\n\t\t", syntaxContext.Fields.Select(s => $"{s.Name} = ctx.Get<{s.Type.ToDisplayString()}>();"))}}
 					}
 				}
-				{{(symbol.ContainingNamespace.IsGlobalNamespace ? "" : "}")}}
+				{{(syntaxContext.Type.ContainingNamespace.IsGlobalNamespace ? "" : "}")}}
 				""";
-				productionContext.AddSource($"{GetFullName(symbol)}.Inject.g.cs", code);
+				productionContext.AddSource($"{syntaxContext.Type.ToDisplayString()}.Inject.g.cs", code);
             });
 		}
 	}

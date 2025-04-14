@@ -5,40 +5,40 @@ using UnityEngine;
 namespace FriendSea.StateMachine.Behaviours
 {
 	[DisplayName("GameObject/SetActive")]
-	public partial class GameObjectSetActive : BehaviourBase
+	public partial class GameObjectSetActive : IBehaviour
 	{
 		[SerializeField] bool active;
-		protected override void OnEnter(IContextContainer obj) => obj.Get<GameObject>().SetActive(active);
-		protected override void OnExit(IContextContainer obj) { }
-		protected override void OnUpdate(IContextContainer obj) { }
+		public void OnEnter(IContextContainer obj) => obj.Get<GameObject>().SetActive(active);
+        public void OnExit(IContextContainer obj) { }
+        public void OnUpdate(IContextContainer obj) { }
 	}
 
 	[DisplayName("GameObject/SetLayer")]
-	public partial class GameObjectSetLayer : BehaviourBase
-	{
+	public partial class GameObjectSetLayer : IBehaviour
+    {
 		[SerializeField] int layer;
-		protected override void OnEnter(IContextContainer obj) => obj.Get<GameObject>().layer = layer;
-		protected override void OnExit(IContextContainer obj) { }
-		protected override void OnUpdate(IContextContainer obj) { }
+		public void OnEnter(IContextContainer obj) => obj.Get<GameObject>().layer = layer;
+		public void OnExit(IContextContainer obj) { }
+		public void OnUpdate(IContextContainer obj) { }
 	}
 
 	[DisplayName("GameObject/Destroy")]
-	public partial class GameObjectDestroy : BehaviourBase
-	{
+	public partial class GameObjectDestroy : IBehaviour
+    {
 		[SerializeField] int layer;
-		protected override void OnEnter(IContextContainer obj) => Object.Destroy(obj.Get<GameObject>());
-		protected override void OnExit(IContextContainer obj) { }
-		protected override void OnUpdate(IContextContainer obj) { }
+		public void OnEnter(IContextContainer obj) => Object.Destroy(obj.Get<GameObject>());
+		public void OnExit(IContextContainer obj) { }
+		public void OnUpdate(IContextContainer obj) { }
 	}
 
 	[DisplayName("GameObject/Instantiate")]
-	public partial class GameObjectInstantiate : BehaviourBase
-	{
+	public partial class GameObjectInstantiate : IBehaviour
+    {
 		[SerializeField] GameObject original;
 		[SerializeField]
 		Vector3 position;
 
-		protected override void OnEnter(IContextContainer obj) {
+		public void OnEnter(IContextContainer obj) {
 			var pos = position;
 			var rot = Quaternion.identity;
 			var transform = obj.Get<Transform>();
@@ -49,8 +49,8 @@ namespace FriendSea.StateMachine.Behaviours
 			}
 			GameObjectPool.Instantiate(original, pos, rot, null);
 		} 
-		protected override void OnExit(IContextContainer obj) { }
-		protected override void OnUpdate(IContextContainer obj) { }
+		public void OnExit(IContextContainer obj) { }
+		public void OnUpdate(IContextContainer obj) { }
 	}
 
 	public static class GameObjectPool

@@ -22,6 +22,7 @@ namespace FriendSea.StateMachine.Controls
 			// 遷移なし
 			if (condition == null || targets == null) return (null, false);
 			// 条件にマッチしてない。遷移しない。
+			(condition as IInjectable)?.OnSetup(obj);
 			if (!condition.IsValid(obj)) return (null, false);
 			// マッチしたが遷移先がない、nullに遷移
 			if (targets.Length <= 0) return (null, true);

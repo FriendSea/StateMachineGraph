@@ -6,23 +6,23 @@ using UnityEngine;
 namespace FriendSea.StateMachine.Behaviours
 {
 	[DisplayName("FrameSpan")]
-	partial class FrameSpan : BehaviourBase
-	{
+	partial class FrameSpan : IBehaviour
+    {
 		[SerializeField]
 		int start;
 		[SerializeField]
 		int end;
 		[SerializeReference]
 		IBehaviour behaviour;
-		protected override void OnEnter(IContextContainer obj) { }
+		public void OnEnter(IContextContainer obj) { }
 
-		protected override void OnExit(IContextContainer obj)
+		public void OnExit(IContextContainer obj)
 		{
 			if (obj.FrameCount > end + 1) return;
 			behaviour.OnExit(obj);
 		}
 
-		protected override void OnUpdate(IContextContainer obj)
+		public void OnUpdate(IContextContainer obj)
 		{
 			if (obj.FrameCount == start)
 				behaviour.OnEnter(obj);

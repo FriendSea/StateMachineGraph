@@ -59,7 +59,7 @@ namespace FriendSea.StateMachine
 			{
 				var menu = new GenericMenu();
 
-				if (property.managedReferenceValue is InjectableObjectBase)
+				if (property.managedReferenceValue is IBehaviour)
 					menu.AddItem(new GUIContent("Open in Editor"), false, () =>
 					{
 						var type = property.managedReferenceValue.GetType();
