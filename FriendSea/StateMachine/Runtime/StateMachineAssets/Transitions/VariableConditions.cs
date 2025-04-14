@@ -8,7 +8,7 @@ using UnityEngine;
 namespace FriendSea.StateMachine.Conditions
 {
 	[DisplayName("Variables/GreaterThan")]
-	class VariableGreaterThanTransition : Transition.ICondition
+	partial class VariableGreaterThanTransition : Transition.ICondition
 	{
 		[SerializeField, VariableId]
 		Int64 variable;
@@ -20,7 +20,7 @@ namespace FriendSea.StateMachine.Conditions
 	}
 
 	[DisplayName("Variables/LessThan")]
-	class VariableLessThanTransition : Transition.ICondition
+	partial class VariableLessThanTransition : Transition.ICondition
 	{
 		[SerializeField, VariableId]
 		Int64 variable;
@@ -32,7 +32,7 @@ namespace FriendSea.StateMachine.Conditions
 	}
 
 	[DisplayName("Variables/Equals")]
-	class VariableEqualsTransition : Transition.ICondition
+	partial class VariableEqualsTransition : Transition.ICondition
 	{
 		[SerializeField, VariableId]
 		Int64 variable;

@@ -7,7 +7,7 @@ namespace FriendSea.StateMachine.Conditions
 {
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea.StateMachine", sourceClassName: "TimeTransition")]
 	[DisplayName("Wait/Time")]
-	public class TimeTransition : Transition.ICondition
+	public partial class TimeTransition : Transition.ICondition
 	{
 		[SerializeField]
 		float length;

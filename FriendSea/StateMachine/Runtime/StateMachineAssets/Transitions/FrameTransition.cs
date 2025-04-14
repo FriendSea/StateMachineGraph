@@ -7,7 +7,7 @@ namespace FriendSea.StateMachine.Conditions
 {
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(false, sourceNamespace: "FriendSea.StateMachine", sourceClassName: "FrameTransition")]
 	[DisplayName("Wait/Frames")]
-	public class FrameTransition : Transition.ICondition
+	public partial class FrameTransition : Transition.ICondition
 	{
 		[SerializeField]
 		int length;

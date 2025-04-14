@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 namespace StateMachineSourceGenerator
 {
 	[Generator]
-	public class StateMachineSourceGenerator : IIncrementalGenerator
+	class InjectableGenerator : IIncrementalGenerator
 	{
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
@@ -31,7 +31,7 @@ namespace StateMachineSourceGenerator
 				{
 					return methods
 						.GroupBy(m => m.ContainingType, SymbolEqualityComparer.Default)
-						.Select(group => (Type: group.Key, Fields: group.ToImmutableArray()))
+						.Select(group => (Type: group.Key!, Fields: group.ToImmutableArray()))
 						.ToImmutableArray();
 				});
 
@@ -48,6 +48,6 @@ namespace StateMachineSourceGenerator
 				""";
 				productionContext.AddSource($"{syntaxContext.Type.ToDisplayString()}.Inject.g.cs", code);
             });
-		}
+        }
 	}
 }

@@ -4,7 +4,7 @@ using FriendSea.StateMachine;
 
 namespace Hoge.Fuga
 {
-    partial class TestClass
+    partial class TestClass : IBehaviour
     {
         [InjectContext]
         int hoge;
@@ -27,5 +27,9 @@ namespace FriendSea.StateMachine
     public interface IInjectable
     {
         void OnSetup(FriendSea.StateMachine.IContextContainer ctx);
+    }
+
+    public interface IBehaviour
+    {
     }
 }

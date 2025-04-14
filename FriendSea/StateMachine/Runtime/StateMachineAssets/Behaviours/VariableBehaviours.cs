@@ -18,7 +18,7 @@ namespace FriendSea.StateMachine.Behaviours {
 	}
 
 	[DisplayName("Variables/Set")]
-	class SetVariableValue : IBehaviour
+	partial class SetVariableValue : IBehaviour
 	{
 		[SerializeField, VariableId]
 		Int64 variable;
@@ -33,7 +33,7 @@ namespace FriendSea.StateMachine.Behaviours {
 	}
 
 	[DisplayName("Variables/Add")]
-	class AddVariableValue : IBehaviour
+	partial class AddVariableValue : IBehaviour
 	{
 		[SerializeField, VariableId]
 		Int64 variable;
