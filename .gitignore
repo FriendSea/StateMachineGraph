@@ -1,2 +1,6 @@
 SampleProject/UserSettings/
 SampleProject/Packages/packages-lock.json
+*.pdb
+*.deps.json
+*.pdb.meta
+*.deps.json.meta
