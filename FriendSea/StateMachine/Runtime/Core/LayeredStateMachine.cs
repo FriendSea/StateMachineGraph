@@ -13,6 +13,32 @@ namespace FriendSea.StateMachine
 
         public IEnumerable<StateMachine<T>> Layers => _layers;
 
+        public IEnumerable<IState<T>> CurrentStates => Layers.Select(l => l.CurrentState);
+
+        System.Action<IEnumerable<IState<T>>> _onStateChanged;
+        public event System.Action<IEnumerable<IState<T>>> OnStateChanged
+        {
+            add
+            {
+                if (_onStateChanged == null)
+                    foreach (var l in _layers)
+                        l.OnStateChanged += InvokeStateChange;
+                _onStateChanged += value;
+            }
+            remove
+            {
+                _onStateChanged -= value;
+                if (_onStateChanged == null)
+                    foreach (var l in _layers)
+                        l.OnStateChanged -= InvokeStateChange;
+            }
+        }
+
+        void InvokeStateChange(IState<T> state)
+        {
+            _onStateChanged?.Invoke(CurrentStates);
+        }
+
         public StateMachine<T> DefaultLayer => _layers[0];
 
         public LayeredStateMachine(IEnumerable<StateMachine<T>> layers)

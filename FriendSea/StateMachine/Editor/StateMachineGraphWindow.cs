@@ -32,9 +32,9 @@ namespace FriendSea.StateMachine
 		string guid;
 
 		SerializableGraphView graphView;
-		StateMachine<IContextContainer> _selected = null;
+        LayeredStateMachine<IContextContainer> _selected = null;
 		Button saveButton;
-		StateMachine<IContextContainer> Selected
+		LayeredStateMachine<IContextContainer> Selected
 		{
 			get => _selected;
 			set
@@ -43,18 +43,22 @@ namespace FriendSea.StateMachine
 					_selected.OnStateChanged -= OnStateChanged;
 				_selected = value;
 				if (_selected != null)
-					_selected.OnStateChanged += OnStateChanged;
-				OnStateChanged(_selected?.CurrentState);
+                    _selected.OnStateChanged += OnStateChanged;
+                OnStateChanged(_selected?.CurrentStates.ToArray());
 			}
 		}
 
-		private void OnStateChanged(IState<IContextContainer> obj)
+		private void OnStateChanged(IEnumerable<IState<IContextContainer>> obj)
 		{
 			if (_selected == null) return;
-			graphView.UpdateActiveNode(node => AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id == obj?.Id);
+			graphView.UpdateActiveNode(node => {
+				var nodeId = AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id;
+				return obj.Select(o => o.Id).Contains(nodeId);
+            });
+			
 			var varibaleFields = rootVisualElement.Q<ListView>("variables").Query<IntegerField>().ToList();
 			for (int i = 0; i < varibaleFields.Count; i++)
-				varibaleFields[i].value = _selected.Target.GetOrCreate<VariablesContext>()[data.variables[i].id];
+				varibaleFields[i].value = _selected.DefaultLayer.Target.GetOrCreate<VariablesContext>()[data.variables[i].id];
 		}
 
 		private void PlayModeStateChanged(PlayModeStateChange change)
@@ -121,7 +125,7 @@ namespace FriendSea.StateMachine
 			listView.bindItem = (label, index) => (label as Label).text = (listView.itemsSource[index] as GameobjectStateMachine).gameObject.name;
 			listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
 			listView.selectionChanged += objects =>
-				Selected = ((GameobjectStateMachine)objects.FirstOrDefault())?.StateMachine?.DefaultLayer;
+				Selected = ((GameobjectStateMachine)objects.FirstOrDefault())?.StateMachine;
 			StateMachine<IContextContainer>.OnInstanceCreated += instance =>
 			{
 				var items = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
@@ -130,8 +134,8 @@ namespace FriendSea.StateMachine
 
 				if (items.Length != 1) return;
 				listView.selectedIndex = 0;
-				Selected = instance;
-			};
+				Selected = items.FirstOrDefault()?.StateMachine;
+            };
 			void StateMachineGraphWindow_OnDestroyCalled(GameobjectStateMachine instance)
 			{
 				instance.OnDestroyCalled -= StateMachineGraphWindow_OnDestroyCalled;
