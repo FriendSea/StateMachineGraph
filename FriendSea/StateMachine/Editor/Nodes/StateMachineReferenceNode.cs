@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine.UIElements;
 using FriendSea.GraphViewSerializer;
+using System.Linq;
 
 namespace FriendSea.StateMachine
 {
@@ -17,7 +18,7 @@ namespace FriendSea.StateMachine
 		internal StateMachineAsset asset;
 
 		public ISerializableStateReference GenerateReferenceForImport(GraphViewData data, GraphViewData.Node node, Dictionary<string, NodeAsset> id2asset) =>
-			(node.data as StateMachineReferenceNode).asset?.entryState;
+			(node.data as StateMachineReferenceNode).asset?.layers?.FirstOrDefault().entryState;
 	}
 
 	class StateMachineReferenceNodeDropHandler : IStateMachineDropHandler

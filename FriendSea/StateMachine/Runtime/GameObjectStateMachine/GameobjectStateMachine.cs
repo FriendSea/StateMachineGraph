@@ -29,11 +29,13 @@ namespace FriendSea.StateMachine
         [SerializeField]
         StateMachineAsset asset;
 
-		public StateMachine<IContextContainer> StateMachine => stateMachine;
-        StateMachine<IContextContainer> stateMachine = null;
+		public LayeredStateMachine<IContextContainer> StateMachine => stateMachine;
+        LayeredStateMachine<IContextContainer> stateMachine = null;
 
-		private void Awake() =>
-			stateMachine = new StateMachine<IContextContainer>(asset.Layers.First().entry, asset.Layers.First().fallback, new GameObjectContextContainer(gameObject));
+		private void Awake() {
+			var layers = asset.Layers.Select(l => new StateMachine<IContextContainer>(l.entry, l.fallback, new GameObjectContextContainer(gameObject)));
+			stateMachine = new LayeredStateMachine<IContextContainer>(layers);
+		}
 
 		void FixedUpdate()
 		{
@@ -44,6 +46,6 @@ namespace FriendSea.StateMachine
 			stateMachine.ForceState(state);
 
 		public void IssueTrigger(TriggerLabel label) =>
-			Trigger.IssueTransiton(stateMachine, label);
+			Trigger.IssueTransiton(stateMachine.DefaultLayer, label);
 	}
 }
