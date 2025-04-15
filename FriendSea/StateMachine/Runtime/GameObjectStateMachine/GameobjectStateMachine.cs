@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine.Controls;
+using System.Linq;
 
 namespace FriendSea.StateMachine
 {
@@ -32,7 +33,7 @@ namespace FriendSea.StateMachine
         StateMachine<IContextContainer> stateMachine = null;
 
 		private void Awake() =>
-			stateMachine = new StateMachine<IContextContainer>(asset.EntryState, asset.FallbackState, new GameObjectContextContainer(gameObject));
+			stateMachine = new StateMachine<IContextContainer>(asset.Layers.First().entry, asset.Layers.First().fallback, new GameObjectContextContainer(gameObject));
 
 		void FixedUpdate()
 		{
