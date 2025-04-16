@@ -23,6 +23,7 @@ namespace FriendSea.StateMachine
 
 	public class GameobjectStateMachine : MonoBehaviour
     {
+		internal static event System.Action<GameobjectStateMachine> OnCreated;
 		internal event System.Action<GameobjectStateMachine> OnDestroyCalled;
 		private void OnDestroy() => OnDestroyCalled?.Invoke(this);
 
@@ -35,6 +36,8 @@ namespace FriendSea.StateMachine
 		private void Awake() {
 			var layers = asset.Layers.Select(l => new StateMachine<IContextContainer>(l.entry, l.fallback, new GameObjectContextContainer(gameObject)));
 			stateMachine = new LayeredStateMachine<IContextContainer>(layers);
+
+			OnCreated?.Invoke(this);
 		}
 
 		void FixedUpdate()

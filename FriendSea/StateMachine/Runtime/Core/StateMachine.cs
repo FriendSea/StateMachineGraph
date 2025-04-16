@@ -1,9 +1,9 @@
+#nullable enable
+
 namespace FriendSea.StateMachine {
 	public class StateMachine<T> where T : class
 	{
-		internal static event System.Action<StateMachine<T>> OnInstanceCreated;
-
-		public event System.Action<IState<T>> OnStateChanged;
+		public event System.Action<IState<T>>? OnStateChanged;
 		
 		public IState<T> CurrentState { get; private set; }
 		public IStateReference<T> FallbackState { get; private set; }
@@ -11,13 +11,13 @@ namespace FriendSea.StateMachine {
 
 		public StateMachine(IStateReference<T> entryState, IStateReference<T> fallbackState, T target)
 		{
-			this.Target = target;
-			CurrentState = entryState.GetState(target).state ?? fallbackState.GetState(target).state;
+            if (fallbackState == null) throw new System.ArgumentNullException(nameof(fallbackState));
+            if (target == null) throw new System.ArgumentNullException(nameof(target));
+            this.Target = target;
+			CurrentState = entryState?.GetState(target).state ?? fallbackState.GetState(target).state;
 			FallbackState = fallbackState;
 
 			CurrentState.OnEnter(target);
-
-			OnInstanceCreated?.Invoke(this);
 		}
 
 		public void DoTransition()
