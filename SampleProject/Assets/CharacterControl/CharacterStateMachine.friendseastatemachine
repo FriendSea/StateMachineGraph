@@ -179,13 +179,13 @@
         }
     ],
     "viewPosition": {
-        "x": 105.0,
-        "y": 393.0,
+        "x": -33.0,
+        "y": 683.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.6575162410736084,
-        "y": 0.6575162410736084,
+        "x": 1.0,
+        "y": 1.0,
         "z": 1.0
     },
     "variables": [
@@ -1346,11 +1346,11 @@
                 },
                 "data": {
                     "id": {
-                        "id": "c1f041d0-bb01-4ad2-b538-ce29fbcc3ce7"
+                        "id": "6687384c-2418-475d-b7f7-880271bcc89c"
                     },
                     "position": {
-                        "x": 850.0,
-                        "y": -330.0
+                        "x": 650.0,
+                        "y": -320.0
                     },
                     "data": {
                         "rid": 1084
@@ -1360,42 +1360,42 @@
             {
                 "rid": 1054,
                 "type": {
-                    "class": "GraphViewData/Node",
-                    "ns": "FriendSea.GraphViewSerializer",
-                    "asm": "FriendSea.GraphViewSerializer.Editor"
-                },
-                "data": {
-                    "id": {
-                        "id": "54324732-9ae9-4a59-a142-f25ae29bd85d"
-                    },
-                    "position": {
-                        "x": 670.0,
-                        "y": -320.0
-                    },
-                    "data": {
-                        "rid": 1085
-                    }
-                }
-            },
-            {
-                "rid": 1055,
-                "type": {
                     "class": "GraphViewData/Edge",
                     "ns": "FriendSea.GraphViewSerializer",
                     "asm": "FriendSea.GraphViewSerializer.Editor"
                 },
                 "data": {
                     "id": {
-                        "id": "50baf95e-8645-4994-a08d-e33d32d60e68"
+                        "id": "68603205-ec3d-4515-8f3e-c88ffa419b31"
                     },
                     "outputNode": {
                         "id": "389a662b-b80d-4a1e-9a61-4e9983a84fc6"
                     },
                     "outputPort": "transition",
                     "inputNode": {
-                        "id": "54324732-9ae9-4a59-a142-f25ae29bd85d"
+                        "id": "6687384c-2418-475d-b7f7-880271bcc89c"
                     },
                     "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1055,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "889dbfa0-18bc-4699-bfbf-7281e5f5960d"
+                    },
+                    "position": {
+                        "x": 820.0,
+                        "y": -320.0
+                    },
+                    "data": {
+                        "rid": 1085
+                    }
                 }
             },
             {
@@ -1407,14 +1407,14 @@
                 },
                 "data": {
                     "id": {
-                        "id": "b4183b08-e9b5-471c-a054-e08643ae2d48"
+                        "id": "4508f3fe-77bb-4e89-b7d3-78df5b153f24"
                     },
                     "outputNode": {
-                        "id": "54324732-9ae9-4a59-a142-f25ae29bd85d"
+                        "id": "6687384c-2418-475d-b7f7-880271bcc89c"
                     },
                     "outputPort": "transition",
                     "inputNode": {
-                        "id": "c1f041d0-bb01-4ad2-b538-ce29fbcc3ce7"
+                        "id": "889dbfa0-18bc-4699-bfbf-7281e5f5960d"
                     },
                     "inputPort": "enter"
                 }
@@ -1428,11 +1428,11 @@
                 },
                 "data": {
                     "id": {
-                        "id": "92efe223-c458-4edb-bf04-ce4061e4823a"
+                        "id": "14a7ba73-02a1-4757-8fab-bb4d9bc63f1f"
                     },
                     "position": {
-                        "x": 1190.0,
-                        "y": -330.0
+                        "x": 1130.0,
+                        "y": -320.0
                     },
                     "data": {
                         "rid": 1086
@@ -1448,14 +1448,14 @@
                 },
                 "data": {
                     "id": {
-                        "id": "e3a1737b-fe76-4c83-95dd-6d223c5ef517"
+                        "id": "8f091a8e-dd0b-4c05-b9a4-8ad8629942c2"
                     },
                     "outputNode": {
-                        "id": "c1f041d0-bb01-4ad2-b538-ce29fbcc3ce7"
+                        "id": "889dbfa0-18bc-4699-bfbf-7281e5f5960d"
                     },
                     "outputPort": "transition",
                     "inputNode": {
-                        "id": "92efe223-c458-4edb-bf04-ce4061e4823a"
+                        "id": "14a7ba73-02a1-4757-8fab-bb4d9bc63f1f"
                     },
                     "inputPort": "enter"
                 }
@@ -1844,18 +1844,6 @@
             {
                 "rid": 1084,
                 "type": {
-                    "class": "StateNode",
-                    "ns": "FriendSea.StateMachine",
-                    "asm": "FriendSea.StateMachine.Editor"
-                },
-                "data": {
-                    "name": "Fuga",
-                    "behaviours": []
-                }
-            },
-            {
-                "rid": 1085,
-                "type": {
                     "class": "TransitionNode",
                     "ns": "FriendSea.StateMachine",
                     "asm": "FriendSea.StateMachine.Editor"
@@ -1864,6 +1852,18 @@
                     "transition": {
                         "rid": 1123
                     }
+                }
+            },
+            {
+                "rid": 1085,
+                "type": {
+                    "class": "StateNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "name": "Fuga",
+                    "behaviours": []
                 }
             },
             {
@@ -2501,12 +2501,12 @@
             {
                 "rid": 1123,
                 "type": {
-                    "class": "FrameTransition",
-                    "ns": "FriendSea.StateMachine.Conditions",
+                    "class": "NodeActiveTransition",
+                    "ns": "FriendSea.StateMachine",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
-                    "length": 30
+                    "nodeId": "e4324439-1ee1-4cf6-bfe2-77ed8e74c608"
                 }
             },
             {
@@ -2517,7 +2517,7 @@
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
-                    "length": 30
+                    "length": 100
                 }
             },
             {

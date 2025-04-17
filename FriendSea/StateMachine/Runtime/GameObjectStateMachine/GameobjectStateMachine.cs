@@ -30,12 +30,12 @@ namespace FriendSea.StateMachine
         [SerializeField]
         StateMachineAsset asset;
 
-		public LayeredStateMachine<IContextContainer> StateMachine => stateMachine;
-        LayeredStateMachine<IContextContainer> stateMachine = null;
+		public LayeredStateMachine StateMachine => stateMachine;
+        LayeredStateMachine stateMachine = null;
 
 		private void Awake() {
 			var layers = asset.Layers.Select(l => new StateMachine<IContextContainer>(l.entry, l.fallback, new GameObjectContextContainer(gameObject)));
-			stateMachine = new LayeredStateMachine<IContextContainer>(layers);
+			stateMachine = new LayeredStateMachine(layers.ToList());
 
 			OnCreated?.Invoke(this);
 		}
