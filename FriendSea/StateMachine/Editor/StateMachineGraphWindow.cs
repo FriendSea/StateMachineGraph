@@ -53,11 +53,7 @@ namespace FriendSea.StateMachine
         private void OnStateChanged(IState<IContextContainer> _)
         {
             if (_selected == null) return;
-            graphView.UpdateActiveNode(node =>
-            {
-                var nodeId = AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id;
-                return _selected.Select(o => o.CurrentState.Id).Contains(nodeId);
-            });
+            graphView.UpdateActiveNode(node => _selected.Any(l => l.CurrentState.Id.EndsWith(node.id)));
         }
 
         private void PlayModeStateChanged(PlayModeStateChange change)
@@ -93,7 +89,8 @@ namespace FriendSea.StateMachine
             rootVisualElement.Q("GraphArea").Add(graphView);
             path = Path.ChangeExtension(path, "uss");
             graphView.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(path));
-            graphView.SetupAdditionalContextualMenu += evt => {
+            graphView.SetupAdditionalContextualMenu += evt =>
+            {
                 var node = graphView.selection.FirstOrDefault(item => item is GraphNode);
                 if (node == null) return;
                 evt.menu.AppendSeparator();
