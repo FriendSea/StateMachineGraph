@@ -62,7 +62,8 @@ namespace FriendSea.StateMachine
 
 			// construct edges
 
-			main.entryState =
+			var mainLayer = new StateMachineAsset.Layer();
+			mainLayer.entryState =
 				new Controls.Transition()
 				{
 					condition = new Controls.ImmediateTransition(),
@@ -70,7 +71,7 @@ namespace FriendSea.StateMachine
 						.OrderBy(n => n.position.y)
 						.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 				};
-			main.fallbackState =
+			mainLayer.fallbackState =
 				new Controls.ReturnStack() {
 					target = new Controls.Transition()
 					{
@@ -80,6 +81,23 @@ namespace FriendSea.StateMachine
 							.Select(n => GenerateTransition(data, n, assets)).ToArray(),
 					}
 				};
+
+			var additionalLayers =
+				data.GetElements<GraphViewData.Node>().Where(n => n.data is LayerNode)
+				.Select(node => {
+					return new StateMachineAsset.Layer()
+					{
+						fallbackState = new Controls.Transition()
+                        {
+                            condition = new Controls.ImmediateTransition(),
+                            targets = node.GetConnectedNodes()
+                        .OrderBy(n => n.position.y)
+                        .Select(n => GenerateTransition(data, n, assets)).ToArray(),
+                        },
+                    };
+                });
+
+			main.layers = additionalLayers.Prepend(mainLayer).ToArray();
 				
 			main.residentStates = data.elements
 				.Where(e => e is GraphViewData.Node)

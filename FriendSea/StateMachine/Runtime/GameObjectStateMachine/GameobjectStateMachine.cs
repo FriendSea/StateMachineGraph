@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine.Controls;
+using System.Linq;
 
 namespace FriendSea.StateMachine
 {
@@ -22,17 +23,22 @@ namespace FriendSea.StateMachine
 
 	public class GameobjectStateMachine : MonoBehaviour
     {
+		internal static event System.Action<GameobjectStateMachine> OnCreated;
 		internal event System.Action<GameobjectStateMachine> OnDestroyCalled;
 		private void OnDestroy() => OnDestroyCalled?.Invoke(this);
 
         [SerializeField]
         StateMachineAsset asset;
 
-		public StateMachine<IContextContainer> StateMachine => stateMachine;
-        StateMachine<IContextContainer> stateMachine = null;
+		public LayeredStateMachine StateMachine => stateMachine;
+        LayeredStateMachine stateMachine = null;
 
-		private void Awake() =>
-			stateMachine = new StateMachine<IContextContainer>(asset.EntryState, asset.FallbackState, new GameObjectContextContainer(gameObject));
+		private void Awake() {
+			var layers = asset.Layers.Select(l => new StateMachine<IContextContainer>(l.entry, l.fallback, new GameObjectContextContainer(gameObject)));
+			stateMachine = new LayeredStateMachine(layers.ToList());
+
+			OnCreated?.Invoke(this);
+		}
 
 		void FixedUpdate()
 		{
@@ -43,6 +49,6 @@ namespace FriendSea.StateMachine
 			stateMachine.ForceState(state);
 
 		public void IssueTrigger(TriggerLabel label) =>
-			Trigger.IssueTransiton(stateMachine, label);
+			Trigger.IssueTransiton(stateMachine.DefaultLayer, label);
 	}
 }

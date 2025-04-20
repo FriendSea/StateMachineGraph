@@ -13,8 +13,7 @@
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
             <ui:VisualElement name="GraphArea" style="flex-grow: 1; position: absolute; left: 0; top: 2px; right: 0; bottom: -1px;" />
-            <ui:ListView focusable="true" style="width: 100px; background-color: rgba(0, 0, 0, 0.5);" />
-            <ui:ListView focusable="true" name="variables" reorderable="true" show-add-remove-footer="true" show-foldout-header="true" header-title="Variables" show-border="true" virtualization-method="DynamicHeight" reorder-mode="Animated" style="width: 150px; background-color: rgba(0, 0, 0, 0.5); flex-grow: 0; flex-shrink: 1;" />
+            <ui:ListView focusable="true" selection-type="Multiple" style="width: 100px; background-color: rgba(0, 0, 0, 0.5);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -12,14 +12,6 @@ namespace FriendSea.StateMachine
     [System.Serializable]
     class StateMachineGraphData : GraphViewData
     {
-		[System.Serializable]
-		public class IdNamePair
-		{
-			public Int64 id;
-			public string name;
-		}
-
-		public List<IdNamePair> variables = new List<IdNamePair>();
         public string baseAssetGuid;
 
         public static StateMachineGraphData FromJson(string path)

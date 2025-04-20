@@ -311,6 +311,8 @@ namespace FriendSea.GraphViewSerializer
 			this.Bind(dataProperty.serializedObject);
 		}
 
+		public event System.Action<ContextualMenuPopulateEvent> SetupAdditionalContextualMenu;
+
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			base.BuildContextualMenu(evt);
@@ -367,6 +369,7 @@ namespace FriendSea.GraphViewSerializer
 						}
 					});
 			}
+			SetupAdditionalContextualMenu?.Invoke(evt);
 		}
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
