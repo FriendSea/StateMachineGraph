@@ -58,10 +58,6 @@ namespace FriendSea.StateMachine
                 var nodeId = AssetDatabase.AssetPathToGUID(AssetDatabase.GUIDToAssetPath(guid)) + node.id;
                 return _selected.Select(o => o.CurrentState.Id).Contains(nodeId);
             });
-
-            var varibaleFields = rootVisualElement.Q<ListView>("variables").Query<IntegerField>().ToList();
-            for (int i = 0; i < varibaleFields.Count; i++)
-                varibaleFields[i].value = _selected.FirstOrDefault().Target.GetOrCreate<VariablesContext>()[data.variables[i].id];
         }
 
         private void PlayModeStateChanged(PlayModeStateChange change)
@@ -150,32 +146,6 @@ namespace FriendSea.StateMachine
                 instance.OnDestroyCalled -= StateMachineGraphWindow_OnDestroyCalled;
                 listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
             }
-
-            var variablesProp = so.FindProperty("data.variables");
-            var variablesView = rootVisualElement.Q<ListView>("variables");
-            variablesView.itemsAdded += added =>
-            {
-                foreach (var i in added)
-                {
-                    variablesProp.GetArrayElementAtIndex(i).FindPropertyRelative("id").longValue = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-                    variablesProp.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue = "new variable";
-                }
-                variablesProp.serializedObject.ApplyModifiedProperties();
-            };
-            variablesView.makeItem = () =>
-            {
-                var root = new BindableElement();
-                root.Add(new TextField() { bindingPath = "name" });
-                root.Add(new IntegerField() { isReadOnly = true });
-                return root;
-            };
-            variablesView.bindItem = (e, i) =>
-            {
-                if (i >= variablesProp.arraySize) return;
-                (e as BindableElement).BindProperty(variablesProp.GetArrayElementAtIndex(i));
-            };
-            variablesView.bindingPath = variablesProp.propertyPath;
-            variablesView.Bind(variablesProp.serializedObject);
         }
 
         void SaveAsset()
