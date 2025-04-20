@@ -59,8 +59,8 @@ namespace FriendSea.GraphViewSerializer
 
 		public static IEnumerable<TypeInfo> GetMissingTypes(string json)
 		{
-			var matches = Regex.Matches(json, "\"type\": ?\\{\\n.+\"class\": ?\"(.+)\",\\n.+\"ns\": ?\"(.*)\",\\n.+\"asm\": \"(.+)\"\\n");
-			foreach (var m in matches)
+			var matches = Regex.Matches(json, @"""type"": ?\{\r?\n.+""class"": ?""(.+)"",\r?\n.+""ns"": ?""(.*)"",\r?\n.+""asm"": ""(.+)""\r?\n");
+            foreach (var m in matches)
 			{
 				var matchString = (m as Match).Groups[0].Value;
 				var typeName = (m as Match).Groups[1].Value;
@@ -82,7 +82,7 @@ namespace FriendSea.GraphViewSerializer
 		public static string ChangeReferenceType(string json, TypeInfo info, Type newType)
 		{
 			return Regex.Replace(json,
-				$"\"type\": ?\\{{\\n.+\"class\": ?\"{info.typeName}\",\\n.+\"ns\": ?\"{info.namespaceName}\",\\n.+\"asm\": \"{info.assemblyName}\"\\n",
+				@$"""type"": ?\{{\r?\n.+?""class"": ?""{info.typeName}"",\r?\n.+?""ns"": ?""{info.namespaceName}"",\r?\n.+?""asm"": ""{info.assemblyName}""\r?\n",
 				$"\"type\": {{\n\"class\": \"{newType?.Name}\",\n\"ns\": \"{newType?.Namespace}\",\n\"asm\": \"{newType?.Assembly?.FullName}\"\n",
 				RegexOptions.Multiline);
 		}
