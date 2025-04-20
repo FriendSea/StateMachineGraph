@@ -72,7 +72,6 @@ namespace FriendSea.StateMachine
 
         public void Update(float deltaTime)
         {
-            DoTransition();
             foreach (var layer in _layers)
                 layer.Update(deltaTime);
         }

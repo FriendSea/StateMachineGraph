@@ -97,6 +97,12 @@ namespace FriendSea.StateMachine
             rootVisualElement.Q("GraphArea").Add(graphView);
             path = Path.ChangeExtension(path, "uss");
             graphView.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(path));
+            graphView.SetupAdditionalContextualMenu += evt => {
+                var node = graphView.selection.FirstOrDefault(item => item is GraphNode);
+                if (node == null) return;
+                evt.menu.AppendSeparator();
+                evt.menu.AppendAction("Copy Break Condition for Debug", _ => EditorGUIUtility.systemCopyBuffer = $"Id ==\"{guid}{(node as GraphNode).id}\"");
+            };
 
             titleContent = new GUIContent(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)) + " (StateMachine)");
 
