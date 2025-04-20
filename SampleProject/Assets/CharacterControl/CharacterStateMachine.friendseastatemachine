@@ -179,25 +179,16 @@
         }
     ],
     "viewPosition": {
-        "x": 398.0,
-        "y": 347.0,
+        "x": 226.0,
+        "y": 281.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.4323275685310364,
-        "y": 0.4323275685310364,
+        "x": 0.25,
+        "y": 0.25,
         "z": 1.0
     },
-    "variables": [
-        {
-            "id": 350630078,
-            "name": "JumpCount"
-        },
-        {
-            "id": 942176115,
-            "name": "new variable"
-        }
-    ],
+    "variables": [],
     "baseAssetGuid": "",
     "references": {
         "version": 2,
@@ -785,8 +776,8 @@
                         "id": "9fd560de-45e3-4261-9365-417d3b249a96"
                     },
                     "position": {
-                        "x": 2830.0,
-                        "y": 540.0
+                        "x": 2320.0,
+                        "y": 180.0
                     },
                     "data": {
                         "rid": 1071
@@ -805,8 +796,8 @@
                         "id": "70091a39-5f96-48b7-a1f3-418f0ebd0651"
                     },
                     "position": {
-                        "x": 2410.0,
-                        "y": 600.0
+                        "x": 1900.0,
+                        "y": 240.0
                     },
                     "data": {
                         "rid": 1072
@@ -846,8 +837,8 @@
                         "id": "e6c161de-469d-45e8-9a3f-a6235981b548"
                     },
                     "position": {
-                        "x": 2660.0,
-                        "y": 540.0
+                        "x": 2150.0,
+                        "y": 180.0
                     },
                     "data": {
                         "rid": 1073
@@ -908,8 +899,8 @@
                         "id": "95206543-670c-4a1f-b768-30401368e1ed"
                     },
                     "position": {
-                        "x": 2830.0,
-                        "y": 840.0
+                        "x": 2320.0,
+                        "y": 480.0
                     },
                     "data": {
                         "rid": 1074
@@ -980,8 +971,8 @@
                         "id": "0f1d6510-2d9d-4455-9d7e-167570a138aa"
                     },
                     "position": {
-                        "x": 2660.0,
-                        "y": 840.0
+                        "x": 2150.0,
+                        "y": 480.0
                     },
                     "data": {
                         "rid": 1075
@@ -1042,8 +1033,8 @@
                         "id": "0812e0ea-7d40-4993-8688-0065f8ae4fa7"
                     },
                     "position": {
-                        "x": 3160.0,
-                        "y": 680.0
+                        "x": 2650.0,
+                        "y": 320.0
                     },
                     "data": {
                         "rid": 1076
@@ -1062,8 +1053,8 @@
                         "id": "630abcc0-1487-4107-bf0a-12318e601cb7"
                     },
                     "position": {
-                        "x": 3500.0,
-                        "y": 680.0
+                        "x": 2990.0,
+                        "y": 320.0
                     },
                     "data": {
                         "rid": 1077
@@ -1496,9 +1487,6 @@
                         },
                         {
                             "rid": 1089
-                        },
-                        {
-                            "rid": 1090
                         }
                     ]
                 }
@@ -1514,6 +1502,9 @@
                     "name": "Air",
                     "behaviours": [
                         {
+                            "rid": 1090
+                        },
+                        {
                             "rid": 1091
                         },
                         {
@@ -1521,9 +1512,6 @@
                         },
                         {
                             "rid": 1093
-                        },
-                        {
-                            "rid": 1094
                         }
                     ]
                 }
@@ -1537,7 +1525,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1095
+                        "rid": 1094
                     }
                 }
             },
@@ -1550,7 +1538,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1096
+                        "rid": 1095
                     }
                 }
             },
@@ -1563,7 +1551,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1097
+                        "rid": 1096
                     }
                 }
             },
@@ -1576,7 +1564,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1098
+                        "rid": 1097
                     }
                 }
             },
@@ -1591,6 +1579,9 @@
                     "name": "Jump",
                     "behaviours": [
                         {
+                            "rid": 1098
+                        },
+                        {
                             "rid": 1099
                         },
                         {
@@ -1601,9 +1592,6 @@
                         },
                         {
                             "rid": 1102
-                        },
-                        {
-                            "rid": 1103
                         }
                     ]
                 }
@@ -1617,7 +1605,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1104
+                        "rid": 1103
                     }
                 }
             },
@@ -1630,7 +1618,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1105
+                        "rid": 1104
                     }
                 }
             },
@@ -1645,10 +1633,10 @@
                     "name": "",
                     "behaviours": [
                         {
-                            "rid": 1106
+                            "rid": 1105
                         },
                         {
-                            "rid": 1107
+                            "rid": 1106
                         }
                     ]
                 }
@@ -1664,7 +1652,7 @@
                     "name": "GroundAttack",
                     "behaviours": [
                         {
-                            "rid": 1108
+                            "rid": 1107
                         }
                     ]
                 }
@@ -1678,7 +1666,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1109
+                        "rid": 1108
                     }
                 }
             },
@@ -1691,7 +1679,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1110
+                        "rid": 1109
                     }
                 }
             },
@@ -1706,7 +1694,7 @@
                     "name": "AirAttack",
                     "behaviours": [
                         {
-                            "rid": 1111
+                            "rid": 1110
                         }
                     ]
                 }
@@ -1720,7 +1708,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1112
+                        "rid": 1111
                     }
                 }
             },
@@ -1735,7 +1723,7 @@
                     "name": "",
                     "behaviours": [
                         {
-                            "rid": 1113
+                            "rid": 1112
                         }
                     ]
                 }
@@ -1749,7 +1737,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1114
+                        "rid": 1113
                     }
                 }
             },
@@ -1762,7 +1750,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1115
+                        "rid": 1114
                     }
                 }
             },
@@ -1777,6 +1765,9 @@
                     "name": "AirJump",
                     "behaviours": [
                         {
+                            "rid": 1115
+                        },
+                        {
                             "rid": 1116
                         },
                         {
@@ -1784,12 +1775,6 @@
                         },
                         {
                             "rid": 1118
-                        },
-                        {
-                            "rid": 1119
-                        },
-                        {
-                            "rid": 1120
                         }
                     ]
                 }
@@ -1803,7 +1788,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1121
+                        "rid": 1119
                     }
                 }
             },
@@ -1816,7 +1801,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1122
+                        "rid": 1120
                     }
                 }
             },
@@ -1837,7 +1822,7 @@
                     "asm": "FriendSea.StateMachine.Editor"
                 },
                 "data": {
-                    "name": "Hoge",
+                    "name": "CanAirJump",
                     "behaviours": []
                 }
             },
@@ -1850,7 +1835,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1123
+                        "rid": 1121
                     }
                 }
             },
@@ -1862,7 +1847,7 @@
                     "asm": "FriendSea.StateMachine.Editor"
                 },
                 "data": {
-                    "name": "Fuga",
+                    "name": "CanNotAirJump",
                     "behaviours": []
                 }
             },
@@ -1875,7 +1860,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1124
+                        "rid": 1122
                     }
                 }
             },
@@ -1940,18 +1925,6 @@
             {
                 "rid": 1090,
                 "type": {
-                    "class": "SetVariableValue",
-                    "ns": "FriendSea.StateMachine.Behaviours",
-                    "asm": "FriendSea.StateMachine"
-                },
-                "data": {
-                    "variable": 350630078,
-                    "value": 0
-                }
-            },
-            {
-                "rid": 1091,
-                "type": {
                     "class": "AddMovementHorizontalVelocityFromInput",
                     "ns": "FriendSea.StateMachine.Behaviours",
                     "asm": "FriendSea.StateMachine.InputSystem"
@@ -1979,7 +1952,7 @@
                 }
             },
             {
-                "rid": 1092,
+                "rid": 1091,
                 "type": {
                     "class": "AddMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -1994,7 +1967,7 @@
                 }
             },
             {
-                "rid": 1093,
+                "rid": 1092,
                 "type": {
                     "class": "MultiplyMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2009,7 +1982,7 @@
                 }
             },
             {
-                "rid": 1094,
+                "rid": 1093,
                 "type": {
                     "class": "SetAnimatorState",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2023,6 +1996,15 @@
                 }
             },
             {
+                "rid": 1094,
+                "type": {
+                    "class": "GroundedTransition",
+                    "ns": "FriendSea.StateMachine.Conditions",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {}
+            },
+            {
                 "rid": 1095,
                 "type": {
                     "class": "GroundedTransition",
@@ -2034,27 +2016,18 @@
             {
                 "rid": 1096,
                 "type": {
-                    "class": "GroundedTransition",
-                    "ns": "FriendSea.StateMachine.Conditions",
-                    "asm": "FriendSea.StateMachine"
-                },
-                "data": {}
-            },
-            {
-                "rid": 1097,
-                "type": {
                     "class": "InvertTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
                     "transition": {
-                        "rid": 1125
+                        "rid": 1123
                     }
                 }
             },
             {
-                "rid": 1098,
+                "rid": 1097,
                 "type": {
                     "class": "InputPressedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2093,7 +2066,7 @@
                 }
             },
             {
-                "rid": 1099,
+                "rid": 1098,
                 "type": {
                     "class": "AddMovementHorizontalVelocityFromInput",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2122,7 +2095,7 @@
                 }
             },
             {
-                "rid": 1100,
+                "rid": 1099,
                 "type": {
                     "class": "MultiplyMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2137,7 +2110,7 @@
                 }
             },
             {
-                "rid": 1101,
+                "rid": 1100,
                 "type": {
                     "class": "AddMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2152,7 +2125,7 @@
                 }
             },
             {
-                "rid": 1102,
+                "rid": 1101,
                 "type": {
                     "class": "SetAnimatorState",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2166,7 +2139,7 @@
                 }
             },
             {
-                "rid": 1103,
+                "rid": 1102,
                 "type": {
                     "class": "GameObjectInstantiate",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2186,7 +2159,7 @@
                 }
             },
             {
-                "rid": 1104,
+                "rid": 1103,
                 "type": {
                     "class": "FrameTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2197,7 +2170,7 @@
                 }
             },
             {
-                "rid": 1105,
+                "rid": 1104,
                 "type": {
                     "class": "InvertTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2205,12 +2178,12 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1126
+                        "rid": 1124
                     }
                 }
             },
             {
-                "rid": 1106,
+                "rid": 1105,
                 "type": {
                     "class": "SetInputAnimatorParameter",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2239,7 +2212,7 @@
                 }
             },
             {
-                "rid": 1107,
+                "rid": 1106,
                 "type": {
                     "class": "SetInputDirection",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2267,7 +2240,7 @@
                 }
             },
             {
-                "rid": 1108,
+                "rid": 1107,
                 "type": {
                     "class": "MultiplyMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2282,7 +2255,7 @@
                 }
             },
             {
-                "rid": 1109,
+                "rid": 1108,
                 "type": {
                     "class": "InputPressedThisFrameTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2310,7 +2283,7 @@
                 }
             },
             {
-                "rid": 1110,
+                "rid": 1109,
                 "type": {
                     "class": "GroundedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2319,7 +2292,7 @@
                 "data": {}
             },
             {
-                "rid": 1111,
+                "rid": 1110,
                 "type": {
                     "class": "AddMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2334,7 +2307,7 @@
                 }
             },
             {
-                "rid": 1112,
+                "rid": 1111,
                 "type": {
                     "class": "InvertTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2342,12 +2315,12 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1127
+                        "rid": 1125
                     }
                 }
             },
             {
-                "rid": 1113,
+                "rid": 1112,
                 "type": {
                     "class": "SetAnimatorState",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2361,7 +2334,7 @@
                 }
             },
             {
-                "rid": 1114,
+                "rid": 1113,
                 "type": {
                     "class": "FrameTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2372,7 +2345,7 @@
                 }
             },
             {
-                "rid": 1115,
+                "rid": 1114,
                 "type": {
                     "class": "InputPressedThisFrameTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2400,7 +2373,7 @@
                 }
             },
             {
-                "rid": 1116,
+                "rid": 1115,
                 "type": {
                     "class": "MultiplyMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2415,7 +2388,7 @@
                 }
             },
             {
-                "rid": 1117,
+                "rid": 1116,
                 "type": {
                     "class": "AddMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2430,7 +2403,7 @@
                 }
             },
             {
-                "rid": 1118,
+                "rid": 1117,
                 "type": {
                     "class": "SetAnimatorState",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2444,7 +2417,7 @@
                 }
             },
             {
-                "rid": 1119,
+                "rid": 1118,
                 "type": {
                     "class": "GameObjectInstantiate",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -2464,19 +2437,7 @@
                 }
             },
             {
-                "rid": 1120,
-                "type": {
-                    "class": "AddVariableValue",
-                    "ns": "FriendSea.StateMachine.Behaviours",
-                    "asm": "FriendSea.StateMachine"
-                },
-                "data": {
-                    "variable": 350630078,
-                    "value": 1
-                }
-            },
-            {
-                "rid": 1121,
+                "rid": 1119,
                 "type": {
                     "class": "FrameTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2487,41 +2448,29 @@
                 }
             },
             {
-                "rid": 1122,
-                "type": {
-                    "class": "VariableLessThanTransition",
-                    "ns": "FriendSea.StateMachine.Conditions",
-                    "asm": "FriendSea.StateMachine"
-                },
-                "data": {
-                    "variable": 350630078,
-                    "value": 2
-                }
-            },
-            {
-                "rid": 1123,
+                "rid": 1120,
                 "type": {
                     "class": "NodeActiveTransition",
                     "ns": "FriendSea.StateMachine",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
-                    "nodeId": "e4324439-1ee1-4cf6-bfe2-77ed8e74c608"
+                    "nodeId": "389a662b-b80d-4a1e-9a61-4e9983a84fc6"
                 }
             },
             {
-                "rid": 1124,
+                "rid": 1121,
                 "type": {
-                    "class": "FrameTransition",
-                    "ns": "FriendSea.StateMachine.Conditions",
+                    "class": "NodeActiveTransition",
+                    "ns": "FriendSea.StateMachine",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
-                    "length": 100
+                    "nodeId": "214e0634-8576-4a1a-b408-82df5fe6b721"
                 }
             },
             {
-                "rid": 1125,
+                "rid": 1122,
                 "type": {
                     "class": "GroundedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2530,7 +2479,16 @@
                 "data": {}
             },
             {
-                "rid": 1126,
+                "rid": 1123,
+                "type": {
+                    "class": "GroundedTransition",
+                    "ns": "FriendSea.StateMachine.Conditions",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1124,
                 "type": {
                     "class": "InputPressedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2569,7 +2527,7 @@
                 }
             },
             {
-                "rid": 1127,
+                "rid": 1125,
                 "type": {
                     "class": "GroundedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
