@@ -22,8 +22,8 @@ namespace FriendSea.StateMachine {
 
 		public void DoTransition()
 		{
-			var newstate = CurrentState.NextState(Target);
-			if (newstate != CurrentState)
+			var newstate = CurrentState.NextState(Target) ?? FallbackState.GetState(Target).state;
+            if (newstate != CurrentState)
 				ForceState(newstate);
 		}
 
