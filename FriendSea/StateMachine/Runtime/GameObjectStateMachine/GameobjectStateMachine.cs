@@ -46,8 +46,7 @@ namespace FriendSea.StateMachine
         LayeredStateMachine stateMachine = null;
 
 		private void Awake() {
-			var layers = asset.Layers.Select(l => new StateMachine<IContextContainer>(l.entry, l.fallback, new GameObjectContextContainer(gameObject)));
-			stateMachine = new LayeredStateMachine(layers.ToList());
+			stateMachine = asset.CreateStateMachineInstance(new GameObjectContextContainer(gameObject));
 
 			OnCreated?.Invoke(this);
 

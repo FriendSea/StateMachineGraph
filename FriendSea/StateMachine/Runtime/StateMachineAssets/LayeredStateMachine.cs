@@ -17,7 +17,7 @@ namespace FriendSea.StateMachine
         [SerializeField, NodeId]
         string nodeId;
 
-        public bool IsValid(IContextContainer obj) => obj.Get<LayeredStateMachine>().Layers.Any(l => l.CurrentState.Id.EndsWith(nodeId));
+        public bool IsValid(IContextContainer obj) => ((LayeredStateMachine.WrapContext)obj).parent.Layers.Any(l => l.CurrentState.Id.EndsWith(nodeId));
     }
 
     [AttributeUsage(System.AttributeTargets.Field, AllowMultiple = true)]
@@ -50,18 +50,29 @@ namespace FriendSea.StateMachine
 
     public class LayeredStateMachine
     {
-        List<StateMachine<IContextContainer>> _layers;
+        internal class WrapContext : ContextContainerBase
+        {
+            internal LayeredStateMachine parent;
+            IContextContainer innterContext;
+            public WrapContext(LayeredStateMachine parent, IContextContainer context)
+            {
+                this.parent = parent;
+                innterContext = context;
+            }
+            public override T Get<T>() =>
+                base.Get<T>() ?? innterContext.Get<T>();
+        }
+
+        StateMachine<IContextContainer>[] _layers;
         public IEnumerable<StateMachine<IContextContainer>> Layers => _layers;
         public IEnumerable<IState<IContextContainer>> CurrentStates => Layers.Select(l => l.CurrentState);
         public StateMachine<IContextContainer> DefaultLayer => _layers[0];
 
-        public LayeredStateMachine(List<StateMachine<IContextContainer>> layers)
+        public LayeredStateMachine(IEnumerable<(IStateReference<IContextContainer> entry, IStateReference<IContextContainer> fallback)> layers, IContextContainer context)
         {
             if (layers == null) throw new System.ArgumentNullException();
             if (layers.Count() <= 0) throw new System.ArgumentException();
-            _layers = layers;
-            foreach (var layer in _layers)
-                   layer.Target.Add(this);
+            _layers = layers.Select(l => new StateMachine<IContextContainer>(l.entry, l.fallback, new WrapContext(this, context))).ToArray();
         }
 
         public void DoTransition()

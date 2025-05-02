@@ -23,13 +23,16 @@ namespace FriendSea.StateMachine
 		[SerializeField]
 		internal ResidentState[] residentStates;
 
-		public ResidentState GetResidentState(string guid)
+		internal ResidentState GetResidentState(string guid)
 		{
 			foreach(var state in residentStates)
 				if (state.id == guid) return state;
 			return null;
 		}
 
-		public IEnumerable<(IStateReference<IContextContainer> entry, IStateReference<IContextContainer> fallback)> Layers => layers.Select(l => ((IStateReference<IContextContainer>)l.entryState, (IStateReference<IContextContainer>)l.fallbackState));
+		IEnumerable<(IStateReference<IContextContainer> entry, IStateReference<IContextContainer> fallback)> Layers => layers.Select(l => ((IStateReference<IContextContainer>)l.entryState, (IStateReference<IContextContainer>)l.fallbackState));
+
+		public LayeredStateMachine CreateStateMachineInstance(IContextContainer context) =>
+			new LayeredStateMachine(Layers, context);
 	}
 }
