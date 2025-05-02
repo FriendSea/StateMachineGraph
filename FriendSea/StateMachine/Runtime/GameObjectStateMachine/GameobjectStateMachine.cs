@@ -1,8 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine.Controls;
 using System.Linq;
+using System.Threading;
+
+
+#if FSTATES_USE_UNITASK
+using Cysharp.Threading.Tasks;
+#endif
 
 namespace FriendSea.StateMachine
 {
@@ -23,6 +27,14 @@ namespace FriendSea.StateMachine
 
 	public class GameobjectStateMachine : MonoBehaviour
     {
+#if FSTATES_USE_UNITASK
+		[SerializeField]
+		PlayerLoopTiming updateTiming = PlayerLoopTiming.FixedUpdate;
+#else
+		[SerializeField]
+		bool useFixedUpdate = true;
+#endif
+
 		internal static event System.Action<GameobjectStateMachine> OnCreated;
 		internal event System.Action<GameobjectStateMachine> OnDestroyCalled;
 		private void OnDestroy() => OnDestroyCalled?.Invoke(this);
@@ -38,14 +50,36 @@ namespace FriendSea.StateMachine
 			stateMachine = new LayeredStateMachine(layers.ToList());
 
 			OnCreated?.Invoke(this);
+
+#if FSTATES_USE_UNITASK
+			UpdateLoop(destroyCancellationToken).Forget();
+#endif
 		}
 
+#if FSTATES_USE_UNITASK
+		async UniTask UpdateLoop(CancellationToken cancellationToken)
+		{
+			while (true)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				stateMachine.Update(updateTiming is PlayerLoopTiming.FixedUpdate or PlayerLoopTiming.LastFixedUpdate ? Time.fixedDeltaTime : Time.time);
+				await UniTask.Yield(updateTiming, cancellationToken);
+			}
+		}
+#else
 		void FixedUpdate()
 		{
-			stateMachine.Update(Time.fixedDeltaTime);
+			if(useFixedUpdate)
+				stateMachine.Update(Time.fixedDeltaTime);
 		}
+        private void Update()
+        {
+			if (!useFixedUpdate)
+				stateMachine.Update(Time.deltaTime);
+        }
+#endif
 
-		public void ForceState(NodeAsset state) =>
+        public void ForceState(NodeAsset state) =>
 			stateMachine.ForceState(state);
 
 		public void IssueTrigger(TriggerLabel label) =>
