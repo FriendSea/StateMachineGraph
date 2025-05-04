@@ -17,7 +17,12 @@ namespace FriendSea.StateMachine
         [SerializeField, NodeId]
         string nodeId;
 
-        public bool IsValid(IContextContainer obj) => ((LayeredStateMachine.WrapContext)obj).parent.Layers.Any(l => l.CurrentState.Id.EndsWith(nodeId));
+        public bool IsValid(IContextContainer obj) { 
+            foreach(var layer in ((LayeredStateMachine.WrapContext)obj).parent.Layers)
+                if (layer.CurrentState.Id.AsSpan().Slice(32).SequenceEqual(nodeId))
+                    return true;
+            return false;
+        }
     }
 
     [AttributeUsage(System.AttributeTargets.Field, AllowMultiple = true)]

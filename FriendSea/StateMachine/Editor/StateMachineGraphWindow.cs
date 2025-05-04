@@ -50,10 +50,11 @@ namespace FriendSea.StateMachine
             }
         }
 
+
         private void OnStateChanged(IState<IContextContainer> _)
         {
             if (_selected == null) return;
-            graphView.UpdateActiveNode(node => _selected.Any(l => l.CurrentState.Id.EndsWith(node.id)));
+            graphView.UpdateActiveNode(node => _selected.Any(l => l.CurrentState.Id.AsSpan().Slice(32).SequenceEqual(node.id)));
         }
 
         private void PlayModeStateChanged(PlayModeStateChange change)

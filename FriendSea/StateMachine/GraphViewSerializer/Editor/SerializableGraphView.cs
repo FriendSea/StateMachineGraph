@@ -270,9 +270,11 @@ namespace FriendSea.GraphViewSerializer
 			dataProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo();
 		}
 
-		public void UpdateActiveNode(System.Func<GraphNode, bool> func)
+        GraphNode[] _nodesCache = null;
+        public void UpdateActiveNode(System.Func<GraphNode, bool> func)
 		{
-			foreach(GraphNode node in nodes)
+            _nodesCache ??= nodes.Select(n => n as GraphNode).Where(n => n != null).ToArray();
+            foreach (GraphNode node in _nodesCache)
 				node.style.backgroundColor = new StyleColor(func(node) ? Color.white : Color.clear);
 		}
 
@@ -309,7 +311,8 @@ namespace FriendSea.GraphViewSerializer
 				}
 			}
 			this.Bind(dataProperty.serializedObject);
-		}
+            _nodesCache = null;
+        }
 
 		public event System.Action<ContextualMenuPopulateEvent> SetupAdditionalContextualMenu;
 
@@ -409,7 +412,8 @@ namespace FriendSea.GraphViewSerializer
 			AddElement(node);
 			node.Initialize(prop, this);
 			this.Bind(dataProperty.serializedObject);
-		}
+            _nodesCache = null;
+        }
 
 		public GraphNode GetNode(string id)
 		{
