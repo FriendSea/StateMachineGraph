@@ -71,7 +71,7 @@ namespace FriendSea.StateMachine
         StateMachine<IContextContainer>[] _layers;
         public IEnumerable<StateMachine<IContextContainer>> Layers => _layers;
         public IEnumerable<IState<IContextContainer>> CurrentStates => Layers.Select(l => l.CurrentState);
-        public StateMachine<IContextContainer> DefaultLayer => _layers[0];
+        public StateMachine<IContextContainer> PrimaryLayer => _layers[0];
 
         public LayeredStateMachine(IEnumerable<(IStateReference<IContextContainer> entry, IStateReference<IContextContainer> fallback)> layers, IContextContainer context)
         {

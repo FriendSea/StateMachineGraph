@@ -82,6 +82,6 @@ namespace FriendSea.StateMachine
 			stateMachine.ForceState(state);
 
 		public void IssueTrigger(TriggerLabel label) =>
-			Trigger.IssueTransiton(stateMachine.DefaultLayer, label);
+			Trigger.IssueTransiton(stateMachine.PrimaryLayer, label);
 	}
 }
