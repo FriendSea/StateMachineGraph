@@ -35,10 +35,6 @@ namespace FriendSea.StateMachine
 		bool useFixedUpdate = true;
 #endif
 
-		internal static event System.Action<GameobjectStateMachine> OnCreated;
-		internal event System.Action<GameobjectStateMachine> OnDestroyCalled;
-		private void OnDestroy() => OnDestroyCalled?.Invoke(this);
-
         [SerializeField]
         StateMachineAsset asset;
 
@@ -48,15 +44,19 @@ namespace FriendSea.StateMachine
 		private void Awake() {
 			stateMachine = asset.CreateStateMachineInstance(new GameObjectContextContainer(gameObject));
 
-			OnCreated?.Invoke(this);
-
 #if FSTATES_USE_UNITASK
 			UpdateLoop(destroyCancellationToken).Forget();
 #endif
 		}
 
+        private void OnDestroy()
+        {
+            stateMachine.Dispose();
+			stateMachine = null;
+        }
+
 #if FSTATES_USE_UNITASK
-		async UniTask UpdateLoop(CancellationToken cancellationToken)
+        async UniTask UpdateLoop(CancellationToken cancellationToken)
 		{
 			while (true)
 			{

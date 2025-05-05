@@ -1,7 +1,9 @@
 #nullable enable
 
+using System;
+
 namespace FriendSea.StateMachine {
-	public class StateMachine<T> where T : class
+    public class StateMachine<T> : IDisposable where T : class
 	{
 		public event System.Action<IState<T>>? OnStateChanged;
 		
@@ -46,7 +48,9 @@ namespace FriendSea.StateMachine {
 
 		public void ForceState(IStateReference<T> state) =>
 			ForceState(state.GetState(Target).state);
-	}
+
+        public void Dispose() => CurrentState.OnExit(Target);
+    }
 
 	public interface IState<T> where T : class
 	{

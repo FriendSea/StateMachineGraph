@@ -125,24 +125,36 @@ namespace FriendSea.StateMachine
             var listView = rootVisualElement.Q<ListView>();
             listView.visible = EditorApplication.isPlaying;
             listView.makeItem = () => new Label();
-            listView.bindItem = (label, index) => (label as Label).text = (listView.itemsSource[index] as GameobjectStateMachine).gameObject.name;
-            listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
+            var instanceList = new List<KeyValuePair<LayeredStateMachine, StateMachineAsset>>();
+            listView.bindItem = (label, index) => (label as Label).text = instanceList[index].Value.name;
+            listView.itemsSource = instanceList;
             listView.selectionChanged += objects =>
-                Selected = objects.SelectMany(o => (o as GameobjectStateMachine).StateMachine.Layers);
-            GameobjectStateMachine.OnCreated += instance =>
+                Selected = objects.SelectMany(o => (o == null) ? Array.Empty<StateMachine<IContextContainer>>() : ((KeyValuePair<LayeredStateMachine, StateMachineAsset>)o).Key.Layers);
+            StateMachineAsset.InstanceCreated += (asset, instance) =>
             {
-                var items = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
-                listView.itemsSource = items;
-                instance.OnDestroyCalled += StateMachineGraphWindow_OnDestroyCalled;
+                instance.OnDisposiong += Instance_OnDisposiong;
 
-                if (items.Length != 1) return;
+                instanceList.Add(new KeyValuePair<LayeredStateMachine, StateMachineAsset>(instance, asset));
+                listView.itemsSource = null;
+                listView.itemsSource = instanceList;
+
+                if (instanceList.Count != 1) return;
                 listView.selectedIndex = 0;
-                Selected = items.First().StateMachine.Layers;
+                Selected = instanceList[0].Key.Layers;
             };
-            void StateMachineGraphWindow_OnDestroyCalled(GameobjectStateMachine instance)
+            void Instance_OnDisposiong(LayeredStateMachine obj)
             {
-                instance.OnDestroyCalled -= StateMachineGraphWindow_OnDestroyCalled;
-                listView.itemsSource = FindObjectsByType<GameobjectStateMachine>(FindObjectsSortMode.InstanceID);
+                int i;
+                for (i = 0; i < instanceList.Count; i++)
+                {
+                    if (instanceList[i].Key != obj) continue;
+                    instanceList.RemoveAt(i);
+                    break;
+                }
+                if (i == listView.selectedIndex)
+                    listView.selectedIndex = 0;
+                listView.itemsSource = null;
+                listView.itemsSource = instanceList;
             }
         }
 

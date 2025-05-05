@@ -53,7 +53,7 @@ namespace FriendSea.StateMachine
 
 #nullable enable
 
-    public class LayeredStateMachine
+    public class LayeredStateMachine : IDisposable
     {
         internal class WrapContext : ContextContainerBase
         {
@@ -97,5 +97,14 @@ namespace FriendSea.StateMachine
 
         public void ForceState(IStateReference<IContextContainer> state, int layer = 0) =>
             _layers[layer].ForceState(state);
+
+        public void Dispose()
+        {
+            OnDisposiong?.Invoke(this);
+            foreach(var l in Layers)
+                l.Dispose();
+        }
+
+        public event Action<LayeredStateMachine> OnDisposiong;
     }
 }

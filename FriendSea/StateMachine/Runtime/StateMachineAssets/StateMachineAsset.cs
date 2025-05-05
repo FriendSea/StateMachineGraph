@@ -32,7 +32,13 @@ namespace FriendSea.StateMachine
 
 		IEnumerable<(IStateReference<IContextContainer> entry, IStateReference<IContextContainer> fallback)> Layers => layers.Select(l => ((IStateReference<IContextContainer>)l.entryState, (IStateReference<IContextContainer>)l.fallbackState));
 
-		public LayeredStateMachine CreateStateMachineInstance(IContextContainer context) =>
-			new LayeredStateMachine(Layers, context);
+		public LayeredStateMachine CreateStateMachineInstance(IContextContainer context)
+		{
+			var instance = new LayeredStateMachine(Layers, context);
+			InstanceCreated?.Invoke(this, instance);
+			return instance;
+		}
+
+		public static event Action<StateMachineAsset, LayeredStateMachine> InstanceCreated;
 	}
 }
