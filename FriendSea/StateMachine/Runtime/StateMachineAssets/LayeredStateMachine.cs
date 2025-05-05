@@ -105,6 +105,6 @@ namespace FriendSea.StateMachine
                 l.Dispose();
         }
 
-        public event Action<LayeredStateMachine> OnDisposiong;
+        public event Action<LayeredStateMachine>? OnDisposiong;
     }
 }
