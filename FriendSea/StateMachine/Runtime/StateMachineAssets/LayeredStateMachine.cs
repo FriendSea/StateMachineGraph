@@ -17,8 +17,9 @@ namespace FriendSea.StateMachine
         [SerializeField, NodeId]
         string nodeId;
 
-        public bool IsValid(IContextContainer obj) { 
-            foreach(var layer in ((LayeredStateMachine.WrapContext)obj).parent.Layers)
+        public bool IsValid(IContextContainer obj)
+        {
+            foreach (var layer in ((LayeredStateMachine.WrapContext)obj).parent.Layers)
                 if (layer.CurrentState.Id.AsSpan().Slice(32).SequenceEqual(nodeId))
                     return true;
             return false;
@@ -46,7 +47,8 @@ namespace FriendSea.StateMachine
             }
             var currentIndex = ids.IndexOf(property.stringValue ?? "");
             var newIndex = EditorGUI.Popup(position, label.text, currentIndex, names.ToArray());
-            property.stringValue = ids[newIndex];
+            if (newIndex >= 0)
+                property.stringValue = ids[newIndex];
         }
     }
 #endif
@@ -101,7 +103,7 @@ namespace FriendSea.StateMachine
         public void Dispose()
         {
             OnDisposiong?.Invoke(this);
-            foreach(var l in Layers)
+            foreach (var l in Layers)
                 l.Dispose();
         }
 

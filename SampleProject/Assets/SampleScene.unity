@@ -294,6 +294,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &691651911
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27c64e8f329a4482a89c5af8704fddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateTiming: 4
+  suspendBehaviour: 0
+  updateTiming: 5
   asset: {fileID: -6750239444755058063, guid: bc667afd6c0c5489991fe28bacf6effb, type: 3}
 --- !u!70 &1115534833
 CapsuleCollider2D:
