@@ -61,7 +61,8 @@ namespace FriendSea.StateMachine
 			while (true)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				stateMachine.Update(updateTiming is PlayerLoopTiming.FixedUpdate or PlayerLoopTiming.LastFixedUpdate ? Time.fixedDeltaTime : Time.time);
+				if(isActiveAndEnabled)
+					stateMachine.Update(updateTiming is PlayerLoopTiming.FixedUpdate or PlayerLoopTiming.LastFixedUpdate ? Time.fixedDeltaTime : Time.time);
 				await UniTask.Yield(updateTiming, cancellationToken);
 			}
 		}
