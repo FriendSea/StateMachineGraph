@@ -21,7 +21,7 @@ public class Rigidbody2DMovement : MonoBehaviour, FriendSea.StateMachine.Behavio
 		set => _velocity = value;
 	}
 
-	private void FixedUpdate()
+    private void FixedUpdate()
 	{
 		var delta = Target.position + (Vector2)Velocity * Time.fixedDeltaTime;
 		var groundDist = CheckGround();

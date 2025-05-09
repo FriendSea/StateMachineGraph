@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMoveme
 
 	public bool IsGrounded { get; private set; }
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		UpdatePosition(Time.deltaTime);
 	}
