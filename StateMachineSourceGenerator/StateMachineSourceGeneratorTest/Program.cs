@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using FriendSea.StateMachine;
+﻿using FriendSea.StateMachine;
 
 namespace Hoge.Fuga
 {
@@ -17,6 +15,15 @@ namespace Hoge.Fuga
     {
         [InjectContext]
         IContextContainer fuga;
+    }
+
+    partial class OuterClass
+    {
+        partial class InnerClass : IBehaviour
+        {
+            [InjectContext]
+            IContextContainer piyo;
+        }
     }
 }
 

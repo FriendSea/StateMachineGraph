@@ -46,8 +46,10 @@ namespace StateMachineSourceGenerator
                     return;
                 }
 
+                var outerClass = syntaxContext.Symbol.ContainingType?.Name;
                 var code = $$"""
 				{{(syntaxContext.Symbol.ContainingNamespace.IsGlobalNamespace ? "" : $"namespace {syntaxContext.Symbol.ContainingNamespace.ToDisplayString()} {{")}}
+				{{(outerClass == null ? null : $"partial class {outerClass} {{")}}
 				partial class {{syntaxContext.Symbol.Name}} {
 				#if UNITY_EDITOR
 				#pragma warning disable CS0414
@@ -55,6 +57,7 @@ namespace StateMachineSourceGenerator
 				    static int sourceLineForEditor = {{syntaxContext.Node.GetLocation().GetLineSpan().StartLinePosition.Line}};
 				#endif
 				}
+				{{(outerClass == null ? null : "}")}}
 				{{(syntaxContext.Symbol.ContainingNamespace.IsGlobalNamespace ? "" : "}")}}
 				""";
                 productionContext.AddSource($"{syntaxContext.Symbol.ToDisplayString()}.Editor.g.cs", code);

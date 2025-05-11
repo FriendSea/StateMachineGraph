@@ -36,14 +36,17 @@ namespace StateMachineSourceGenerator
 				});
 
             context.RegisterSourceOutput(source, (productionContext, syntaxContext) =>
-			{	
+			{
+				var outerClass = syntaxContext.Type.ContainingType?.Name;
 				var code = $$"""
 				{{(syntaxContext.Type.ContainingNamespace.IsGlobalNamespace ? "" : $"namespace {syntaxContext.Type.ContainingNamespace.ToDisplayString()} {{")}}
+				{{(outerClass == null ? null : $"partial class {outerClass} {{")}}
 				partial class {{syntaxContext.Type.Name}} : FriendSea.StateMachine.IInjectable {
 					public void OnSetup(FriendSea.StateMachine.IContextContainer ctx){
 						{{string.Join("\n\t\t", syntaxContext.Fields.Select(s => $"{s.Name} = ctx.Get<{s.Type.ToDisplayString()}>();"))}}
 					}
 				}
+				{{(outerClass == null ? null : "}")}}
 				{{(syntaxContext.Type.ContainingNamespace.IsGlobalNamespace ? "" : "}")}}
 				""";
 				productionContext.AddSource($"{syntaxContext.Type.ToDisplayString()}.Inject.g.cs", code);
