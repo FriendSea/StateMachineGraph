@@ -20,6 +20,20 @@ namespace FriendSea.StateMachine.Behaviours
 		public void OnUpdate(IContextContainer obj) =>
 			animator.SetFloat(name, input.action.ReadValue<float>());
 	}
+
+    [DisplayName("Animator/Input/SetParameterMagniture")]
+    public partial class SetInputAnimatorParameterMagniture : IBehaviour
+    {
+        [SerializeField] string name;
+        [SerializeField] InputActionProperty input;
+        [InjectContext] Animator animator;
+
+        public void OnEnter(IContextContainer obj) =>
+            input.action.Enable();
+        public void OnExit(IContextContainer obj) { }
+        public void OnUpdate(IContextContainer obj) =>
+            animator.SetFloat(name, input.action.ReadValue<Vector2>().magnitude);
+    }
 }
 
 #endif
