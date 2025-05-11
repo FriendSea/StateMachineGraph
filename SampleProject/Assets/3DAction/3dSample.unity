@@ -154,7 +154,6 @@ Transform:
   m_Children:
   - {fileID: 1348661450}
   - {fileID: 376111224}
-  - {fileID: 2130543971}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &376111223
@@ -167,6 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 376111224}
   - component: {fileID: 376111226}
+  - component: {fileID: 376111227}
   m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
@@ -203,39 +203,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 17227399}
-  rotateSpeed: -30
-  actionButton:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Action Button
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 50bab5d3-8ab9-48e7-907d-bbaec195dab6
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8447508616684170230, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
-  moveDirection:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Move Direction
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: cc37f199-4931-4019-ab9e-5e507ff441e2
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8458506188479097994, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
   state:
     behaviours:
-    - rid: 8237314874467418222
-    - rid: 8237314874467418239
-    - rid: 8237314874467418236
+    - rid: 8237314874467418256
+    - rid: 8237314874467418255
+    - rid: 8237314874467418257
+    - rid: 8237314874467418258
     transition:
       condition:
-        rid: 8237314874467418237
+        rid: 8237314874467418253
       targets: []
     residentStates:
       stateMachine: {fileID: 0}
@@ -244,23 +220,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 8237314874467418222
-      type: {class: LerpMovementPosition, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
-      data:
-        lerp: 0.2
-        target: {fileID: 1645016616}
-    - rid: 8237314874467418236
-      type: {class: SetAnimatorState, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
-      data:
-        state:
-          stateHash: -1347921612
-        fadeTime: 0.01
-    - rid: 8237314874467418237
+    - rid: 8237314874467418253
       type: {class: InvertTransition, ns: FriendSea.StateMachine.Conditions, asm: FriendSea.StateMachine}
       data:
         transition:
-          rid: 8237314874467418238
-    - rid: 8237314874467418238
+          rid: 8237314874467418254
+    - rid: 8237314874467418254
       type: {class: InputPressedTransition, ns: FriendSea.StateMachine.Conditions, asm: FriendSea.StateMachine.InputSystem}
       data:
         action:
@@ -269,17 +234,67 @@ MonoBehaviour:
             m_Name: Action
             m_Type: 0
             m_ExpectedControlType: 
-            m_Id: 78c1a387-4e25-4918-bf9a-236775de4c15
+            m_Id: a3ec4fe5-d45d-4fb8-97e1-2966acc8e996
             m_Processors: 
             m_Interactions: 
             m_SingletonActionBindings: []
             m_Flags: 0
           m_Reference: {fileID: 8447508616684170230, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
-    - rid: 8237314874467418239
+    - rid: 8237314874467418255
       type: {class: LerpMovementRotation, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
       data:
         lerp: 0.2
         target: {fileID: 1645016616}
+    - rid: 8237314874467418256
+      type: {class: LerpMovementPosition, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
+      data:
+        lerp: 0.2
+        target: {fileID: 1645016616}
+    - rid: 8237314874467418257
+      type: {class: SetAnimatorState, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
+      data:
+        state:
+          stateHash: -1347921612
+        fadeTime: 0
+    - rid: 8237314874467418258
+      type: {class: RotateObject/Movement, ns: , asm: Assembly-CSharp}
+      data:
+        target: {fileID: 17227399}
+        handle: {fileID: 1645016616}
+        moveDirection:
+          m_UseReference: 1
+          m_Action:
+            m_Name: Move Direction
+            m_Type: 0
+            m_ExpectedControlType: 
+            m_Id: cdc2a7c6-9d42-4eb9-afdc-10eba89be677
+            m_Processors: 
+            m_Interactions: 
+            m_SingletonActionBindings: []
+            m_Flags: 0
+          m_Reference: {fileID: 8458506188479097994, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
+        rotateSpeed: -30
+--- !u!135 &376111227
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376111223}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &537343283
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537343283}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5353751, y: -0.34563226, z: 0.2543656, w: 0.72746825}
+  m_LocalRotation: {x: 0.5353751, y: -0.3456322, z: 0.25436553, w: 0.7274683}
   m_LocalPosition: {x: 1.62, y: 6.71, z: -1.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -438,37 +453,6 @@ Transform:
   m_Children:
   - {fileID: 1371065044}
   m_Father: {fileID: 1004784912}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &763332427
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 763332428}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &763332428
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763332427}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2130543971}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &833708730
 GameObject:
@@ -745,7 +729,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148862624}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5353751, y: -0.34563226, z: 0.2543656, w: 0.72746825}
+  m_LocalRotation: {x: 0.5353751, y: -0.3456322, z: 0.25436553, w: 0.7274683}
   m_LocalPosition: {x: 1.62, y: 6.71, z: -1.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -818,30 +802,37 @@ MonoBehaviour:
   collisionPoint0: {x: 0, y: 1.1, z: 0}
   collisionPoint1: {x: 0, y: 0.5, z: 0}
   collisionRadius: 0.4
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 1
   <Velocity>k__BackingField: {x: 0, y: 0, z: 0}
---- !u!136 &1321165827
-CapsuleCollider:
+--- !u!114 &1321165827
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1321165820}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 1.5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.75, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6880d42806c0ccd4ea75cbe196a411ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactButton:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Interact Button
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 2f5bb081-8935-40e0-af25-d43c28abba60
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 8447508616684170230, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
+  interactLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &1348661446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,129 +1367,6 @@ Transform:
   - {fileID: 1002448039}
   m_Father: {fileID: 1004784912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2130543970
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2130543971}
-  - component: {fileID: 2130543972}
-  m_Layer: 0
-  m_Name: Handle (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2130543971
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130543970}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 2, y: 1, z: 1}
-  m_LocalScale: {x: 0, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 763332428}
-  m_Father: {fileID: 17227399}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &2130543972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130543970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 197012d02d31490418654bc6fd70dd5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 17227399}
-  rotateSpeed: 30
-  actionButton:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Action Button
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 50bab5d3-8ab9-48e7-907d-bbaec195dab6
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8447508616684170230, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
-  moveDirection:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Move Direction
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: ea3803b8-5035-4e33-9283-53fd977f49a5
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8458506188479097994, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
-  state:
-    behaviours:
-    - rid: 8237314874467418222
-    - rid: 8237314874467418239
-    - rid: 8237314874467418236
-    transition:
-      condition:
-        rid: 8237314874467418237
-      targets: []
-    residentStates:
-      stateMachine: {fileID: 0}
-      guids: []
-    id: 
-  references:
-    version: 2
-    RefIds:
-    - rid: 8237314874467418222
-      type: {class: LerpMovementPosition, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
-      data:
-        lerp: 0.2
-        target: {fileID: 763332428}
-    - rid: 8237314874467418236
-      type: {class: SetAnimatorState, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
-      data:
-        state:
-          stateHash: -1347921612
-        fadeTime: 0.01
-    - rid: 8237314874467418237
-      type: {class: InvertTransition, ns: FriendSea.StateMachine.Conditions, asm: FriendSea.StateMachine}
-      data:
-        transition:
-          rid: 8237314874467418238
-    - rid: 8237314874467418238
-      type: {class: InputPressedTransition, ns: FriendSea.StateMachine.Conditions, asm: FriendSea.StateMachine.InputSystem}
-      data:
-        action:
-          m_UseReference: 1
-          m_Action:
-            m_Name: Action
-            m_Type: 0
-            m_ExpectedControlType: 
-            m_Id: 78c1a387-4e25-4918-bf9a-236775de4c15
-            m_Processors: 
-            m_Interactions: 
-            m_SingletonActionBindings: []
-            m_Flags: 0
-          m_Reference: {fileID: 8447508616684170230, guid: 6c94929398158421da6af4d4fd4ac3ba, type: 3}
-    - rid: 8237314874467418239
-      type: {class: LerpMovementRotation, ns: FriendSea.StateMachine.Behaviours, asm: FriendSea.StateMachine}
-      data:
-        lerp: 0.2
-        target: {fileID: 763332428}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

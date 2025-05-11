@@ -11,6 +11,8 @@ public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMoveme
     Vector3 collisionPoint1 = new Vector3(0, -0.5f, 0);
     [SerializeField]
     float collisionRadius = 0.5f;
+    [SerializeField]
+    LayerMask collisionLayer;
 
     Vector3 GlobalCollisionPoint0 => transform.position + transform.rotation * collisionPoint0;
     Vector3 GlobalCollisionPoint1 => transform.position + transform.rotation * collisionPoint1;
@@ -32,7 +34,7 @@ public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMoveme
         var delta = Velocity * deltaTime;
         var modDelta = delta;
 
-        var hitcount = Physics.CapsuleCastNonAlloc(GlobalCollisionPoint0 - delta, GlobalCollisionPoint1 - delta, collisionRadius, delta.normalized, hits, delta.magnitude * 2f);
+        var hitcount = Physics.CapsuleCastNonAlloc(GlobalCollisionPoint0 - delta, GlobalCollisionPoint1 - delta, collisionRadius, delta.normalized, hits, delta.magnitude * 2f, collisionLayer, QueryTriggerInteraction.Ignore);
         for (int i = 0; i < hitcount; i++)
         {
             if (Mathf.Approximately(hits[i].distance, 0f)) continue;
