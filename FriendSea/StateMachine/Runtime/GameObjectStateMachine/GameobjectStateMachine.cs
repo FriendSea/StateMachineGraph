@@ -50,6 +50,8 @@ namespace FriendSea.StateMachine
         public LayeredStateMachine StateMachine => stateMachine;
         LayeredStateMachine stateMachine = null;
 
+        public bool IsInDefaultState => stateMachine.PrimaryLayer.CurrentState == stateMachine.PrimaryLayer.FallbackState.GetState(stateMachine.PrimaryLayer.Target).state;
+
 #if FSTATES_USE_UNITASK
         private void Start() =>
             UpdateLoop(destroyCancellationToken).Forget();
