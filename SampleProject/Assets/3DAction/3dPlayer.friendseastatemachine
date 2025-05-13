@@ -14,16 +14,34 @@
         },
         {
             "rid": 1004
+        },
+        {
+            "rid": 1005
+        },
+        {
+            "rid": 1006
+        },
+        {
+            "rid": 1007
+        },
+        {
+            "rid": 1008
+        },
+        {
+            "rid": 1009
+        },
+        {
+            "rid": 1010
         }
     ],
     "viewPosition": {
-        "x": 349.0,
-        "y": 50.0,
+        "x": -352.0,
+        "y": -18.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.49717673659324648,
-        "y": 0.49717673659324648,
+        "x": 1.0,
+        "y": 1.0,
         "z": 1.0
     },
     "baseAssetGuid": "",
@@ -46,7 +64,7 @@
                         "y": 0.0
                     },
                     "data": {
-                        "rid": 1005
+                        "rid": 1011
                     }
                 }
             },
@@ -66,7 +84,7 @@
                         "y": 100.0
                     },
                     "data": {
-                        "rid": 1006
+                        "rid": 1012
                     }
                 }
             },
@@ -82,11 +100,11 @@
                         "id": "b965b933-6863-46c8-a5bf-5c95e2088106"
                     },
                     "position": {
-                        "x": 210.0,
+                        "x": 220.0,
                         "y": 40.0
                     },
                     "data": {
-                        "rid": 1007
+                        "rid": 1013
                     }
                 }
             },
@@ -135,6 +153,129 @@
             {
                 "rid": 1005,
                 "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "fa3574ae-d0de-4934-bc6f-f72c5bf4349b"
+                    },
+                    "position": {
+                        "x": 560.0,
+                        "y": 40.0
+                    },
+                    "data": {
+                        "rid": 1014
+                    }
+                }
+            },
+            {
+                "rid": 1006,
+                "type": {
+                    "class": "GraphViewData/Edge",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "9489161b-baa0-4745-8900-cec3adfff123"
+                    },
+                    "outputNode": {
+                        "id": "b965b933-6863-46c8-a5bf-5c95e2088106"
+                    },
+                    "outputPort": "transition",
+                    "inputNode": {
+                        "id": "fa3574ae-d0de-4934-bc6f-f72c5bf4349b"
+                    },
+                    "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1007,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "815739c2-db12-45ed-bd5c-9a0705374b11"
+                    },
+                    "position": {
+                        "x": 750.0,
+                        "y": 40.0
+                    },
+                    "data": {
+                        "rid": 1015
+                    }
+                }
+            },
+            {
+                "rid": 1008,
+                "type": {
+                    "class": "GraphViewData/Edge",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "b1d18673-6d2e-4fb8-9896-a822b3960bc0"
+                    },
+                    "outputNode": {
+                        "id": "fa3574ae-d0de-4934-bc6f-f72c5bf4349b"
+                    },
+                    "outputPort": "transition",
+                    "inputNode": {
+                        "id": "815739c2-db12-45ed-bd5c-9a0705374b11"
+                    },
+                    "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1009,
+                "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "66e05a42-19eb-4458-9fc6-618a9a1afbb5"
+                    },
+                    "position": {
+                        "x": 1120.0,
+                        "y": 40.0
+                    },
+                    "data": {
+                        "rid": 1016
+                    }
+                }
+            },
+            {
+                "rid": 1010,
+                "type": {
+                    "class": "GraphViewData/Edge",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "b8f1dceb-1773-4ef9-a42a-22aa79d8d465"
+                    },
+                    "outputNode": {
+                        "id": "815739c2-db12-45ed-bd5c-9a0705374b11"
+                    },
+                    "outputPort": "transition",
+                    "inputNode": {
+                        "id": "66e05a42-19eb-4458-9fc6-618a9a1afbb5"
+                    },
+                    "inputPort": "enter"
+                }
+            },
+            {
+                "rid": 1011,
+                "type": {
                     "class": "EntryNode",
                     "ns": "FriendSea.StateMachine",
                     "asm": "FriendSea.StateMachine.Editor"
@@ -142,7 +283,7 @@
                 "data": {}
             },
             {
-                "rid": 1006,
+                "rid": 1012,
                 "type": {
                     "class": "FallbackNode",
                     "ns": "FriendSea.StateMachine",
@@ -151,7 +292,7 @@
                 "data": {}
             },
             {
-                "rid": 1007,
+                "rid": 1013,
                 "type": {
                     "class": "StateNode",
                     "ns": "FriendSea.StateMachine",
@@ -161,25 +302,73 @@
                     "name": "Default",
                     "behaviours": [
                         {
-                            "rid": 1008
+                            "rid": 1017
                         },
                         {
-                            "rid": 1009
+                            "rid": 1018
                         },
                         {
-                            "rid": 1010
+                            "rid": 1019
                         },
                         {
-                            "rid": 1011
+                            "rid": 1020
                         },
                         {
-                            "rid": 1012
+                            "rid": 1021
                         }
                     ]
                 }
             },
             {
-                "rid": 1008,
+                "rid": 1014,
+                "type": {
+                    "class": "TransitionNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "transition": {
+                        "rid": 1022
+                    }
+                }
+            },
+            {
+                "rid": 1015,
+                "type": {
+                    "class": "StateNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "name": "Air",
+                    "behaviours": [
+                        {
+                            "rid": 1023
+                        },
+                        {
+                            "rid": 1024
+                        },
+                        {
+                            "rid": 1025
+                        }
+                    ]
+                }
+            },
+            {
+                "rid": 1016,
+                "type": {
+                    "class": "TransitionNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "transition": {
+                        "rid": 1026
+                    }
+                }
+            },
+            {
+                "rid": 1017,
                 "type": {
                     "class": "MultiplyMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -194,7 +383,7 @@
                 }
             },
             {
-                "rid": 1009,
+                "rid": 1018,
                 "type": {
                     "class": "AddMovementPlanerVelocityFromInput",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -223,7 +412,7 @@
                 }
             },
             {
-                "rid": 1010,
+                "rid": 1019,
                 "type": {
                     "class": "SetPlanerRotationFromInput",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -252,7 +441,7 @@
                 }
             },
             {
-                "rid": 1011,
+                "rid": 1020,
                 "type": {
                     "class": "SetInputAnimatorParameterMagniture",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -281,7 +470,7 @@
                 }
             },
             {
-                "rid": 1012,
+                "rid": 1021,
                 "type": {
                     "class": "SetAnimatorState",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -292,6 +481,96 @@
                         "stateHash": 753088835
                     },
                     "fadeTime": 0.20000000298023225
+                }
+            },
+            {
+                "rid": 1022,
+                "type": {
+                    "class": "InvertTransition",
+                    "ns": "FriendSea.StateMachine.Conditions",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {
+                    "transition": {
+                        "rid": 1027
+                    }
+                }
+            },
+            {
+                "rid": 1023,
+                "type": {
+                    "class": "FrameSpan",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {
+                    "start": 0,
+                    "end": 0,
+                    "behaviour": {
+                        "rid": 1028
+                    }
+                }
+            },
+            {
+                "rid": 1024,
+                "type": {
+                    "class": "SetAnimatorState",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {
+                    "state": {
+                        "stateHash": -1347921612
+                    },
+                    "fadeTime": 0.20000000298023225
+                }
+            },
+            {
+                "rid": 1025,
+                "type": {
+                    "class": "AddMovementVelocity",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {
+                    "amount": {
+                        "x": 0.0,
+                        "y": -0.5,
+                        "z": 0.0
+                    }
+                }
+            },
+            {
+                "rid": 1026,
+                "type": {
+                    "class": "GroundedTransition",
+                    "ns": "FriendSea.StateMachine.Conditions",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1027,
+                "type": {
+                    "class": "GroundedTransition",
+                    "ns": "FriendSea.StateMachine.Conditions",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1028,
+                "type": {
+                    "class": "AddMovementVelocity",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {
+                    "amount": {
+                        "x": 0.0,
+                        "y": 10.0,
+                        "z": 0.0
+                    }
                 }
             }
         ]

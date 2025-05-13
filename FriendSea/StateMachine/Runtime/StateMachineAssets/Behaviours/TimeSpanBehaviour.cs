@@ -6,7 +6,7 @@ using UnityEngine;
 namespace FriendSea.StateMachine.Behaviours
 {
 	[DisplayName("FrameSpan")]
-	partial class FrameSpan : IBehaviour
+    partial class FrameSpan : IBehaviour, IInjectable
     {
 		[SerializeField]
 		int start;
@@ -22,7 +22,12 @@ namespace FriendSea.StateMachine.Behaviours
 			behaviour.OnExit(obj);
 		}
 
-		public void OnUpdate(IContextContainer obj)
+        public void OnSetup(IContextContainer ctx)
+        {
+            (behaviour as IInjectable)?.OnSetup(ctx);
+        }
+
+        public void OnUpdate(IContextContainer obj)
 		{
 			if (obj.FrameCount == start)
 				behaviour.OnEnter(obj);

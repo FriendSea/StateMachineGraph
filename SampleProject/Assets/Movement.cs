@@ -25,6 +25,10 @@ public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMoveme
     private void FixedUpdate()
     {
         UpdatePosition(Time.fixedDeltaTime);
+        IsGrounded = Physics.Raycast(
+            transform.position + transform.up * Mathf.Min(collisionPoint0.y, collisionPoint1.y),
+            -transform.up,
+            collisionRadius + 0.001f);
     }
 
     RaycastHit[] hits = new RaycastHit[4];
@@ -43,8 +47,6 @@ public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMoveme
         }
 
         transform.position += modDelta;
-
-        IsGrounded = Physics.Raycast(transform.position, -transform.up, Mathf.Max(-collisionPoint0.y, -collisionPoint1.y) + collisionRadius + 0.001f);
     }
 
     private void OnDrawGizmos()
