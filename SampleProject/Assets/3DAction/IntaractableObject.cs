@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public partial class RotateObject : MonoBehaviour, IInteractable
+public partial class IntaractableObject : MonoBehaviour, IInteractable
 {
     [SerializeField]
     State state;
@@ -15,7 +15,7 @@ public partial class RotateObject : MonoBehaviour, IInteractable
     }
 
     [DisplayName("Sample/RotateObjectMoveMent")]
-    partial class Movement : IBehaviour
+    partial class RotateObjectMovement : IBehaviour
     {
         [SerializeField]
         Transform target;

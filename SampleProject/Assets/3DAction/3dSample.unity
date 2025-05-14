@@ -593,7 +593,7 @@ MonoBehaviour:
     - rid: 8237314874467418256
     - rid: 8237314874467418255
     - rid: 8237314874467418257
-    - rid: 8237314874467418258
+    - rid: 8237314945836122201
     transition:
       condition:
         rid: 8237314874467418253
@@ -641,8 +641,8 @@ MonoBehaviour:
         state:
           stateHash: -1347921612
         fadeTime: 0
-    - rid: 8237314874467418258
-      type: {class: RotateObject/Movement, ns: , asm: Assembly-CSharp}
+    - rid: 8237314945836122201
+      type: {class: IntaractableObject/RotateObjectMovement, ns: , asm: Assembly-CSharp}
       data:
         target: {fileID: 17227399}
         handle: {fileID: 376111224}
@@ -652,7 +652,7 @@ MonoBehaviour:
             m_Name: Move Direction
             m_Type: 0
             m_ExpectedControlType: 
-            m_Id: cdc2a7c6-9d42-4eb9-afdc-10eba89be677
+            m_Id: 05017fbb-7ded-47b8-be45-ac1b507b2e15
             m_Processors: 
             m_Interactions: 
             m_SingletonActionBindings: []
@@ -1086,7 +1086,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537343283}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5088619, y: 0.27005598, z: -0.17197068, w: 0.7990967}
+  m_LocalRotation: {x: 0.50886184, y: 0.27005592, z: -0.1719706, w: 0.79909676}
   m_LocalPosition: {x: -1.9, y: 6.71, z: -2.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1679,7 +1679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148862624}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5088619, y: 0.27005598, z: -0.17197068, w: 0.7990967}
+  m_LocalRotation: {x: 0.50886184, y: 0.27005592, z: -0.1719706, w: 0.79909676}
   m_LocalPosition: {x: -1.9, y: 6.71, z: -2.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2727,7 +2727,7 @@ MonoBehaviour:
     - rid: 8237314874467418256
     - rid: 8237314874467418255
     - rid: 8237314874467418257
-    - rid: 8237314874467418258
+    - rid: 8237314945836122200
     transition:
       condition:
         rid: 8237314874467418253
@@ -2775,8 +2775,8 @@ MonoBehaviour:
         state:
           stateHash: -1347921612
         fadeTime: 0
-    - rid: 8237314874467418258
-      type: {class: RotateObject/Movement, ns: , asm: Assembly-CSharp}
+    - rid: 8237314945836122200
+      type: {class: IntaractableObject/RotateObjectMovement, ns: , asm: Assembly-CSharp}
       data:
         target: {fileID: 17227399}
         handle: {fileID: 1867560384}
@@ -2786,7 +2786,7 @@ MonoBehaviour:
             m_Name: Move Direction
             m_Type: 0
             m_ExpectedControlType: 
-            m_Id: cdc2a7c6-9d42-4eb9-afdc-10eba89be677
+            m_Id: 6856a5ef-bb11-43a4-949c-eefcea4d6bca
             m_Processors: 
             m_Interactions: 
             m_SingletonActionBindings: []

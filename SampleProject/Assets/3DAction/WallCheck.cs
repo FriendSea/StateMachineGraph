@@ -2,7 +2,7 @@ using FriendSea.StateMachine;
 using FriendSea.StateMachine.Controls;
 using UnityEngine;
 
-public class WallAction : MonoBehaviour
+public class WallCheck : MonoBehaviour
 {
     [SerializeField]
     Vector3 rayPoint;
@@ -29,6 +29,6 @@ public class WallAction : MonoBehaviour
 partial class IsObstacleAhead : Transition.ICondition
 {
     [InjectContext]
-    WallAction wallCheck;
+    WallCheck wallCheck;
     public bool IsValid(IContextContainer obj) => wallCheck.IsObstacleAhead;
 }
