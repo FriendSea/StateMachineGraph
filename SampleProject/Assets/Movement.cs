@@ -28,7 +28,9 @@ public class Movement : MonoBehaviour, FriendSea.StateMachine.Behaviours.IMoveme
         IsGrounded = Physics.Raycast(
             transform.position + transform.up * Mathf.Min(collisionPoint0.y, collisionPoint1.y),
             -transform.up,
-            collisionRadius + 0.001f);
+            collisionRadius + 0.001f,
+            collisionLayer,
+            QueryTriggerInteraction.Ignore);
     }
 
     RaycastHit[] hits = new RaycastHit[4];

@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 504688490}
   - component: {fileID: 504688489}
   - component: {fileID: 504688488}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1037,6 +1037,7 @@ GameObject:
   - component: {fileID: 1321165821}
   - component: {fileID: 1321165826}
   - component: {fileID: 1321165827}
+  - component: {fileID: 1321165828}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1089,11 +1090,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionPoint0: {x: 0, y: 1.1, z: 0}
-  collisionPoint1: {x: 0, y: 0.5, z: 0}
+  collisionPoint1: {x: 0, y: 0.4, z: 0}
   collisionRadius: 0.4
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   <Velocity>k__BackingField: {x: 0, y: 0, z: 0}
 --- !u!114 &1321165827
 MonoBehaviour:
@@ -1123,6 +1124,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   instructionPanel: {fileID: 1923592795}
+--- !u!114 &1321165828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321165820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55bfe4c1dc9aa7449453fd41bdc75f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayPoint: {x: 0, y: 1, z: 0}
+  rayDirection: {x: 0, y: 0, z: 0.5}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1348661446
 GameObject:
   m_ObjectHideFlags: 0

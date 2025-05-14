@@ -16,6 +16,7 @@ public partial class RotateObject : MonoBehaviour, IInteractable
     {
     }
 
+    [DisplayName("Sample/RotateObjectMoveMent")]
     partial class Movement : IBehaviour
     {
         [SerializeField]
