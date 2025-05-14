@@ -107,4 +107,24 @@ namespace FriendSea.StateMachine.Behaviours
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), lerp);
         }
     }
+
+    [DisplayName("Transform/SetUpward")]
+    partial class SetUpward : IBehaviour
+    {
+        [SerializeField]
+        Vector3 upward = Vector3.up;
+        [SerializeField, Range(0.01f, 1f)]
+        float lerp = 1f;
+        [InjectContext]
+        Transform transform;
+
+        public void OnEnter(IContextContainer obj) { }
+
+        public void OnExit(IContextContainer obj) { }
+
+        public void OnUpdate(IContextContainer obj)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.forward, upward), lerp);
+        }
+    }
 }

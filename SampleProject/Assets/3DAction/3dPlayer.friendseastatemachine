@@ -41,16 +41,19 @@
         },
         {
             "rid": 1013
+        },
+        {
+            "rid": 1014
         }
     ],
     "viewPosition": {
-        "x": -134.0,
-        "y": 81.0,
+        "x": 254.0,
+        "y": 130.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.8695651888847351,
-        "y": 0.8695651888847351,
+        "x": 0.4323275685310364,
+        "y": 0.4323275685310364,
         "z": 1.0
     },
     "baseAssetGuid": "",
@@ -73,7 +76,7 @@
                         "y": 0.0
                     },
                     "data": {
-                        "rid": 1014
+                        "rid": 1015
                     }
                 }
             },
@@ -93,7 +96,7 @@
                         "y": 100.0
                     },
                     "data": {
-                        "rid": 1015
+                        "rid": 1016
                     }
                 }
             },
@@ -113,7 +116,7 @@
                         "y": 40.0
                     },
                     "data": {
-                        "rid": 1016
+                        "rid": 1017
                     }
                 }
             },
@@ -175,7 +178,7 @@
                         "y": 40.0
                     },
                     "data": {
-                        "rid": 1017
+                        "rid": 1018
                     }
                 }
             },
@@ -216,7 +219,7 @@
                         "y": 40.0
                     },
                     "data": {
-                        "rid": 1018
+                        "rid": 1019
                     }
                 }
             },
@@ -257,7 +260,7 @@
                         "y": 40.0
                     },
                     "data": {
-                        "rid": 1019
+                        "rid": 1020
                     }
                 }
             },
@@ -298,7 +301,7 @@
                         "y": 160.0
                     },
                     "data": {
-                        "rid": 1020
+                        "rid": 1021
                     }
                 }
             },
@@ -347,6 +350,26 @@
             {
                 "rid": 1014,
                 "type": {
+                    "class": "GraphViewData/Node",
+                    "ns": "FriendSea.GraphViewSerializer",
+                    "asm": "FriendSea.GraphViewSerializer.Editor"
+                },
+                "data": {
+                    "id": {
+                        "id": "fee0aaff-ac2b-44d8-bf1c-b618d6f8d454"
+                    },
+                    "position": {
+                        "x": 560.0,
+                        "y": -140.0
+                    },
+                    "data": {
+                        "rid": 1022
+                    }
+                }
+            },
+            {
+                "rid": 1015,
+                "type": {
                     "class": "EntryNode",
                     "ns": "FriendSea.StateMachine",
                     "asm": "FriendSea.StateMachine.Editor"
@@ -354,7 +377,7 @@
                 "data": {}
             },
             {
-                "rid": 1015,
+                "rid": 1016,
                 "type": {
                     "class": "FallbackNode",
                     "ns": "FriendSea.StateMachine",
@@ -363,7 +386,7 @@
                 "data": {}
             },
             {
-                "rid": 1016,
+                "rid": 1017,
                 "type": {
                     "class": "StateNode",
                     "ns": "FriendSea.StateMachine",
@@ -373,12 +396,6 @@
                     "name": "Default",
                     "behaviours": [
                         {
-                            "rid": 1021
-                        },
-                        {
-                            "rid": 1022
-                        },
-                        {
                             "rid": 1023
                         },
                         {
@@ -386,12 +403,18 @@
                         },
                         {
                             "rid": 1025
+                        },
+                        {
+                            "rid": 1026
+                        },
+                        {
+                            "rid": 1027
                         }
                     ]
                 }
             },
             {
-                "rid": 1017,
+                "rid": 1018,
                 "type": {
                     "class": "TransitionNode",
                     "ns": "FriendSea.StateMachine",
@@ -399,12 +422,12 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1026
+                        "rid": 1028
                     }
                 }
             },
             {
-                "rid": 1018,
+                "rid": 1019,
                 "type": {
                     "class": "StateNode",
                     "ns": "FriendSea.StateMachine",
@@ -414,28 +437,15 @@
                     "name": "Air",
                     "behaviours": [
                         {
-                            "rid": 1027
-                        },
-                        {
-                            "rid": 1028
-                        },
-                        {
                             "rid": 1029
+                        },
+                        {
+                            "rid": 1030
+                        },
+                        {
+                            "rid": 1031
                         }
                     ]
-                }
-            },
-            {
-                "rid": 1019,
-                "type": {
-                    "class": "TransitionNode",
-                    "ns": "FriendSea.StateMachine",
-                    "asm": "FriendSea.StateMachine.Editor"
-                },
-                "data": {
-                    "transition": {
-                        "rid": 1030
-                    }
                 }
             },
             {
@@ -447,12 +457,41 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1031
+                        "rid": 1032
                     }
                 }
             },
             {
                 "rid": 1021,
+                "type": {
+                    "class": "TransitionNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "transition": {
+                        "rid": 1033
+                    }
+                }
+            },
+            {
+                "rid": 1022,
+                "type": {
+                    "class": "ResidentStateNode",
+                    "ns": "FriendSea.StateMachine",
+                    "asm": "FriendSea.StateMachine.Editor"
+                },
+                "data": {
+                    "name": "",
+                    "behaviours": [
+                        {
+                            "rid": 1034
+                        }
+                    ]
+                }
+            },
+            {
+                "rid": 1023,
                 "type": {
                     "class": "MultiplyMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -467,7 +506,7 @@
                 }
             },
             {
-                "rid": 1022,
+                "rid": 1024,
                 "type": {
                     "class": "AddMovementPlanerVelocityFromInput",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -496,7 +535,7 @@
                 }
             },
             {
-                "rid": 1023,
+                "rid": 1025,
                 "type": {
                     "class": "SetPlanerRotationFromInput",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -525,7 +564,7 @@
                 }
             },
             {
-                "rid": 1024,
+                "rid": 1026,
                 "type": {
                     "class": "SetInputAnimatorParameterMagniture",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -554,7 +593,7 @@
                 }
             },
             {
-                "rid": 1025,
+                "rid": 1027,
                 "type": {
                     "class": "SetAnimatorState",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -568,7 +607,7 @@
                 }
             },
             {
-                "rid": 1026,
+                "rid": 1028,
                 "type": {
                     "class": "InvertTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -576,12 +615,12 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1032
+                        "rid": 1035
                     }
                 }
             },
             {
-                "rid": 1027,
+                "rid": 1029,
                 "type": {
                     "class": "FrameSpan",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -591,12 +630,12 @@
                     "start": 0,
                     "end": 0,
                     "behaviour": {
-                        "rid": 1033
+                        "rid": 1036
                     }
                 }
             },
             {
-                "rid": 1028,
+                "rid": 1030,
                 "type": {
                     "class": "SetAnimatorState",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -610,7 +649,7 @@
                 }
             },
             {
-                "rid": 1029,
+                "rid": 1031,
                 "type": {
                     "class": "AddMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",
@@ -625,24 +664,6 @@
                 }
             },
             {
-                "rid": 1030,
-                "type": {
-                    "class": "GroundedTransition",
-                    "ns": "FriendSea.StateMachine.Conditions",
-                    "asm": "FriendSea.StateMachine"
-                },
-                "data": {}
-            },
-            {
-                "rid": 1031,
-                "type": {
-                    "class": "IsObstacleAhead",
-                    "ns": "",
-                    "asm": "Assembly-CSharp"
-                },
-                "data": {}
-            },
-            {
                 "rid": 1032,
                 "type": {
                     "class": "GroundedTransition",
@@ -653,6 +674,40 @@
             },
             {
                 "rid": 1033,
+                "type": {
+                    "class": "IsObstacleAhead",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1034,
+                "type": {
+                    "class": "SetUpward",
+                    "ns": "FriendSea.StateMachine.Behaviours",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {
+                    "upward": {
+                        "x": 0.0,
+                        "y": 1.0,
+                        "z": 0.0
+                    },
+                    "lerp": 0.30000001192092898
+                }
+            },
+            {
+                "rid": 1035,
+                "type": {
+                    "class": "GroundedTransition",
+                    "ns": "FriendSea.StateMachine.Conditions",
+                    "asm": "FriendSea.StateMachine"
+                },
+                "data": {}
+            },
+            {
+                "rid": 1036,
                 "type": {
                     "class": "AddMovementVelocity",
                     "ns": "FriendSea.StateMachine.Behaviours",

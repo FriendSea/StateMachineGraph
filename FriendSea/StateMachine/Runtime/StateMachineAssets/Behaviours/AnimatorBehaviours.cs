@@ -54,4 +54,21 @@ namespace FriendSea.StateMachine.Behaviours
 
 		public void OnUpdate(IContextContainer obj) { }
 	}
+
+    [DisplayName("Animator/SetStateByName")]
+    public partial class SetAnimatorStateByName : IBehaviour
+    {
+        [SerializeField] string name;
+        [SerializeField] float fadeTime;
+        [InjectContext] Animator animator;
+
+        public void OnEnter(IContextContainer obj)
+        {
+            animator.CrossFade(name, fadeTime);
+        }
+
+        public void OnExit(IContextContainer obj) { }
+
+        public void OnUpdate(IContextContainer obj) { }
+    }
 }

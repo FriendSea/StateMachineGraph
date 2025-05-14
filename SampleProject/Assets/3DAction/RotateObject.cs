@@ -6,8 +6,6 @@ using UnityEngine.UIElements;
 public partial class RotateObject : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    Transform target;
-    [SerializeField]
     State state;
 
     public IState<IContextContainer> State => state;
