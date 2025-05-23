@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FriendSea.StateMachine.Controls;
+using System;
 
 namespace FriendSea.StateMachine.Conditions
 {
@@ -12,7 +13,12 @@ namespace FriendSea.StateMachine.Conditions
 		[SerializeReference]
 		internal Transition.ICondition transition;
 
-		public bool IsValid(IContextContainer obj)
+        public IEnumerable<Type> GetRequiredTypes()
+        {
+            return (transition as IInjectable)?.GetRequiredTypes() ?? Array.Empty<Type>();
+        }
+
+        public bool IsValid(IContextContainer obj)
 		{
 			return !transition.IsValid(obj);
 		}

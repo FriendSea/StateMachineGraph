@@ -14,7 +14,13 @@ namespace FriendSea.StateMachine.Behaviours
 		int end;
 		[SerializeReference]
 		IBehaviour behaviour;
-		public void OnEnter(IContextContainer obj) { }
+
+        public IEnumerable<Type> GetRequiredTypes()
+        {
+            return (behaviour as IInjectable)?.GetRequiredTypes();
+        }
+
+        public void OnEnter(IContextContainer obj) { }
 
 		public void OnExit(IContextContainer obj)
 		{

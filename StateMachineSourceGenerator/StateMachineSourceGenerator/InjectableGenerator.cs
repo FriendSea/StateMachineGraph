@@ -45,6 +45,10 @@ namespace StateMachineSourceGenerator
 					public void OnSetup(FriendSea.StateMachine.IContextContainer ctx){
 						{{string.Join("\n\t\t", syntaxContext.Fields.Select(s => $"{s.Name} = ctx.Get<{s.Type.ToDisplayString()}>();"))}}
 					}
+
+					public System.Collections.Generic.IEnumerable<System.Type> GetRequiredTypes(){
+						{{string.Join("\n\t\t", syntaxContext.Fields.Select(s => $"yield return typeof({s.Type.ToDisplayString()});").Distinct())}}
+					}
 				}
 				{{(outerClass == null ? null : "}")}}
 				{{(syntaxContext.Type.ContainingNamespace.IsGlobalNamespace ? "" : "}")}}
