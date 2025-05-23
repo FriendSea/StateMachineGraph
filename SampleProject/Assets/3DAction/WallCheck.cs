@@ -2,33 +2,58 @@ using FriendSea.StateMachine;
 using FriendSea.StateMachine.Controls;
 using UnityEngine;
 
-public class WallCheck : MonoBehaviour
+namespace FriendSea.StateMachine.Conditions
 {
-    [SerializeField]
-    Vector3 rayPoint;
-    [SerializeField]
-    Vector3 rayDirection;
-    [SerializeField]
-    LayerMask layerMask;
-
-    public bool IsObstacleAhead { get; private set; }
-
-    private void FixedUpdate()
+    public class WallCheck : MonoBehaviour
     {
-        IsObstacleAhead = Physics.Raycast(transform.position + transform.rotation * rayPoint, transform.rotation * rayDirection, rayDirection.magnitude, layerMask, QueryTriggerInteraction.Ignore);
+        [SerializeField]
+        Vector3 rayPoint;
+        [SerializeField]
+        float length;
+        [SerializeField]
+        LayerMask layerMask;
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(1, 0, 1));
+            Gizmos.DrawWireSphere(rayPoint, length);
+            Gizmos.matrix = Matrix4x4.identity;
+        }
+
+        Vector3 RayPoint => transform.position + transform.rotation * rayPoint;
+        public bool IsObstacleAhead => Physics.Raycast(RayPoint, transform.forward, length, layerMask, QueryTriggerInteraction.Ignore);
+        public bool IsObstacleBack => Physics.Raycast(RayPoint, -transform.forward, length, layerMask, QueryTriggerInteraction.Ignore);
+        public bool IsObstacleLeft => Physics.Raycast(RayPoint, -transform.right, length, layerMask, QueryTriggerInteraction.Ignore);
+        public bool IsObstacleRight => Physics.Raycast(RayPoint, transform.right, length, layerMask, QueryTriggerInteraction.Ignore);
     }
 
-    private void OnDrawGizmos()
+    [DisplayName("Platformer/IsObstacleAhead")]
+    partial class IsObstacleAhead : Transition.ICondition
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position + transform.rotation * rayPoint, transform.position + transform.rotation * (rayPoint + rayDirection));
+        [InjectContext]
+        WallCheck wallCheck;
+        public bool IsValid(IContextContainer obj) => wallCheck.IsObstacleAhead;
     }
-}
-
-[DisplayName("Sample/IsObstacleAhead")]
-partial class IsObstacleAhead : Transition.ICondition
-{
-    [InjectContext]
-    WallCheck wallCheck;
-    public bool IsValid(IContextContainer obj) => wallCheck.IsObstacleAhead;
+    [DisplayName("Platformer/IsObstacleBehind")]
+    partial class IsObstacleBehind : Transition.ICondition
+    {
+        [InjectContext]
+        WallCheck wallCheck;
+        public bool IsValid(IContextContainer obj) => wallCheck.IsObstacleBack;
+    }
+    [DisplayName("Platformer/IsObstacleLeft")]
+    partial class IsObstacleLeft : Transition.ICondition
+    {
+        [InjectContext]
+        WallCheck wallCheck;
+        public bool IsValid(IContextContainer obj) => wallCheck.IsObstacleLeft;
+    }
+    [DisplayName("Platformer/IsObstacleRight")]
+    partial class IsObstacleRight : Transition.ICondition
+    {
+        [InjectContext]
+        WallCheck wallCheck;
+        public bool IsValid(IContextContainer obj) => wallCheck.IsObstacleRight;
+    }
 }

@@ -50,7 +50,7 @@ public class GameobjectStateMachineEditor : Editor
                             var types = TypeCache.GetTypesDerivedFrom(type).Prepend(type).Where(t => !t.IsInterface && !t.IsAbstract).ToArray();
                             var selected = EditorGUILayout.Popup(0, types.Select(t => $"Add {t.Name}").Prepend("Fix...").ToArray());
                             if(selected != 0)
-                                (target as GameobjectStateMachine).gameObject.AddComponent(types[selected]);
+                                (target as GameobjectStateMachine).gameObject.AddComponent(types[selected - 1]);
                         }
                     }
                 }

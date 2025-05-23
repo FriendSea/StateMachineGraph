@@ -676,7 +676,7 @@
                 "rid": 1033,
                 "type": {
                     "class": "IsObstacleAhead",
-                    "ns": "",
+                    "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "Assembly-CSharp"
                 },
                 "data": {}
