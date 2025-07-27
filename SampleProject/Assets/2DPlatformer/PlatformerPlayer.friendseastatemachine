@@ -185,13 +185,13 @@
         }
     ],
     "viewPosition": {
-        "x": -178.0,
-        "y": 102.0,
+        "x": -155.0,
+        "y": -33.0,
         "z": 0.0
     },
     "viewScale": {
-        "x": 0.32690176367759707,
-        "y": 0.32690176367759707,
+        "x": 0.5717532634735107,
+        "y": 0.5717532634735107,
         "z": 1.0
     },
     "baseAssetGuid": "",
@@ -1868,11 +1868,7 @@
                 },
                 "data": {
                     "name": "ResetJump",
-                    "behaviours": [
-                        {
-                            "rid": 1124
-                        }
-                    ]
+                    "behaviours": []
                 }
             },
             {
@@ -1884,7 +1880,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1125
+                        "rid": 1124
                     }
                 }
             },
@@ -1909,7 +1905,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1126
+                        "rid": 1125
                     }
                 }
             },
@@ -1946,7 +1942,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1127
+                        "rid": 1126
                     }
                 }
             },
@@ -2108,7 +2104,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1128
+                        "rid": 1127
                     }
                 }
             },
@@ -2264,7 +2260,7 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1129
+                        "rid": 1128
                     }
                 }
             },
@@ -2529,22 +2525,19 @@
                 },
                 "data": {
                     "transition": {
-                        "rid": 1130
+                        "rid": 1129
                     }
                 }
             },
             {
                 "rid": 1124,
                 "type": {
-                    "class": "GlobalReferenceTestBehaviour",
+                    "class": "NodeActiveTransition",
                     "ns": "FriendSea.StateMachine",
                     "asm": "FriendSea.StateMachine"
                 },
                 "data": {
-                    "globalReference": {
-                        "globalId": "GlobalObjectId_V1-2-b5c8c4830893e42a5977ab224e1e9cbe-1315169042-0",
-                        "path": ""
-                    }
+                    "nodeId": "214e0634-8576-4a1a-b408-82df5fe6b721"
                 }
             },
             {
@@ -2561,13 +2554,11 @@
             {
                 "rid": 1126,
                 "type": {
-                    "class": "NodeActiveTransition",
-                    "ns": "FriendSea.StateMachine",
+                    "class": "GroundedTransition",
+                    "ns": "FriendSea.StateMachine.Conditions",
                     "asm": "FriendSea.StateMachine"
                 },
-                "data": {
-                    "nodeId": "214e0634-8576-4a1a-b408-82df5fe6b721"
-                }
+                "data": {}
             },
             {
                 "rid": 1127,
@@ -2580,15 +2571,6 @@
             },
             {
                 "rid": 1128,
-                "type": {
-                    "class": "GroundedTransition",
-                    "ns": "FriendSea.StateMachine.Conditions",
-                    "asm": "FriendSea.StateMachine"
-                },
-                "data": {}
-            },
-            {
-                "rid": 1129,
                 "type": {
                     "class": "InputPressedTransition",
                     "ns": "FriendSea.StateMachine.Conditions",
@@ -2627,7 +2609,7 @@
                 }
             },
             {
-                "rid": 1130,
+                "rid": 1129,
                 "type": {
                     "class": "NodeActiveTransition",
                     "ns": "FriendSea.StateMachine",
